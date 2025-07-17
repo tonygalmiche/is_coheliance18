@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="is_suivi_refacturation_associe_tree_view" model="ir.ui.view">
+            <field name="name">is_suivi_refacturation_associe_tree_view</field>
+            <field name="model">is.suivi.refacturation.associe</field>
+            <field name="arch" type="xml">
+                <list create="false" decoration-danger="type_donnee=='frais'">
+                    <field name="date"/>
+                    <field name="montant"      sum="Total"/>
+                    <field name="km"           sum="Total"/>
+                    <field name="donnee"       sum="Total"/>
+                    <field name="type_donnee" />
+                    <field name="affaire_id" widget="many2one_clickable" />
+                    <field name="associe_id" />
+                    <field name="type_frais" />
+                    <field name="type_frais_km" />
+                    <field name="is_type_frais_hors_km" />
+                    <field name="commentaire"/>
+                </list>
+            </field>
+        </record>
+        <record id="is_suivi_refacturation_associe_search_view" model="ir.ui.view">
+            <field name="name">is_suivi_refacturation_associe_search_view</field>
+            <field name="model">is.suivi.refacturation.associe</field>
+            <field name="arch" type="xml">
+                <search>
+                    <filter string="Mes données"         domain="[('associe_id','=',uid)]"             name="mes_donnees_filter"/>
+                    <filter string="Hors Frais Km"       domain="[('is_type_frais_hors_km','=',True)]" name="hors_frais_km_filter"/>
+                    <filter string="Interventions et Km" domain="[('type_donnee','!=','frais')]"       name="intervention_et_km"/>
+                    <field name="type_donnee" />
+                    <field name="affaire_id" />
+                    <field name="associe_id" />
+                    <field name="type_frais" />
+                    <group string="Regrouper par">
+                        <filter string="Type de donnée" name="group_by_type_donnee" context="{'group_by': 'type_donnee'}"/>
+                        <filter string="Affaire"        name="group_by_affaire_id"  context="{'group_by': 'affaire_id'}"/>
+                        <filter string="Associé"        name="group_by_associe_id"  context="{'group_by': 'associe_id'}"/>
+                        <filter string="Mois"           name="group_by_date_month"  context="{'group_by': 'date:month'}"/>
+                        <filter string="Année"          name="group_by_date_year"   context="{'group_by': 'date:year'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        <record id="is_suivi_refacturation_associe_graph" model="ir.ui.view">
+            <field name="name">is_suivi_refacturation_associe_graph</field>
+            <field name="model">is.suivi.refacturation.associe</field>
+            <field name="arch" type="xml">
+                <pivot string="pivot">
+                    <field name="date"          type="row"  interval="year"  string="Année"/>
+                    <field name="date"          type="row"  interval="month" string="Mois" />
+                    <field name="associe_id"    type="col"/>
+                    <field name="type_donnee"   type="col"/>
+                    <field name="donnee"        type="measure"/>
+                </pivot>
+            </field>
+        </record>
+        <record id="is_suivi_refacturation_associe_action" model="ir.actions.act_window">
+            <field name="name">Suivi refacturation associé</field>
+            <field name="res_model">is.suivi.refacturation.associe</field>
+            <field name="view_mode">pivot,list</field>
+            <field name="view_id" ref="is_suivi_refacturation_associe_graph"/>
+            <field name="domain">[('type_donnee', '!=', 'frais')]</field>
+            <field name="context">{
+                    'search_default_mes_donnees_filter': 1,
+                }
+            </field>
+        </record>
+        <record id="is_suivi_refacturation_total_frais_graph" model="ir.ui.view">
+            <field name="name">is_suivi_refacturation_total_frais_graph</field>
+            <field name="model">is.suivi.refacturation.associe</field>
+            <field name="arch" type="xml">
+                <pivot string="pivot">
+                    <field name="date"       type="row"  interval="year"  string="Année"/>
+                    <field name="date"       type="row"  interval="month" string="Mois" />
+                    <field name="type_frais" type="col"/>
+                    <field name="montant"    type="measure"/>
+                </pivot>
+            </field>
+        </record>
+        <record id="is_suivi_refacturation_total_frais_action" model="ir.actions.act_window">
+            <field name="name">Refacturation total des frais</field>
+            <field name="res_model">is.suivi.refacturation.associe</field>
+            <field name="view_mode">pivot,list</field>
+            <field name="view_id" ref="is_suivi_refacturation_total_frais_graph"/>
+            <field name="domain">[('type_donnee', '=', 'frais')]</field>
+            <field name="context">{
+                    'search_default_hors_frais_km_filter': 1
+                }
+            </field>
+        </record>
+    </data>
+</odoo>

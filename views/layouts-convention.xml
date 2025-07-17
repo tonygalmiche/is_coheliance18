@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+
+    <template id="is_external_layout_convention">
+        <t t-if="o and 'company_id' in o">
+            <t t-set="company" t-value="o.company_id"></t>
+        </t>
+        <t t-if="not o or not 'company_id' in o">
+            <t t-set="company" t-value="res_company"></t>
+        </t>
+
+        <t t-call="is_coheliance.is_external_layout_convention_header" />
+        <t t-raw="0" />
+        <t t-call="is_coheliance.is_external_layout_convention_footer" />
+    </template>
+
+
+    <template id="is_external_layout_convention_header">
+        <div class="header">
+            <div class="row">
+                <div class="col-xs-12">
+                    <img t-att-src="'/is_coheliance18/static/img/logo.png'" style="max-height: 45px;"/>
+                    <span style="font-size:18pt;color:#AF1376;">formation</span>
+                </div>
+            </div>
+        </div>
+    </template>
+
+
+    <template id="is_external_layout_convention_footer">
+        <div class="footer">
+        <div class="row" style="color:#AF1376; text-align:center" >
+            <div>Coheliance formation - Le Major - 170 avenue Jean Jaurès - 21 000 DIJON</div>
+            <div>Tél. 03 80 52 11 22 – fax 03 80 52 96 90 - RCS de Dijon 819 719 816</div>
+            <div>Numéro de déclaration auprès de la Région Bourgogne (en cours d'enregistrement)</div>
+        </div>
+
+        </div>      
+    </template>
+
+
+
+
+</data>
+</openerp>

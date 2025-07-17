@@ -1,0 +1,536 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+<template id="report_convention">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="o">
+            <t t-set="lang" t-value="o.pilote_id.sudo().partner_id.lang"/>
+            <t t-call="is_coheliance18.report_convention_document" t-lang="lang"/>
+        </t>
+    </t>
+</template>
+<template id="report_convention_document">
+    <t t-call="web.external_layout">
+        <style>
+            .page{
+                font-size:10pt;
+            }
+            .titre{
+                font-size:12pt;
+                font-weight: bold;
+                color:black;
+                border:1pt solid black;
+                text-align:center;
+            }
+            .sous-titre{
+                font-size:10pt;
+                font-weight: bold;
+                text-align:center;
+            }
+            table{
+                border:1pt solid black;
+                border-collapse:collapse;
+            }
+            td{
+                font-size:10pt;
+                border:1pt solid black;
+                padding:1pt;
+                padding-left:5pt;
+                padding-right:5pt;
+
+            }
+            th{
+                font-size:10pt;
+                text-align:center;
+                border:1pt solid black;
+                background-color:#FF99FF;
+                padding:1pt;
+            }
+            .contrat{
+                font-size:8.5pt;
+                text-align: justify;
+            }
+            .contrat h2{
+                margin-top:7pt;
+                margin-bottom:3pt;
+                font-size:10pt;
+                font-weight: bold;
+                text-align: left;
+            }
+            .contrat h3{
+                margin-top:7pt;
+                margin-bottom:3pt;
+                font-size:9pt;
+                font-weight: bold;
+                text-align: left;
+            }
+
+            .border-top{
+                border-top:1pt solid black;
+            }
+            .titre1{
+                font-weight: bold;
+                text-decoration :underline;
+                margin-top:2mm;
+                margin-bottom:2mm;
+            }
+            .titre2{
+                text-decoration :underline;
+                margin-left:0mm;
+                margin-top:5mm;
+                margin-bottom:2mm;
+            }
+            .titre3{
+                text-decoration :underline;
+                font-weight: bold;
+                margin-bottom:2mm;
+            }
+            .intitule{
+                text-align: center;
+                font-weight: bold;
+                margin-left:0mm;
+                margin-top:5mm;
+                margin-bottom:5mm;
+            }
+            .texte{
+                margin-top:1mm;
+                margin-bottom:3mm;
+            }
+
+            .cadre{
+                border:1pt solid black;
+                padding-bottom:3mm;
+                padding-left:3mm;
+                padding-right:5mm;
+            }
+            .cadre ul{
+                margin-left:5mm;
+            }
+            .cout td{
+                border-top:none;
+                border-right:none;
+                border-left:none;
+            }
+        </style>
+
+        <div class="page">
+
+
+            <div class="row titre">
+                <div class="col-12">
+                    CONVENTION SIMPLIFIEE DE FORMATION PROFESSIONNELLE n°<span t-field="o.name"/>
+                </div>
+            </div>
+            <div class="row sous-titre">
+                <div class="col-12">
+                    (art. L6353-1 et L6353-2 du Code du Travail)
+                </div>
+            </div>
+            <div class="row">
+                <table style="width:100%">
+                    <tr><th>                   </th><th>Le client       </th><th>Le prestataire  </th></tr>
+                    <tr><td>Raison sociale     </td><td><strong><span t-field="o.client_id.name"/></strong></td><td><strong><span t-field="res_company.name"/></strong></td></tr>
+                    <tr><td>SIRET ou RCS       </td><td><span t-field="o.client_id.is_siret"/></td><td><span t-field="res_company.company_registry"/></td></tr>
+                    <tr>
+                        <td>Adresse            </td>
+                        <td><span t-field="o.client_id.street"/> <span t-field="o.client_id.street2"/> <span t-field="o.client_id.is_bp"/></td>
+                        <td>Le Major – 170 avenue Jean Jaurès</td>
+                    </tr>
+                    <tr>
+                        <td>CP - Ville         </td>
+                        <td><span t-field="o.client_id.zip"/> <span t-field="o.client_id.city"/>
+                        </td><td>21000 DIJON</td></tr>
+                    <tr>
+                        <td>Représenté par     </td>
+                        <td><span t-field="o.contact_client_id.title"/> <span t-field="o.contact_client_id.is_prenom"/> <span t-field="o.contact_client_id.name"/></td>
+                        <td><span t-field="o.pilote_id.name"/></td>
+                    </tr>
+                    <tr>
+                        <td>Téléphone          </td>
+                        <td><span t-field="o.contact_client_id.phone"/></td>
+                        <td><span t-field="o.pilote_id.phone"/></td>
+                    </tr>
+                    <tr>
+                        <td>Email              </td>
+                        <td><span t-field="o.contact_client_id.email"/></td>
+                        <td><span t-field="o.pilote_id.email"/></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="text-right" style="padding-right:0.5em">Votre interlocutrice administrative :</td>				
+                        <td><span t-field="o.interlocutrice_id.name"/></td>
+                    </tr>
+
+
+                </table>
+            </div>
+            <br />
+
+            <div class="row border-top" /><br />
+
+            <div class="row text-justify">
+                <div class="col-12">
+                    Entre le client et le prestataire ci-dessus désignés est conclue la convention suivante, en application des dispositions 
+                    de la partie VI du Code du Travail portant organisation de la formation professionnelle continue dans le cadre de la 
+                    formation professionnelle tout au long de la vie.
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <table style="width:100%">
+                    <tr><th colspan="2">Désignation de la prestation</th></tr>
+                    <tr>
+                        <td style="padding:5mm"  width="50%">
+                            <div class="titre1">ARTICLE I - OBJET DE LA CONVENTION</div>
+                            <p class="texte">Le prestataire s’engage à organiser l’action de formation intitulée :</p>
+                            <div class="intitule" t-field="o.intitule" />
+                            <div class="titre2">OBJECTIFS DE LA FORMATION</div>
+                            <p class="texte" t-field="o.objectif" />
+                            <br />
+                            Le Client s’engage à communiquer ces objectifs aux stagiaires avant le début de la formation.
+                            <div class="titre1">ARTICLE II - NATURE ET CARACTERISTIQUES DE L’ACTION DE FORMATION </div>
+                            <p class="texte">a) Les actions de formation envisagées entrent dans l’une des catégories prévues aux articles L6313-1 et 
+                                suivants du Code du Travail :</p>
+                            <p class="texte">Actions de formation </p>
+                            <p class="texte">b) Chaque action de formation est définie dans la présente convention.</p>
+                        </td>
+                        <td  style="padding:5mm">
+                            <div class="titre2">Personne(s) concernée(s) :</div>
+                            <p class="texte" t-field="o.personnes_concernees" />
+                            <div class="titre2">Lieu de l’intervention :</div>
+                            <p class="texte" t-field="o.lieu_intervention" />
+                            <div class="titre2">Date de début :</div>
+                            <p class="texte" t-field="o.date_debut" />
+                            <div class="titre2">Date de fin :</div>
+                            <p class="texte" t-field="o.date_fin" />
+                            <div class="titre2">Durée de la prestation :</div>
+                            <p class="texte" t-field="o.duree_prestation" />
+                            <div class="titre2">Intervenant(s) :</div>
+                            <t t-set="annee" t-value="o.get_annee()"></t>
+                            <ul>
+                            <t t-foreach="o.intervenant_ids" t-as="l">
+                                <t t-if="str(l.annee)==annee">
+                                    <t t-if="l.associe_id">
+                                        <li style="margin-left:10mm"><span t-field="l.associe_id.name" /></li>
+                                    </t>
+                                    <t t-if="l.sous_traitant_id"> 
+                                        <li style="margin-left:10mm">
+                                            <span t-field="l.sous_traitant_id.is_prenom" />
+                                            <span t-field="l.sous_traitant_id.name" />
+                                        </li>
+                                    </t>
+                                </t>
+                            </t>
+                            </ul>
+                        </td>
+                    </tr>
+
+                </table>
+            </div>
+
+            <div style="page-break-before:always"/>
+
+
+
+
+            <div class="row">
+                <table style="width:100%">
+                    <tr><th>Programme</th></tr>
+                    <tr><td><span t-field="o.descriptif" /></td></tr>
+
+                    <tr><th>Prerequis</th></tr>
+                    <tr>
+                        <td>
+- Avoir lu le programme avant la session<br />
+- Être en mesure de donner des exemples tirés de l’entreprise en lien avec la thématique<br />
+- Aucun diplôme spécifique exigé<br />
+                        </td>
+                    </tr>
+
+                    <tr><th>Modalites d’évaluation </th></tr>
+                    <tr>
+                        <td>
+- Le prestataire propose une évaluation initiale facultative avec un Profil Payant (à ce jour : PPI, PXT, HBDI, PCM)<br />
+- Le stagiaire complète une évaluation des compétences acquises en fin de parcours (en cas de parcours comprenant plusieurs journées séparées, à la fin de chaque journée)<br />
+- Le stagiaire complète une évaluation du formateur et de la formation en générale en fin de parcours<br />
+Le Client s’engage à communiquer aux stagiaires ces éléments relatifs au programme et ce, avant le début de la formation
+                        </td>
+                    </tr>
+
+                </table>
+            </div>
+
+
+
+
+            <br />
+            <div class="row">
+                <div class="col-12 cadre">
+                    <div class="titre2">Méthodes pédagogiques :</div>
+                    <div t-field="o.methode_pedagogique" />
+                </div>
+            </div>
+            <br />
+
+
+
+
+            <div class="row">
+            <div class="col-12 cadre">
+                <div class="titre1">ARTICLE III – DEROULEMENT DE LA FORMATION</div>
+                <p class="texte">
+                    L' (ou les) intervenant(s) indiqué(s) animera (ou animeront) cette action de formation. Il(s) représentera (ou représenteront) <span t-field="res_company.name"/> qui agit en qualité d’organisme de formation.
+                    L’action de formation sera organisée : <span t-field="o.lieu_intervention" />
+                </p>
+                <p class="texte">
+                    Le Règlement Intérieur de <span t-field="res_company.name"/> établi conformément aux articles L6352-3 et L6352-4 et R6352-1 à 
+                    R6352-15 du Code du Travail est affiché dans ses locaux et consultable/téléchargeable sur son site internet : https://www.coheliance.com
+                </p>
+
+
+                <p class="texte">
+                    Le Client s’engage à faire parvenir ce lien aux stagiaires avant le début de la formation
+                </p>
+                <p class="texte">
+                    Coheliance garantit l’accès aux personnes handicapées dans ses locaux. Dans le cas d’une formation qui se situe dans l’entreprise ou dans un lieu choisi par l’entreprise, le Client doit alors vérifier cet accès handicapé.
+                    Dans tous les cas, le Client est invité à prévenir en amont (au minimum 15 jours ouvrés avant le 1er jour de l’intervention) si un stagiaire est porteur d’un handicap nécessitant un accès spécifique et/ou une adaptation pédagogique de la formation
+                </p>
+
+            </div>
+            </div>
+            <br />
+
+
+
+
+            <div class="row">
+            <div class="col-12 cadre">
+                <div class="titre1">ARTICLE IV – DISPOSITIONS FINANCIERES</div>
+                <p class="texte">
+                    <ul>
+                        <li>En contre partie de cette intervention, l’employeur s’engage à acquitter les frais correspondant au coût de la formation, 
+                            tel que mentionné ci-dessous, à régler par virement, chèque bancaire ou CCP à l’ordre de <span t-field="res_company.name"/>.</li>
+                        <li>L’engagement vaut pour l’ensemble de la formation.</li>
+                        <li>En cas d’absence lors d’une session, le montant total du stage sera dû intégralement</li>
+                        <li>L’organisme de formation, en contre partie des sommes reçues, s’engage à réaliser toutes les actions prévues dans le cadre de la présente convention ainsi qu’à fournir tout document et pièce de nature à justifier la réalité et la validité des dépenses de formation engagées à ce titre.</li>
+                    </ul>
+                </p>
+                <table style="width:100%">
+                    <tr>
+                        <td style="padding:5mm"  width="50%">
+                            <div class="titre3">Coût pédagogique :</div>
+                            <table width="100%" class="cout" style="border:none">
+                                <t t-set="ht"   t-value="o.total_budget_prevu"/>
+                                <t t-set="taux" t-value="o.article_id.taxes_id and o.article_id.taxes_id[0].amount or 0"/>
+                                <t t-set="tva"  t-value="ht*taux/100"/>
+                                <t t-set="ttc"  t-value="ht+tva"/>
+
+                                <t t-if="taux != 0">
+
+                                    <tr>
+                                        <td>Coût total de la prestation HT :    </td>
+                                        <td style="text-align:right"><span t-esc="ht"  t-options='{"widget": "monetary", "display_currency": (company_id or res_company).currency_id}'/></td>
+                                        <td>HT</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span t-esc="o.article_id.taxes_id and o.article_id.taxes_id[0].name or 'TVA'" /></td>
+                                        <td style="text-align:right"><span t-esc="tva"  t-options='{"widget": "monetary", "display_currency": (company_id or res_company).currency_id}'/></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Coût total de la prestation TTC :   </td>
+                                        <td style="text-align:right"><span t-esc="ttc"  t-options='{"widget": "monetary", "display_currency": (company_id or res_company).currency_id}'/></td>
+                                        <td>TTC</td>
+                                    </tr>
+
+                                </t>
+
+                                <t t-if="taux == 0">
+
+                                    <tr>
+                                        <td>Coût total de la prestation net de taxes :    </td>
+                                        <td style="text-align:right"><span t-esc="ht"  t-options='{"widget": "monetary", "display_currency": (company_id or res_company).currency_id}'/></td>
+                                        <td></td>
+                                    </tr>
+
+                                </t>
+
+                            </table>
+                        </td>
+                        <td style="padding:5mm"  width="50%">
+                            <div class="titre3">Modalités de paiement :</div>
+                            <span t-field="o.modalite_paiement" />
+                        </td>
+                    </tr>
+                </table>
+                <div class="titre3">Le montant comprend : </div>
+                <p class="texte">
+                    L’animation des journées de formation, la fourniture de documents pédagogiques de synthèse, 
+                    les temps de préparation de l’action de formation. Les déplacements et l’hébergement seront à la charge du client.
+                </p>
+            </div>
+            </div>
+            <br />
+
+
+
+
+            <div class="row">
+            <div class="col-12 cadre">
+                <div class="titre1">RIB</div>
+
+                <table style="border:1pt solid black;" width="100%">
+                    <thead>
+                        <tr>
+                            <th>IBAN</th>
+                            <th>Banque</th>
+                            <th>Bic</th>
+                        </tr>
+                    </thead>
+                    <tbody class="invoice_tbody">
+
+                        <tr t-foreach="res_company.bank_ids" t-as="l">
+                            <td><span t-field="l.acc_number"/></td>
+                            <td><span t-field="l.bank_name"/></td>
+                            <td><span t-field="l.bank_bic"/></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            </div>
+            <div style="page-break-before:always"/>
+
+
+
+
+            <div class="row">
+            <div class="col-12 cadre">
+                <div class="titre1">ARTICLE V – RESILIATION DE LA CONVENTION</div>
+                <p class="texte">
+                    <ul>Conformément à l’article L6354-1 du Code du Travail :</ul>
+                    <li>En cas de résiliation de la présente convention par l’entreprise à moins de 15 jours francs avant le début d’une des actions mentionnées, l’organisme retiendra sur le coût total les sommes qui lui sont dues pour la réalisation de ladite action.</li>
+                    <li>En cas de modification unilatérale par l’organisme de formation de l’un des éléments fixés à l’article IIb, l’entreprise se réserve le droit de mettre fin à la présente convention ; le délai d’annulation est toutefois limité à 15 jours francs avant la date prévue de commencement de l’action mentionnée à la présente convention.</li>
+                    <li>En cas d’annulation par l’entreprise, les pénalités suivantes devront être versées :</li>
+                    - Pour toute annulation entre 30 et 3 jours avant le début de l’action de formation : 50 % des sommes dues + la totalité des frais engagés <br />
+                    - Pour toute annulation à moins de 2 jours avant le début de l’action de formation : 100 % des sommes dues + la totalité des frais engagés <br />
+                </p>
+            </div>
+            </div>
+            <br />
+
+
+
+            <div class="row">
+            <div class="col-12 cadre">
+                <div class="titre1">ARTICLE VI – REFERENCEMENT</div>
+                <p class="texte">
+                    Le Client autorise le Prestataire et ses Intervenants désignés à la présente convention à inscrire les travaux convenus une fois accomplis au nombre de leurs références (nom du Client, logo du client, titre générique de la mission).
+                </p>
+            </div>
+            </div>
+            <br />
+
+            <div class="row">
+            <div class="col-12 cadre">
+                <div class="titre1">ARTICLE VII – CLAUSE DE PROTECTION DES DONNÉES PERSONNELLES</div>
+                <p class="texte">
+                    Le client autorise l’organisme de formation à enregistrer ses données personnelles nécessaires au suivi de l’action de formation.
+                    Le Règlement Général sur la Protection des Données (RGPD) entré en vigueur le 25 mai 2018, renforce et unifie la protection 
+                    des données personnelles des résidents européens. Afin de respecter les obligations de ce règlement, l’organisme de formation 
+                    s’engage à assurer la confidentialité et la sécurité des données du client. Conformément à la loi, le libre accès aux données 
+                    personnelles est garanti. Le client peut donc à tout moment vérifier l’usage qui en est fait et disposer d’un droit de 
+                    modification ou de retrait, s’il le juge utile. Tous les droits relatifs à la protection des données personnelles peuvent se 
+                    faire par mail à l’adresse suivante : contact@coheliance.com.
+                </p>
+            </div>
+            </div>
+            <br />
+
+            <div class="row">
+            <div class="col-12 cadre">
+                <div class="titre1">ARTICLE VIII – DIFFERENDS EVENTUELS</div>
+                <p class="texte">
+                    Si une contestation ou un différend ne peuvent être réglés à l’amiable, le Tribunal de Dijon sera seul compétent pour régler le litige.
+                </p>
+            </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-12 cadre">
+                    <div class="titre1">ARTICLE IV – DATE D’EFFET ET DUREE DE LA CONVENTION</div>
+                    <p class="texte">
+                        La présente convention prend effet à compter de sa signature par l’employeur pour la durée visée par l’article II.
+                    </p>
+                </div>
+            </div>
+            <br />
+
+
+
+            <div class="row">
+                <table style="width:100%">
+                    <tr><th colspan="2">Signatures pour accord</th></tr>
+                    <tr>
+                        <td>
+                            <p class="texte">
+                                <b>L’Entreprise :</b> <br />
+                                date, nom et qualité du signataire, signature et cachet
+                            </p>
+                        </td>
+                        <td>
+                            <p class="texte">
+                                <b>Le prestataire :</b> <br />
+                                date, nom et qualité du signataire, signature <br /><br />
+                                <span t-field="o.pilote_id.name"/>, <span t-field="o.pilote_id.partner_id.function"/><br />
+                                Fait à Dijon en double exemplaire<br />
+                                Le <span t-field="o.date_signature" /><br />
+
+                                <t t-if="o.pilote_id.login == 'c.jacquier@coheliance.com'">
+                                    <img t-att-src="'/is_coheliance18/static/img/signature-clement-jacquier.jpg'" style="max-height: 20mm;"/>
+                                </t>
+
+                                <t t-if="o.pilote_id.login == 'jp.fiasson@coheliance.com'">
+                                    <img t-att-src="'/is_coheliance18/static/img/signature-jean-pierre-fiasson.png'" style="max-height: 20mm;"/>
+                                </t>
+
+                                <t t-if="o.pilote_id.login == 'i.boltz@coheliance.com'">
+                                    <img t-att-src="'/is_coheliance18/static/img/signature-isabelle-boltz.png'" style="max-height: 20mm;"/>
+                                </t>
+
+                                <t t-if="o.pilote_id.login == 'o.laval@coheliance.com'">
+                                    <img t-att-src="'/is_coheliance18/static/img/signature-olivier-laval.png'" style="max-height: 20mm;"/>
+                                </t>
+
+                                <t t-if="o.pilote_id.login == 'f.monjournal@coheliance.com'">
+                                    <img t-att-src="'/is_coheliance18/static/img/signature-frederique-monjournal.jpg'" style="max-height: 20mm;"/>
+                                </t>
+
+                                <t t-if="o.pilote_id.login == 'patrice@coheliance.com'">
+                                    <img t-att-src="'/is_coheliance18/static/img/signature-patrice-fosset.jpg'" style="max-height: 20mm;"/>
+                                </t>
+
+                                <t t-if="res_company.name == 'COHELIANCE'">
+                                    <img t-att-src="'/is_coheliance18/static/img/tampon-coheliance.png'" style="max-height: 30mm;"/>
+                                </t>
+                                <t t-if="res_company.name != 'COHELIANCE'">
+                                    <img t-att-src="'/is_coheliance18/static/img/tampon-coheliance-formation.jpg'" style="max-height: 30mm;"/>
+                                </t>
+
+
+
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+
+
+        </div>
+    </t>
+</template>
+
+
+
+
+</odoo>

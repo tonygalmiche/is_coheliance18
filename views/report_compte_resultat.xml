@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="report_compte_resultat">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-set="lang" t-value="o.create_uid.sudo().partner_id.lang"/>
+                    <t t-call="is_coheliance18.report_compte_resultat_document" t-lang="lang"/>
+                </t>
+            </t>
+        </template>
+        <template id="report_compte_resultat_document">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <style>
+                        table{
+                            border:1pt solid black;
+                            border-collapse:collapse;
+                        }
+                        td{
+                            border:1pt solid black;
+                            padding:2pt;
+                        }
+                        th{
+                            text-align:center;
+                            border:1pt solid black;
+                            background-color:#FF99FF;
+                            padding:2pt;
+                        }
+                    </style>
+
+                    <h2>
+                        Compte de résultat <span t-field="o.name"/>
+                    </h2>
+                    <p>* Période du <span t-field="o.date_debut"/> au <span t-field="o.date_fin"/></p>
+
+                    <t t-set="annee" t-value="o.name"/>
+
+                    <t t-set="x2"/>
+                    <t t-set="x1"/>
+                    <t t-set="x0"/>
+                    <t t-set="objectif"/>
+                    <t t-set="avancement"/>
+                    <t t-set="periode"/>
+
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <table style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>Intitulé</th>
+                                        <th>Compte</th>
+                                        <th><t t-esc="annee-2"/></th>
+                                        <th><t t-esc="annee-1"/></th>
+                                        <th><t t-esc="annee-0"/></th>
+                                        <th>Objectif</th>
+                                        <th>% Objectif</th>
+                                        <th>Période*</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <t t-foreach="o.line_ids" t-as="l">
+                                    <t t-if="(annee-2)==l.annee"> <t t-set="x2"       t-value="l.montant"/></t>
+                                    <t t-if="(annee-1)==l.annee"> <t t-set="x1"       t-value="l.montant"/></t>
+                                    <t t-if="(annee-0)==l.annee"> <t t-set="x0"       t-value="l.montant"/></t>
+                                    <t t-if="(annee-0)==l.annee"> 
+                                        <t t-set="objectif" t-value='"{:,.0f}".format(l.objectif).replace(","," ").replace(".",",")'/>
+                                    </t>
+                                    <t t-if="(annee-0)==l.annee"> 
+                                        <t t-if="l.objectif!=0"> 
+                                            <t t-set="avancement" t-value='"{:,.0f}".format(100*l.montant/l.objectif).replace(","," ").replace(".",",")+"%"'/>
+                                        </t>
+                                    </t>
+                                    <t t-if="l.annee==9999"> 
+                                        <t t-set="periode" t-value='"{:,.0f}".format(l.montant).replace(","," ").replace(".",",")'/>
+                                    </t>
+                                    <t t-if="l.annee==9999">
+                                        <tr>
+                                            <td t-attf-style="background-color: {{ l.couleur }}"><span t-field="l.intitule"/></td>
+                                            <td t-attf-style="background-color: {{ l.couleur }};text-align:center"><span t-field="l.code_comptable"/></td>
+                                            <td t-attf-style="background-color: {{ l.couleur }};text-align:right;width:10%;"><t t-esc='"{:,.0f}".format(x2).replace(","," ").replace(".",",")'  /></td>
+                                            <td t-attf-style="background-color: {{ l.couleur }};text-align:right;width:10%;"><t t-esc='"{:,.0f}".format(x1).replace(","," ").replace(".",",")'  /></td>
+                                            <td t-attf-style="background-color: {{ l.couleur }};text-align:right;width:10%;"><t t-esc='"{:,.0f}".format(x0).replace(","," ").replace(".",",")'  /></td>
+                                            <td t-attf-style="background-color: {{ l.couleur }};text-align:right;width:10%;"><t t-esc='objectif'    /></td>
+                                            <td t-attf-style="background-color: {{ l.couleur }};text-align:right;width:10%;"><t t-esc='avancement'  /></td>
+                                            <td t-attf-style="background-color: {{ l.couleur }};text-align:right;width:10%;"><t t-esc='periode'  /></td>
+                                            <t t-set="x2"/>
+                                            <t t-set="x1"/>
+                                            <t t-set="x0"/>
+                                            <t t-set="objectif"/>
+                                            <t t-set="avancement"/>
+                                            <t t-set="periode"/>
+                                        </tr>
+                                    </t>
+                                </t>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+    </data>
+</odoo>

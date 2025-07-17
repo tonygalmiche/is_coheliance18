@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- is.compte.resultat.annee -->
+        <record id="is_compte_resultat_annee_tree" model="ir.ui.view">
+            <field name="name">is.compte.resultat.annee.tree</field>
+            <field name="model">is.compte.resultat.annee</field>
+            <field name="arch" type="xml">
+                <list >
+                    <field name="name"/>
+                    <field name="date_debut"/>
+                    <field name="date_fin"/>
+                </list>
+            </field>
+        </record>
+        <record id="is_compte_resultat_annee_form" model="ir.ui.view">
+            <field name="name">is.compte.resultat.annee.form</field>
+            <field name="model">is.compte.resultat.annee</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="action_calculer" type="object" string="Calculer" class="oe_highlight"/>
+                        <button name="action_lignes"   type="object" string="Lignes"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="date_debut"/>
+                                <field name="date_fin"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="is_compte_resultat_annee_search" model="ir.ui.view">
+            <field name="name">is.compte.resultat.annee.search</field>
+            <field name="model">is.compte.resultat.annee</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+               </search>
+            </field>
+        </record>
+        <record id="is_compte_resultat_annee_action" model="ir.actions.act_window">
+            <field name="name">Compte de résultat</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">is.compte.resultat.annee</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+
+        <!-- is.compte.resultat -->
+        <record id="is_compte_resultat_tree" model="ir.ui.view">
+            <field name="name">is.compte.resultat.tree</field>
+            <field name="model">is.compte.resultat</field>
+            <field name="arch" type="xml">
+                <list >
+                    <field name="annee"/>
+                    <field name="ordre"/>
+                    <field name="intitule"/>
+                    <field name="type_champ"/>
+                    <field name="associe_id"/>
+                    <field name="article_achat_id" widget="many2one_clickable"/>
+                    <field name="article_vente_id" widget="many2one_clickable"/>
+                    <field name="code_comptable"/>
+                    <field name="formule"/>
+                    <field name="montant_calcule"/>
+                    <field name="montant_force"/>
+                    <field name="montant"  sum="Total"/>
+                    <field name="objectif" sum="Total"/>
+                </list>
+            </field>
+        </record>
+        <record id="is_compte_resultat_form" model="ir.ui.view">
+            <field name="name">is.compte.resultat.form</field>
+            <field name="model">is.compte.resultat</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="intitule" readonly="annee>0"/>
+                                <field name="ordre"    readonly="annee>0"/>
+                                <field name="type_champ" readonly="annee>0"/>
+                                <field name="associe_id"
+                                    invisible="type_champ!='intervention'"
+                                    required="type_champ=='intervention'"
+                                    readonly="annee>0"
+                                />
+                                
+                                <field name="article_vente_id"
+                                    invisible="type_champ!='vente'"
+                                    required="type_champ=='vente'"
+                                    readonly="annee>0"
+                                />
+                                <field name="article_achat_id"
+                                    invisible="type_champ!='achat'"
+                                    required="type_champ=='achat'"
+                                    readonly="annee>0"
+                                />
+                                <field name="code_comptable"/>
+                                <field name="formule"
+                                    invisible="type_champ!='calcul'"
+                                    required="type_champ=='calcul'"
+                                    readonly="annee>0"
+                                />
+                                <field name="couleur" readonly="annee>0"/>
+                            </group>
+                            <group>
+                                <field name="annee"              invisible="annee==0" readonly="1"/>
+                                <field name="montant_calcule"    invisible="annee==0"/>
+                                <field name="montant_force"      invisible="annee==0"/>
+                                <field name="montant"            invisible="annee==0"/>
+                                <field name="objectif"           invisible="annee==0"/>
+                                <field name="compte_resultat_id" invisible="annee==0" readonly="1"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="is_compte_resultat_graph" model="ir.ui.view">
+             <field name="name">is_compte_resultat_graph</field>
+            <field name="model">is.compte.resultat</field>
+             <field name="arch" type="xml">
+                 <pivot>
+                     <field name="intitule" type="row"/>
+                     <field name="annee"    type="col"/>
+                     <field name="montant"  type="measure"/>
+                 </pivot>
+             </field>
+        </record>
+        <record id="is_compte_resultat_search" model="ir.ui.view">
+            <field name="name">is.compte.resultat.search</field>
+            <field name="model">is.compte.resultat</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="annee"/>
+                    <field name="intitule"/>
+                    <field name="ordre"/>
+                    <field name="type_champ"/>
+               </search>
+            </field>
+        </record>
+        <record id="is_compte_resultat_action" model="ir.actions.act_window">
+            <field name="name">Compte de résultat</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">is.compte.resultat</field>
+            <field name="view_mode">list,form</field>
+            <field name="domain">[('annee','=',0)]</field>
+        </record>
+     </data>
+</odoo>

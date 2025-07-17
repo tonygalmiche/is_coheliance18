@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="is_suivi_tresorerie2_tree" model="ir.ui.view">
+            <field name="name">is.suivi.tresorerie.tree</field>
+            <field name="model">is.suivi.tresorerie</field>
+            <field name="arch" type="xml">
+                <list >
+                    <field name="name" />
+                    <field name="montant_tresorerie" />
+                    <field name="reste_a_payer" />
+                    <field name="tresorerie" />
+                </list>
+            </field>
+        </record>
+        <record id="is_suivi_tresorerie2_form" model="ir.ui.view">
+            <field name="name">is.suivi.tresorerie.form</field>
+            <field name="model">is.suivi.tresorerie</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" />
+                                <field name="montant_tresorerie" />
+                                <field name="reste_a_payer" invisible="tresorerie==0"/>
+                                <field name="tresorerie"    invisible="tresorerie==0"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="is_suivi_tresorerie2_search" model="ir.ui.view">
+            <field name="name">is.suivi.tresorerie.search</field>
+            <field name="model">is.suivi.tresorerie</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+               </search>
+            </field>
+        </record>
+        <record id="is_suivi_tresorerie2_action" model="ir.actions.act_window">
+            <field name="name">Suivi de trésorerie</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">is.suivi.tresorerie</field>
+            <field name="view_mode">list,form</field>
+        </record>
+     </data>
+</odoo>

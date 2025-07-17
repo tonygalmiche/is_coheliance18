@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="is_bilan_pedagogique_tree" model="ir.ui.view">
+            <field name="name">is.bilan.pedagogique.tree</field>
+            <field name="model">is.bilan.pedagogique</field>
+            <field name="arch" type="xml">
+                <list >
+                    <field name="name"/>
+                    <field name="vente_outil"/>
+                    <field name="sous_traitance"/>
+                    <field name="heure_formation"/>
+                    <field name="heure_formation_st"/>
+                </list>
+            </field>
+        </record>
+        <record id="is_bilan_pedagogique_form" model="ir.ui.view">
+            <field name="name">is.bilan.pedagogique.form</field>
+            <field name="model">is.bilan.pedagogique</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="action_calculer" type="object" string="Calculer" class="oe_highlight"/>
+                    </header>
+                    <sheet class="oe_form_sheet_width_wider">
+                        <group>
+                            <field name="name"/>
+                        </group>
+                        <group>
+                            <field name="financier_ids">
+                                <list editable="top">
+                                    <field name="origine_financement_id" />
+                                    <field name="bilan_financier" sum="Total"/>
+                                </list>
+                            </field>
+                        </group>
+                        <group>
+                            <label for="vente_outil" style="width:450px"/>
+                            <div>
+                                <field name="vente_outil" class="oe_inline"/>
+                            </div>
+                            <field name="sous_traitance"/>
+                            <field name="heure_formation"/>
+                            <field name="heure_formation_st"/>
+                        </group>
+                        <group>
+                            <field name="type_stagiaire_ids">
+                                <list editable="top">
+                                    <field name="type_stagiaire_organisme_id" />
+                                    <field name="nb_stagiaire"       sum="Total"/>
+                                    <field name="nb_stagiaire_visio" sum="Total"/>
+                                    <field name="nb_heure"           sum="Total"/>
+                                </list>
+                            </field>
+                        </group>
+                        <group>
+                            <label for="f2a_nb_stagiaire" style="width:750px"/>
+                            <div>
+                                <field name="f2a_nb_stagiaire" class="oe_inline"/>
+                            </div>
+                            <field name="f2a_heure_formation"/>
+                            <field name="f2b_nb_stagiaire"/>
+                            <field name="f2b_heure_formation"/>
+                        </group>
+                        <group>
+                            <field name="typologie_ids">
+                                <list editable="top">
+                                    <field name="typologie_id" />
+                                    <field name="nb_stagiaire" sum="Total"/>
+                                    <field name="nb_heure"     sum="Total"/>
+                                </list>
+                            </field>
+                        </group>
+                        <group>
+                            <label for="nb_stagiaire_autre" style="width:750px"/>
+                            <div>
+                                <field name="nb_stagiaire_autre" class="oe_inline"/>
+                            </div>
+                            <field name="heure_formation_autre"/>
+                        </group>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="is_bilan_pedagogique_search" model="ir.ui.view">
+            <field name="name">is.bilan.pedagogique.search</field>
+            <field name="model">is.bilan.pedagogique</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+               </search>
+            </field>
+        </record>
+        <record id="is_bilan_pedagogique_action" model="ir.actions.act_window">
+            <field name="name">Bilan pédagogique</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">is.bilan.pedagogique</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+
+        <!-- Origine financement -->
+        <record model="ir.ui.view" id="is_origine_financement_tree_view">
+            <field name="name">is_origine_financement_tree_view</field>
+            <field name="model">is.origine.financement</field>
+            <field name="arch" type="xml">
+                <list editable="bottom">
+                    <field name="name"/>
+                </list>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="is_origine_financement_form_view">
+            <field name="name">is_origine_financement_form_view</field>
+            <field name="model">is.origine.financement</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="is_origine_financement_action" model="ir.actions.act_window">
+            <field name="name">Origine financement</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">is.origine.financement</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+
+        <!-- is_typologie_stagiaire -->
+        <record model="ir.ui.view" id="is_typologie_stagiaire_tree_view">
+            <field name="name">is_typologie_stagiaire_tree_view</field>
+            <field name="model">is.typologie.stagiaire</field>
+            <field name="arch" type="xml">
+                <list editable="bottom">
+                    <field name="name"/>
+                </list>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="is_typologie_stagiaire_form_view">
+            <field name="name">is_typologie_stagiaire_form_view</field>
+            <field name="model">is.typologie.stagiaire</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="is_typologie_stagiaire_action" model="ir.actions.act_window">
+            <field name="name">Objectif général des prestations dispensées</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">is.typologie.stagiaire</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+
+
+        <!-- is_type_stagiaire_organisme -->
+        <record model="ir.ui.view" id="is_type_stagiaire_organisme_tree_view">
+            <field name="name">is_type_stagiaire_organisme_tree_view</field>
+            <field name="model">is.type.stagiaire.organisme</field>
+            <field name="arch" type="xml">
+                <list editable="bottom">
+                    <field name="name"/>
+                </list>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="is_type_stagiaire_organisme_form_view">
+            <field name="name">is_type_stagiaire_organisme_form_view</field>
+            <field name="model">is.type.stagiaire.organisme</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="is_type_stagiaire_organisme_action" model="ir.actions.act_window">
+            <field name="name">Type de stagiaire de l'organisme</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">is.type.stagiaire.organisme</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+
+    </data>
+</odoo>

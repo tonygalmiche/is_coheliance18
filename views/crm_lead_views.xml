@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<odoo>
+    <record id="is_quick_create_opportunity_form" model="ir.ui.view" >
+        <field name="name">is_quick_create_opportunity_form</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.quick_create_opportunity_form"/>
+        <field name="arch" type="xml">
+            <field name="email_from" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="phone" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="email_from" position="before">
+                <field name="affaire_id"/>
+            </field>
+        </field>
+    </record>
+    <!-- <record id="is_crm_case_kanban_view_leads" model="ir.ui.view" >
+        <field name="name">is_crm_case_kanban_view_leads</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_case_kanban_view_leads"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@class='o_kanban_record_subtitle']" position="after">
+                <field name="affaire_id"/>
+            </xpath>
+        </field>
+    </record> -->
+    <record id="is_crm_lead_view_form" model="ir.ui.view" >
+        <field name="name">is_crm_lead_view_form</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet[1]" position="inside">
+                <style>
+                    .o_form_label{
+                        white-space: nowrap;
+                    }
+                </style>
+            </xpath>
+            <field name="team_id" position="after">
+                <field name="affaire_id"/>
+            </field>
+            <!-- <group name="opportunity_info" position="before">
+                <group>
+                    <field name="amene_par_id"/>
+                    <field name="realisee_id"/>
+                    <field name="produit_cree_par_id"/>
+                    <field name="encadrement_par_id"/>
+                </group>
+            </group> -->
+        </field>
+    </record>
+    <record id="is_crm_case_tree_view_oppor" model="ir.ui.view" >
+        <field name="name">is_crm_case_tree_view_oppor</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_case_tree_view_oppor"/>
+        <field name="arch" type="xml">
+            <field name="partner_id" position="after">
+                <field name="affaire_id" optional="show"/>
+                <field name="amene_par_id"        optional="show"/>
+                <field name="realisee_id"         optional="show"/>
+                <field name="produit_cree_par_id" optional="show"/>
+                <field name="encadrement_par_id"  optional="show"/>
+            </field>
+        </field>
+    </record>
+    <record id="is_view_crm_case_opportunities_filter" model="ir.ui.view" >
+        <field name="name">is_view_crm_case_opportunities_filter</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.view_crm_case_opportunities_filter"/>
+        <field name="arch" type="xml">
+            <field name="partner_id" position="after">
+                <field name="affaire_id"/>
+                <field name="amene_par_id"/>
+                <field name="realisee_id"/>
+                <field name="produit_cree_par_id"/>
+                <field name="encadrement_par_id"/>
+            </field>
+        </field>
+    </record>
+</odoo>

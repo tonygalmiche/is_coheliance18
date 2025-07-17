@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- res.company -->
+        <record model="ir.ui.view" id="is_view_company_form">
+            <field name="name">is_view_company_form</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="arch" type="xml">
+                <field name="website" position="after">
+                    <field name="taux_km" />
+                </field>
+            </field>
+        </record>   
+
+
+        <!-- res.partner -->
+        <record model="ir.ui.view" id="is_view_partner_form">
+            <field name="name">is_view_partner_form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <!-- <div name="button_box" position="inside">
+                    <button 
+                        class="oe_inline oe_stat_button" 
+                        type="action" 
+                        name="(is_coheliance18.is_affaire_action)d" 
+                        context="{'search_default_client_id': active_id, 'default_client_id': active_id}"
+                        icon="fa-th-list">
+                        <field  string="Affaires" name="affaire_count" widget="statinfo"/>
+                    </button>
+                </div> -->
+                <field name="name" position="before">
+                    <field name="is_prenom" placeholder="Prénom" string="Prénom" invisible="is_company==True"/>
+                    <span style="padding-left:0.5em"></span>
+                </field>
+                <field name="street2" position="after">
+                    <field name="is_bp" placeholder="Boite postale" readonly="parent_id!=False" />
+                </field>
+
+                <field name="zip" position="replace"/>
+                <field name="city" position="before">
+                    <field name="zip" placeholder="Code postal" class="o_address_zip" readonly="type=='contact' and parent_id!=False"/>
+                </field>
+
+                <field name="state_id" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+
+
+                <field name="website" position="before">
+                    <field name="is_region_id"/>
+                </field>
+                <field name="email" position="after">
+                    <field name="is_email_perso"      invisible="is_company==True"/>
+                    <field name="is_liste_diffusion"  invisible="is_company==True"/>
+                </field>
+                <field name="title" position="replace">
+                    <field name="title" string="Civilité / Statut"/>
+                    <field name="is_secteur_activite_id" invisible="is_company!=True"/>
+                    <field name="is_typologie_id"        invisible="is_company!=True"/>
+                </field>
+                
+                <field name="function" position="replace">
+                    <field name="function" string="Fonction" invisible="is_company==True"/>
+                    <field name="is_responsable"             invisible="is_company==True"/>
+                    <field name="is_classification_id"       invisible="is_company==True"/>
+                </field>
+                
+                <field name="property_account_position_id" position="before">
+                    <field name="is_code_fournisseur" invisible="is_company!=True"/>
+                    <field name="is_siret"            invisible="is_company!=True"/>
+                    <field name="is_num_declaration_activite"/>
+                    <field name="is_ape"              invisible="is_company!=True"/>
+                </field>
+
+
+                <xpath expr="//notebook/page[@name='contact_addresses']/field[@name='child_ids']/kanban/templates/t" position="replace">
+                    <t t-name="card">
+                        <t t-set="color" t-value="kanban_color(record.color.raw_value)"/>
+                        <div t-att-class="color + (record.title.raw_value == 1 ? ' oe_kanban_color_alert' : '') + ' oe_kanban_global_click'">
+                            <!-- <div class="o_kanban_image">
+                                <img alt="Contact image" t-if="record.image_128.raw_value" t-att-src="kanban_image('res.partner', 'image_128', record.id.raw_value)"/>
+                                <t t-if="!record.image_128.raw_value">
+                                    <img alt="Delivery" t-if="record.type.raw_value === 'delivery'" t-att-src='_s + "/base/static/img/truck.png"'/>
+                                    <img alt="Invoice" t-if="record.type.raw_value === 'invoice'" t-att-src='_s + "/base/static/img/money.png"'/>
+                                    <t t-if="record.type.raw_value !== 'invoice' &amp;&amp; record.type.raw_value !== 'delivery'">
+                                        <img alt="Logo" t-if="record.is_company.raw_value === true" t-att-src='_s + "/base/static/img/company_image.png"'/>
+                                        <img alt="Avatar" t-if="record.is_company.raw_value === false" t-att-src='_s + "/base/static/img/avatar_grey.png"'/>
+                                    </t>
+                                </t>
+                            </div> -->
+                            <div class="oe_kanban_details">
+                                <h4>
+                                    <button name="open_partner_form_view" string="Fiche détaillée" type="object">
+                                        <img alt="Logo" t-att-src='"/is_coheliance18/static/img/gtk-ok.png"'/>
+                                    </button>
+                                    <a type="open"><field name="is_prenom"/> <field name="name"/></a>
+                                </h4>
+                                <div t-if="record.function.raw_value"><field name="function"/></div>
+                                <div t-if="record.email.raw_value"><field name="email" widget="email"/></div>
+                                <div t-if="record.type.raw_value != 'contact'">
+                                    <div>
+                                        <field name="zip"/>
+                                        <field name="city"/>
+                                    </div>
+                                    <field t-if="record.state_id.raw_value" name="state_id"/>
+                                    <field name="country_id"/>
+                                </div>
+                                <div t-if="record.phone.raw_value">Tél: <t t-esc="record.phone.value"/></div>
+                                <div t-if="record.mobile.raw_value">Mobile: <t t-esc="record.mobile.value"/></div>
+                            </div>
+                            
+                        </div>
+                    </t>
+                </xpath>
+
+
+            </field>
+        </record> 
+
+
+
+
+
+
+
+
+
+        <!-- Supprimer le bouton pour accèder aux oportunités -->
+        <record id="is_view_partners_form_crm1" model="ir.ui.view">
+            <field name="name">is_view_partners_form_crm1</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="crm.view_partners_form_crm1"/>
+            <field eval="18" name="priority"/>
+            <field name="arch" type="xml">
+                <data>
+                    <button icon="fa-star" position="replace" />
+                </data>
+            </field>
+        </record>
+        <!-- <record id="is_view_task_partner_info_form" model="ir.ui.view">
+            <field name="name">is_view_task_partner_info_form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="project.view_task_partner_info_form"/>
+            <field name="priority" eval="50"/>
+            <field name="arch" type="xml">
+                <button icon="fa-tasks" position="replace" />
+            </field>
+       </record> -->
+        <record id="is_view_partner_tree" model="ir.ui.view">
+            <field name="name">res.partner.tree</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_tree"/>
+            <field name="arch" type="xml">
+                <field name="complete_name" position="after">
+                    <field name="is_prenom"/>
+                    <field name="title" optional="hide"/>
+                    <field name="function"/>
+                    <field name="is_classification_id"/>
+                    <field name="mobile"/>
+                </field>
+                <field name="email" position="after">
+                    <field name="is_email_perso"/>
+                    <field name="is_secteur_activite_id"/>
+                    <field name="is_typologie_id"/>
+                    <field name="property_account_receivable_id"/>
+                    <field name="property_account_payable_id"/>
+                    <field name="is_code_fournisseur"/>
+                </field>
+            </field>
+        </record>
+        <!-- Client (CRM) -->
+        <record id="is_view_partner_crm_tree" model="ir.ui.view">
+            <field name="name">is_view_partner_crm_tree</field>
+            <field name="model">res.partner</field>
+            <field name="priority" eval="90" />
+            <field name="arch" type="xml">
+                <list>
+                    <field name="complete_name"/>
+                    <field name="is_prenom"/>
+                    <field name="title" optional="hide"/>
+                    <field name="function"/>
+                    <field name="is_classification_id"/>
+                    <field name="mobile"/>
+                    <field name="email"/>
+                    <field name="is_email_perso"/>
+                    <field name="is_secteur_activite_id"/>
+                    <field name="is_typologie_id"/>
+                    <field name="zip"/>
+                    <field name="city"/>
+                    <field name="is_region_id"/>
+                </list>
+            </field>
+        </record>
+        <record id="is_view_partner_crm_action" model="ir.actions.act_window">
+            <field name="name">Clients</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner</field>
+            <field name="domain">[]</field>
+            <field name="limit">200</field>
+            <field name="view_id" ref="is_view_partner_crm_tree"/>
+            <field name="view_mode">list,form,kanban</field>
+        </record>
+        <record id="is_view_res_partner_filter" model="ir.ui.view">
+            <field name="name">is.res.partner.select</field>
+            <field name="inherit_id" ref="base.view_res_partner_filter"/>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <field name="parent_id"     position="replace" />
+                <field name="user_id"       position="replace" />
+                <filter name="type_person"  position="replace" />
+                <filter name="type_company" position="replace" />
+                <filter name="customer"     position="replace" />
+                <field name="category_id" position="replace">
+                    <field name="is_classification_id"/>
+                    <field name="is_secteur_activite_id"/>
+                    <field name="is_region_id"/>
+                </field>
+            </field>
+        </record>
+
+
+        <!-- is.region -->
+        <record model="ir.ui.view" id="is_region_tree_view">
+            <field name="name">is.region.tree</field>
+            <field name="model">is.region</field>
+            <field name="arch" type="xml">
+                <list editable="bottom">
+                    <field name="name"/>
+                </list>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="is_region_form_view">
+            <field name="name">is.region.form</field>
+            <field name="model">is.region</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="is_region_action" model="ir.actions.act_window">
+            <field name="name">Région</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">is.region</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+
+        <!-- res.partner.title -->
+        <record id="is_res_partner_title_action" model="ir.actions.act_window">
+            <field name="name">Civilité / Statut</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner.title</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+
+        <!-- is.secteur.activite -->
+        <record model="ir.ui.view" id="is_secteur_activite_tree_view">
+            <field name="name">is.secteur.activite.tree</field>
+            <field name="model">is.secteur.activite</field>
+            <field name="arch" type="xml">
+                <list editable="bottom">
+                    <field name="name"/>
+                </list>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="is_secteur_activite_form_view">
+            <field name="name">is.secteur.activite.form</field>
+            <field name="model">is.secteur.activite</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="is_secteur_activite_action" model="ir.actions.act_window">
+            <field name="name">Secteur d'activité</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">is.secteur.activite</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+
+        <!-- is.typologie -->
+        <record model="ir.ui.view" id="is_typologie_tree_view">
+            <field name="name">is.typologie.tree</field>
+            <field name="model">is.typologie</field>
+            <field name="arch" type="xml">
+                <list editable="bottom">
+                    <field name="name"/>
+                </list>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="is_typologie_form_view">
+            <field name="name">is.typologie.form</field>
+            <field name="model">is.typologie</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="is_typologie_action" model="ir.actions.act_window">
+            <field name="name">Typologie</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">is.typologie</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+
+        <!-- is.classification -->
+        <record model="ir.ui.view" id="is_classification_tree_view">
+            <field name="name">is.classification.tree</field>
+            <field name="model">is.classification</field>
+            <field name="arch" type="xml">
+                <list editable="bottom">
+                    <field name="name"/>
+                </list>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="is_classification_form_view">
+            <field name="name">is.classification.form</field>
+            <field name="model">is.classification</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="is_classification_action" model="ir.actions.act_window">
+            <field name="name">Classification</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">is.classification</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+
+        <!-- is.base.documentaire-->
+        <record model="ir.ui.view" id="is_base_documentaire_tree_view">
+            <field name="name">is.base.documentaire.tree</field>
+            <field name="model">is.base.documentaire</field>
+            <field name="arch" type="xml">
+                <list>
+                    <field name="name"/>
+                </list>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="is_base_documentaire_form_view">
+            <field name="name">is.base.documentaire.form</field>
+            <field name="model">is.base.documentaire</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="is_base_documentaire_action" model="ir.actions.act_window">
+            <field name="name">Documents</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">is.base.documentaire</field>
+            <field name="view_mode">list,form</field>
+        </record>
+    </data>
+</odoo>

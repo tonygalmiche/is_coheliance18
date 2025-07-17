@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="is_suivi_facture_tree_view" model="ir.ui.view">
+            <field name="name">is_suivi_facture_tree_view</field>
+            <field name="model">is.suivi.facture</field>
+            <field name="arch" type="xml">
+                <list create="false" decoration-danger="total_ht &lt; 0">
+                    <field name="num_facture" />
+                    <field name="date_facture" />
+                    <field name="partner_id" />
+                    <field name="total_ht"      sum="Total"/>
+                    <field name="total_ttc"     sum="Total"/>
+                    <field name="reste_a_payer" sum="Total"/>
+            </list>
+            </field>
+        </record>
+
+
+        <record id="is_suivi_facture_search_view" model="ir.ui.view">
+            <field name="name">is_suivi_facture_search_view</field>
+            <field name="model">is.suivi.facture</field>
+            <field name="arch" type="xml">
+                <search string="Recherche">
+                    <field name="num_facture"/>
+                    <field name="date_facture"/>
+                    <field name="partner_id"/>
+                    <group string="Regroupement par">
+                        <filter string="Client"              name="group_by_partner_id"   context="{'group_by': 'partner_id'}"/>
+                        <filter string="Mois de facturation" name="group_by_date_facture" context="{'group_by': 'date_facture:month'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        <record id="is_suivi_facture_graph" model="ir.ui.view">
+            <field name="name">is_suivi_facture_graph</field>
+            <field name="model">is.suivi.facture</field>
+            <field name="arch" type="xml">
+                <pivot string="pivot">
+                    <field name="partner_id" type="row"/>
+                    <field name="date_facture" type="col"/>
+                    <field name="total_ht"  type="measure"/>
+                    <field name="total_ttc" type="measure"/>
+                </pivot>
+            </field>
+        </record>
+        <record id="is_suivi_facture_action" model="ir.actions.act_window">
+            <field name="name">Suivi des factures</field>
+            <field name="res_model">is.suivi.facture</field>
+            <field name="view_mode">pivot,list</field>
+        </record>
+
+
+
+
+        <record id="is_suivi_reglement_graph" model="ir.ui.view">
+            <field name="name">is_suivi_reglement_graph</field>
+            <field name="model">is.suivi.facture</field>
+            <field name="arch" type="xml">
+                <pivot string="pivot">
+                    <field name="partner_id"    type="row"/>
+                    <field name="num_facture"   type="row"/>
+                    <field name="date_facture"  type="col"/>
+                    <field name="reste_a_payer" type="measure"/>
+                </pivot>
+            </field>
+        </record>
+        <record id="is_suivi_reglement_action" model="ir.actions.act_window">
+            <field name="name">Suivi des règlements</field>
+            <field name="res_model">is.suivi.facture</field>
+            <field name="domain">[('reste_a_payer','!=','0')]</field>
+            <field name="view_id" ref="is_suivi_reglement_graph"/>
+            <field name="view_mode">pivot,list</field>
+        </record>
+    </data>
+</odoo>

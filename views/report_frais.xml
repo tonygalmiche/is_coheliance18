@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="report_frais">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-set="lang" t-value="o.intervenant_id.sudo().partner_id.lang"/>
+                    <t t-call="is_coheliance18.report_frais_document" t-lang="lang"/>
+                </t>
+            </t>
+        </template>
+        <template id="report_frais_document">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <style>
+                        table{
+                            border:1pt solid black;
+                            border-collapse:collapse;
+                        }
+                        td{
+                            border:1pt solid black;
+                            padding:2pt;
+                        }
+                        th{
+                            text-align:center;
+                            border:1pt solid black;
+                            background-color:#FF99FF;
+                            padding:2pt;
+                        }
+                    </style>
+
+                    <h2>
+                        Fiche de frais n°<span t-field="o.name"/> du <span t-field="o.date_creation"  t-field-options='{"format": "dd/MM/yyyy"}' />
+                    </h2>
+                    <br />
+                    <br />
+                    <div class="row">
+                        <span class="col-xs-3">Intervenant</span>
+                        <span class="col-xs-3" t-field="o.intervenant_id.name" />
+                    </div>
+                    <div class="row">
+                        <span class="col-xs-3">Affaire</span>
+                        <span class="col-xs-3" t-field="o.affaire_id.name" />
+                    </div>
+                    <div class="row">
+                        <span class="col-xs-3">Client</span>
+                        <span class="col-xs-3" t-field="o.affaire_id.client_id.name" />
+                    </div>
+                    <div class="row">
+                        <span class="col-xs-3">Taux kilométrique</span>
+                        <span class="col-xs-3" t-field="o.taux_km" />
+                    </div>
+                    <br />
+                    <br />
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <table style="width:100%">
+                                <tr>
+                                    <th>Intervenant</th>
+                                    <th>Date</th>
+                                    <th>Type de frais</th>
+                                    <th>Refacturable</th>
+                                    <th>Km</th>
+                                    <th>Montant HT</th>
+                                    <th>Montant TTC</th>
+                                </tr>
+                                <tr t-foreach="o.ligne_ids" t-as="l">
+                                    <td>
+                                        <span t-field="l.intervenant_id"/>
+                                        <span t-field="l.sous_traitant_id"/>
+                                    </td>
+                                    <td><span t-field="l.date"/></td>
+                                    <td><span t-field="l.type_frais_id"/></td>
+                                    <td><span t-field="l.refacturable"/></td>
+                                    <td><span t-field="l.km"/></td>
+                                    <td><span t-field="l.montant_ht"/></td>
+                                    <td><span t-field="l.montant_ttc"/></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+    </data>
+</odoo>

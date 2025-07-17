@@ -1,0 +1,546 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+<template id="report_convention_st">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="o">
+            <t t-set="lang" t-value="o.associe_id.sudo().partner_id.lang"/>
+            <t t-call="is_coheliance18.report_convention_st_document" t-lang="lang"/>
+        </t>
+    </t>
+</template>
+<template id="report_convention_st_document">
+    <t t-call="web.external_layout">
+        <div class="page">
+            <style>
+                .titre{
+                    font-size:12pt;
+                    font-weight: bold;
+                    color:black;
+                    border:1pt solid black;
+                    text-align:center;
+                }
+                table{
+                    border:1pt solid black;
+                    border-collapse:collapse;
+                }
+                td{
+                    border:1pt solid black;
+                    padding:2pt;
+                }
+                th{
+                    text-align:center;
+                    border:1pt solid black;
+                    background-color:#FF99FF;
+                    padding:2pt;
+                }
+                .contrat{
+                    font-size:10pt;
+                    text-align: justify;
+                }
+                .contrat h2{
+                    margin-top:7pt;
+                    margin-bottom:3pt;
+                    font-size:10pt;
+                    font-weight: bold;
+                    text-align: left;
+                }
+                .contrat h3{
+                    margin-top:7pt;
+                    margin-bottom:3pt;
+                    font-size:9pt;
+                    font-weight: bold;
+                    text-align: left;
+                }
+
+                .border-top{
+                    border-top:1pt solid black;
+                }
+
+
+                .titre1{
+                    font-weight: bold;
+                    text-decoration :underline;
+                    margin-top:2mm;
+                    margin-bottom:2mm;
+                }
+                .titre2{
+                    text-decoration :underline;
+                    margin-left:0mm;
+                    margin-top:3mm;
+                    margin-bottom:1mm;
+                }
+                .titre3{
+                    text-decoration :underline;
+                    font-weight: bold;
+                    margin-bottom:2mm;
+                }
+                .intitule{
+                    text-align: center;
+                    font-weight: bold;
+                    margin-left:0mm;
+                    margin-top:4mm;
+                    margin-bottom:4mm;
+                }
+                .texte{
+                    margin-top:1mm;
+                    margin-bottom:2mm;
+                }
+
+                .cadre{
+                    border:1pt solid black;
+                    padding-bottom:2mm;
+                    padding-left:3mm;
+                    padding-right:5mm;
+                }
+                ul{
+                    margin-left:15mm;
+                }
+                .cout td{
+                    border-top:none;
+                    border-right:none;
+                    border-left:none;
+                }
+            </style>
+            <div class="row titre">
+                <div class="col-12">
+                    CONTRAT DE SOUS-TRAITANCE n°<span t-field="o.affaire_id.name"/>
+                </div>
+            </div>
+            <div class="text-center">(art L6353-1 du Code du Travail)</div>
+            <br />
+            <div class="row">
+                <table style="width:100%">
+                    <tr><th>                   </th><th>Le prestataire       </th><th>Le sous-traitant  </th></tr>
+                    <tr>
+                        <td>Raison sociale     </td>
+                        <td><strong><span t-field="res_company.name"/></strong></td>
+                        <td><strong><span t-field="o.sous_traitant_id.parent_id.name"/></strong></td>
+                    </tr>
+                    <tr>
+                        <td>SIRET ou RCS       </td>
+                        <td><span t-field="res_company.company_registry"/></td>
+                        <td><span t-field="o.sous_traitant_id.parent_id.is_siret"/></td>
+                    </tr>
+                    <tr>
+                        <td>Adresse            </td>
+                        <td>Le Major – 170 avenue Jean Jaurès</td>
+                        <td>
+                            <span t-field="o.sous_traitant_id.parent_id.street"/> 
+                            <span t-field="o.sous_traitant_id.parent_id.street2"/> 
+                            <span t-field="o.sous_traitant_id.parent_id.is_bp"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>CP - Ville</td>
+                        <td>21000 DIJON</td>
+                        <td><span t-field="o.sous_traitant_id.parent_id.zip"/> <span t-field="o.sous_traitant_id.parent_id.city"/></td>
+                    </tr>
+                    <tr>
+                        <td>Représenté par     </td>
+                        <td><span t-field="o.affaire_id.pilote_id.name"/></td>
+                        <td>
+                            <t t-foreach="o.sous_traitant_id.parent_id.child_ids" t-as="child">
+                                <t t-if="child.is_responsable"> 
+                                    <span t-field="child.title"/> 
+                                    <span t-field="child.is_prenom"/> 
+                                    <span t-field="child.name"/>
+                                </t>
+                            </t>
+                        </td>
+                    </tr>
+                    <tr><td>Téléphone          </td>
+                        <td><span t-field="o.affaire_id.pilote_id.phone"/></td>
+                        <td>
+                            <t t-foreach="o.sous_traitant_id.parent_id.child_ids" t-as="child">
+                                <t t-if="child.is_responsable"> 
+                                    <span t-field="child.phone"/> 
+                                </t>
+                            </t>
+                        </td>
+                    </tr>
+                    <tr><td>Email              </td>
+                        <td><span t-field="o.affaire_id.pilote_id.email"/></td>
+                        <td>
+                            <t t-foreach="o.sous_traitant_id.parent_id.child_ids" t-as="child">
+                                <t t-if="child.is_responsable"> 
+                                    <span t-field="child.email"/> 
+                                </t>
+                            </t>
+                        </td>
+                    </tr>
+                    <tr><td colspan="2" class="text-right" style="padding-right:0.5em">N° de déclaration d'activité : </td>
+                        <td>
+                            <t t-if="o.sous_traitant_id.parent_id"> 
+                                <span t-field="o.sous_traitant_id.parent_id.is_num_declaration_activite"/> 
+                            </t>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="text-right" style="padding-right:0.5em">Votre interlocutrice administrative :</td>
+                        <td><span t-field="o.affaire_id.interlocutrice_id.name"/></td>
+                    </tr>
+                </table>
+            </div>
+            <br />
+            <div class="row border-top" /><br />
+            <div class="row">
+                <div class="col-12">
+                    Entre le prestataire et le sous-traitant ci-dessus désignés est conclu le contrat suivant :
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <table style="width:100%">
+                    <tr><th colspan="2">Désignation de la prestation</th></tr>
+                    <tr>
+                        <td style="padding:5mm"  width="50%">
+                            <div class="titre1">CONTEXTE</div>
+                            <p class="texte">
+                                La société <span t-field="res_company.name"/> a été retenue comme Prestataire dans le cadre d’une mission
+                                qui sera menée pour la Société <span t-field="o.affaire_id.client_id.name"/> à <span t-field="o.affaire_id.client_id.city"/> sur le thème :
+                            </p>
+                            <div class="intitule" t-field="o.affaire_id.intitule" />
+                            <p class="texte">
+                                Le présent document est établi pour fixer les modalités d’intervention et fonctionnement 
+                                entre <span t-field="res_company.name"/>, « le prestataire » et 
+                                <span t-field="o.sous_traitant_id.parent_id.name"/>, « le sous-traitant ».
+                            </p>
+                        </td>
+                        <td  style="padding:5mm">
+                            <div class="titre2">Personnes concernées :</div>
+                            <p class="texte" t-field="o.affaire_id.personnes_concernees" />
+                            <div class="titre2">Lieu de l’intervention :</div>
+                            <p class="texte" t-field="o.affaire_id.lieu_intervention" />
+                            <div class="titre2">Date de début :</div>
+                            <p class="texte" t-field="o.affaire_id.date_debut" />
+                            <t t-if="o.affaire_id.date_fin"> 
+                                <div class="titre2">Date de fin :</div>
+                                <p class="texte" t-field="o.affaire_id.date_fin" />
+                            </t>
+                            <div class="titre2">Durée de la prestation :</div>
+                            <p class="texte" t-field="o.duree_mission" />
+                        </td>
+                    </tr>
+
+                </table>
+            </div>
+            <br />
+            <div class="row">
+                <table style="width:100%">
+                    <tr><th>Modalités de réalisation de la mission</th></tr>
+                    <tr>
+                        <td style="padding:5mm">
+                            <p class="texte">
+                                Le SOUS-TRAITANT intervient auprès du client <span t-field="o.affaire_id.client_id.name"/> :
+                                <ul>
+                                    <li>dans le respect des objectifs d’accompagnement exprimés dans le cahier des charges.<br />
+                                    L’intervenant(e) est <span t-field="o.sous_traitant_id.title"/> <span t-field="o.sous_traitant_id.is_prenom"/> <span t-field="o.sous_traitant_id.name"/>. 
+                                    Il (ou Elle)  animera :   <p class="texte" t-field="o.duree_mission" /></li>
+                                    <li>dans le respect des règles déontologiques et professionnelles des formateurs/consultants/coachs</li>
+                                    <li>dans le respect des conditions générales de prestations spécifiques à la société <span t-field="res_company.name"/> 
+                                    et acceptées par le Client (et notamment les dates, heures et lieux d’intervention qui sont déterminées par le Client).</li>
+                                </ul>
+                                Statut de l’exécutant : Le ou les Intervenant(e)s affecté(e)s à l’exécution de la mission sont des intervenants 
+                                agissant pour le compte de <span t-field="res_company.name"/>.
+                                Ils restent, à tout moment de leurs interventions, subordonnés à la seule autorité de <span t-field="res_company.name"/>.
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div style="page-break-before:always"/>
+            <div class="row">
+                <table style="width:100%">
+                    <tr><th>Modalités de réalisation de la mission (suite)</th></tr>
+                    <tr>
+                        <td style="padding:5mm">
+                            <div class="contrat">
+                                <span t-field="res_company.name"/> peut à tout moment mandater, sous condition de l’accord du sous-traitant, un membre de son personnel 
+                                pour accompagner le Sous-Traitant dans l’exécution de la mission, où les rapports humains et psychologiques peuvent être prédominants (principe de supervision)
+                                <br />
+                                Les règles de fonctionnement suivantes devront être respectées par l’intervenant qui réalise la prestation :
+                                <br />
+                                <div class="titre1">REGLES DE COMMUNICATION</div>
+                                L’intervenant s’engage à informer <span t-field="res_company.name"/> de tout événement qui lui semblerait important, pour garantir le bon déroulement de l’intervention.
+                                <div class="titre1">REGLES DE FEED BACK</div>
+                                L’intervenant s’engage à réaliser un bref feed back à la fin de l’intervention
+                                <div class="titre1">REGLES DE RESPECT DE L’OBJET DE L’INTERVENTION</div>
+                                Tout accompagnement personnel et/ou toute intervention en dehors des interventions prévues au contrat doivent être refusés
+                                ou discutés entre le donneur d’ordre et le sous—traitant
+                                <div class="titre1">REGLES DE CONFIDENTIALITE ET DE SECRET PROFESSIONNEL</div>
+                                L’intervenant s’engage dans le cadre du présent accord à respecter les règles de confidentialité conformément aux conditions générales de 
+                                prestation de <span t-field="res_company.name"/>
+                                <br />
+                                Confidentialité et propriété des résultats : <span t-field="res_company.name"/> et l’intervenant considèreront comme strictement confidentiels, 
+                                et s’interdisent de divulguer toute information, document, donnée ou concept dont ils pourraient avoir connaissance à l’occasion du présent contrat. 
+                                De convention expresse, les résultats de la mission seront en la pleine maîtrise du client, à compter du paiement intégral de la prestation 
+                                et le client pourra en disposer comme il l’entend. <span t-field="res_company.name"/> et l’intervenant pour leur part, s’interdisent de faire état 
+                                des résultats et de les utiliser de quelque manière, sauf à obtenir préalablement l’autorisation écrite du client.
+                                <br />
+                                Par ailleurs, le sous-traitant s’engage :
+                                <ul>
+                                    <li>à ne pas entrer en contact ultérieurement avec le client sans une autorisation préalable et expresse du donneur d’ordre et 
+                                    ce pendant un minimum de 24 mois à compter de la fin de la mission.</li>
+                                    <li>à ne pas diffuser à l’extérieur ou à un membre de son réseau les coordonnées d’un des membres du comité exécutif, sans l’autorisation 
+                                    préalable et expresse du donneur d’ordre</li>
+                                    <li>à intégrer dans ses échanges avec le client <span t-field="o.affaire_id.client_id.name"/> (mise en copie des mails, etc…), le représentant (pilote) de <span t-field="res_company.name"/> 
+                                    en charge du dossier.</li>
+
+                                </ul>
+                                <div class="titre1">CLAUSE DE PROTECTION DES DONNÉES PERSONNELLES</div>
+                                Le Règlement Général sur la Protection des Données (RGPD) entré en vigueur le 25 mai 2018, renforce et unifie la protection des données personnelles des résidents européens.
+                                <br />
+                                Afin de respecter les obligations de ce règlement, l’intervenant/sous-traitant s’engage à :
+                                <ul>
+                                    <li>Traiter les données personnelles du client uniquement pour les finalités qui font l’objet de la sous-traitance</li>
+                                    <li>Garantir la confidentialité et la sécurité des données personnelles traitées dans le présent contrat</li>
+                                    <li>Détruire toutes les données du client à la fin de la prestation</li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div style="page-break-before:always"/>
+            <div class="row">
+                <table style="width:100%">
+                    <tr><th>Durée de la mission</th></tr>
+                    <tr>
+                        <td style="padding:5mm">
+                            <div class="contrat">
+
+
+                                La présente mission de sous-traitance est conclue pour : <p class="texte" t-field="o.duree_mission" />
+                                <br />
+                                Outre cette date d’expiration, elle pourra s’achever le jour :
+                                <ul>
+                                    <li>où le Client <span t-field="o.affaire_id.client_id.name"/> exprimera le souhait de mettre fin à nos interventions, 
+                                par volonté expresse ou à la suite d’un désaccord ayant entraîné une résiliation du contrat</li>
+                                    <li>où les modalités de réalisation de la mission s’avèreraient non respectées par l’une ou l’autre des parties</li>
+                                </ul>
+
+
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <br />
+            <div class="row">
+                <table style="width:100%">
+                    <tr><th>Conditions financières</th></tr>
+                    <tr>
+                        <td style="padding:5mm">
+                            <div class="contrat">
+
+                                <b>L’intervention du sous-traitant sera rémunérée sur la base de :</b><br />
+                                <span t-field="o.condition_financiere"/> 
+                                <br />
+                                Les honoraires de l’intervention seront versés à réception du règlement par <span t-field="o.affaire_id.client_id.name"/> selon le plan de financement prévu avec le client final.
+
+                                <br />
+                                <b>Délai de prévenance :</b
+                                ><br />
+                                Le délai de prévenance et la politique de remboursement de frais qui s’y attache seront conformes à ceux du client pour lequel l’intervenant/sous-traitant intervient.
+                                <br />
+                                Pour toute annulation de la part du client ou du prestataire, plus de 3 semaines avant la date d’intervention du sous-traitant, le remboursement des frais engagés ne pourra s’effectuer.
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div style="page-break-before:always"/>
+            <div class="row">
+                <table style="width:100%">
+                    <tr><th>Responsabilité</th></tr>
+                    <tr>
+                        <td style="padding:5mm">
+                            <div class="contrat">
+                                A l’égard du Client,  la société <span t-field="res_company.name"/>  demeure seule responsable.
+                                <br />
+                                En revanche, pour répondre des conséquences de tout manquement, de toute erreur ou faute commise dans le cadre des ses interventions, 
+                                <span t-field="o.sous_traitant_id.parent_id.name"/> s’engage à justifier à l’égard de <span t-field="res_company.name"/> 
+                                de la souscription d’un contrat d’assurance garantissant sa responsabilité civile.
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <br />
+            <div class="row">
+                <table style="width:100%">
+                    <tr><th>Indépendance</th></tr>
+                    <tr>
+                        <td style="padding:5mm">
+                            <div class="contrat">
+
+                                Le présent contrat est conclu entre sociétés juridiquement indépendantes.
+                                <br />
+                                En toutes circonstances, et nonobstant les règles de collaboration prévues à la rubrique Modalités de Réalisation de la Mission, 
+                                aucun lien de subordination ne lie le sous-traitant au donneur d’ordre.
+                                <br />
+                                <span t-field="o.sous_traitant_id.title"/> <span t-field="o.sous_traitant_id.is_prenom"/> <span t-field="o.sous_traitant_id.name"/>, 
+                                veillera à se présenter systématiquement en qualité de sous-traitant de <span t-field="res_company.name"/>.
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <br />
+            <div class="row">
+                <table style="width:100%">
+                    <tr><th>Règlement des litiges</th></tr>
+                    <tr>
+                        <td style="padding:5mm">
+                            <div class="contrat">
+
+                                En cas de litige entre les parties, l’article « Droit applicable et attribution de compétence – Interprétation du contrat » 
+                                des conditions générales de prestations de la société <span t-field="res_company.name"/> sera applicable.
+                                <br />
+                                La loi du présent contrat est la loi française. Les litiges relatifs à la formation, l’interprétation et l’exécution des commandes, même 
+                                en cas d’appel en garantie, de pluralité de défendeurs ou de connexité, sont  soumis à la compétence exclusive du Tribunal de Commerce de Dijon, 
+                                lieu du siège social de <span t-field="res_company.name"/>. Le présent contrat contient tous les engagements des parties ; 
+                                les correspondances, offres ou propositions antérieures à la présente commande sont considérées comme non avenues et ne peuvent être utilisées 
+                                pour l’interprétation du contrat.
+
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <br />
+            <div class="row">
+                <table style="width:100%">
+                    <tr><th colspan="3">Signatures</th></tr>
+                    <tr>
+                        <td style="padding:5mm" width="33%">
+                            <p class="texte">
+                                <b>Le prestataire :</b> <br />
+                                date, nom et qualité du signataire<br />signature et cachet  <br /><br />
+                                <span t-field="o.affaire_id.pilote_id.name"/>, <span t-field="o.affaire_id.pilote_id.partner_id.function"/><br />
+
+                                <t t-if="o.affaire_id.pilote_id.login == 'c.jacquier@coheliance.com'">
+                                    <img t-att-src="'/is_coheliance18/static/img/signature-clement-jacquier.jpg'" style="max-height: 20mm;"/>
+                                </t>
+
+                                <t t-if="o.affaire_id.pilote_id.login == 'jp.fiasson@coheliance.com'">
+                                    <img t-att-src="'/is_coheliance18/static/img/signature-jean-pierre-fiasson.png'" style="max-height: 20mm;"/>
+                                </t>
+
+                                <t t-if="o.affaire_id.pilote_id.login == 'i.boltz@coheliance.com'">
+                                    <img t-att-src="'/is_coheliance18/static/img/signature-isabelle-boltz.png'" style="max-height: 20mm;"/>
+                                </t>
+
+                                <t t-if="o.affaire_id.pilote_id.login == 'o.laval@coheliance.com'">
+                                    <img t-att-src="'/is_coheliance18/static/img/signature-olivier-laval.png'" style="max-height: 20mm;"/>
+                                </t>
+
+                                <t t-if="o.affaire_id.pilote_id.login == 'f.monjournal@coheliance.com'">
+                                    <img t-att-src="'/is_coheliance18/static/img/signature-frederique-monjournal.jpg'" style="max-height: 20mm;"/>
+                                </t>
+
+                                <t t-if="o.affaire_id.pilote_id.login == 'patrice@coheliance.com'">
+                                    <img t-att-src="'/is_coheliance18/static/img/signature-patrice-fosset.jpg'" style="max-height: 20mm;"/>
+                                </t>
+
+                                <t t-if="res_company.name == 'COHELIANCE'">
+                                    <img t-att-src="'/is_coheliance18/static/img/tampon-coheliance.png'" style="max-height: 30mm;"/>
+                                </t>
+                                <t t-if="res_company.name != 'COHELIANCE'">
+                                    <img t-att-src="'/is_coheliance18/static/img/tampon-coheliance-formation.jpg'" style="max-height: 30mm;"/>
+                                </t>
+
+
+
+
+
+                            </p>
+                        </td>
+                        <td style="padding:5mm" width="33%">
+                                <b>Le sous-traitant :</b> <br />
+                                date, nom et qualité du signataire<br />signature et cachet  <br /><br />
+                                <span t-field="o.sous_traitant_id.parent_id.name"/><br />
+                                <t t-foreach="o.sous_traitant_id.parent_id.child_ids" t-as="child">
+                                    <t t-if="child.is_responsable"> 
+                                        <span t-field="child.title"/> 
+                                        <span t-field="child.is_prenom"/> 
+                                        <span t-field="child.name"/>
+                                    </t>
+                                </t>
+                        </td>
+
+                        <td style="padding:5mm" width="33%">
+                                <b>L'intervenant :</b> <br />
+                                date, nom et qualité du signataire<br />signature et cachet  <br /><br />
+                                <span t-field="o.sous_traitant_id.title"/> <span t-field="o.sous_traitant_id.is_prenom"/> <span t-field="o.sous_traitant_id.name"/>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <p class="texte" style="text-align:center">
+                        Fait à Dijon en double exemplaire<br />
+                        Le <span t-field="o.affaire_id.date_signature" />
+                    </p>
+                </div>
+            </div>
+
+            <div style="page-break-before:always"/>
+            <div class="row">
+                <table style="width:100%">
+                    <tr><th>SUIVI ADMINISTRATIF A RESPECTER</th></tr>
+                    <tr>
+                        <td style="padding:5mm">
+                            <div class="contrat">
+                                <div style="text-align:center"><b>(dans le cadre UNIQUEMENT d'une action de FORMATION)</b></div>
+
+                                <div class="titre1">Avant le démarrage de l’action de formation, le sous-traitant devra effectuer 
+                                les démarches suivantes auprès de <span t-field="res_company.name"/> :</div>
+
+                                <ul>
+                                    <li>Fournir la copie de sa déclaration d’activité de formateur (le document ne sera demandé qu’une seule fois, le numéro sera ensuite clairement indiqué dans la convention de sous-traitance) ainsi qu'un CM mis à jour (détaillant le parcours de formation individuel)</li>
+                                    <li>Retourner un exemplaire de la convention de sous-traitance dûment signé ainsi que la charte qualité signée</li>
+                                    <li>Prévenir, minimum 15 jours avant le démarrage de l’action, de ses besoins en matériel pédagogique (vidéoprojecteur, caméra…) et en documentation ou support pédagogique (pour reprographie)</li>
+                                    <li>Faire parvenir son déroulé pédagogique (dans lequel figurent les pré-requis de la formation, les objectifs généraux et, pour chaque étape de la formation, l’objectif pédagogique recherché) et le questionnaire d'évaluation des acquis</li>
+                                </ul>
+
+
+                                <div class="titre1">Pendant la formation</div>
+
+                                Dans le cadre de la démarche qualité, nous rappelons que le sous-traitant doit prévoir de rassembler les attentes de chaque participant en début de formation et de vérifier qu’elles soient bien compatibles avec les objectifs pédagogiques. 
+                                <br />
+                                Il doit également en se présentant, indiquer le nom et les coordonnées de son superviseur.
+
+
+                                <div class="titre1">A la fin de la formation, le sous-traitant devra :</div>
+                                <ul>
+                                <li>Signer et faire signer les feuilles de présence aux participants </li>
+                                <li>Faire remplir le questionnaire d'évaluation des acquis et le signer</li>
+                                <li>Faire remplir la fiche d'évaluation de la formation et du formateur</li>
+                                <li>Remettre aux participants les attestations de fin de formation en leur indiquant qu’une copie de l’évaluation des acquis leur sera remise dans un second temps par mail (mail personnel)</li>
+                                </ul>
+
+                                <div class="titre1">Récupérer les documents 1-2-3 afin de les envoyer à <span t-field="res_company.name"/>.</div>
+
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <br />
+                <br />
+                <p class="texte" style="text-align:center">
+                    Date et Signature
+                    <br />
+                    <br />
+                    <span t-field="o.sous_traitant_id.title"/> <span t-field="o.sous_traitant_id.is_prenom"/> <span t-field="o.sous_traitant_id.name"/> le <span t-field="o.affaire_id.date_signature" />
+                </p>
+            </div>
+        </div>
+    </t>
+</template>
+</data>
+</odoo>

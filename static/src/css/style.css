@@ -1,0 +1,19 @@
+
+.openerp .announcement_bar {
+    display:none;
+}
+
+.openerp .oe_form_sheetbg {
+    padding: 16px 0;
+    max-width: none !important;
+}
+.openerp .oe_form_sheet_width_wider {
+    /*max-width: 1100px;*/
+    max-width: 95%;
+}
+
+
+
+.o_main_navbar {    
+    background-color:#CF007F;
+}

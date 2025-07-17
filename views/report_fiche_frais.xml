@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="report_fiche_frais">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-set="lang" t-value="o.create_uid.sudo().partner_id.lang"/>
+                    <t t-call="is_coheliance18.report_fiche_frais_document" t-lang="lang"/>
+                </t>
+            </t>
+        </template>
+        <template id="report_fiche_frais_document">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <style>
+                        table{
+                            border:1pt solid black;
+                            border-collapse:collapse;
+                        }
+                        td{
+                            border:1pt solid black;
+                            padding:2pt;
+                            font-size: 10pt;
+                        }
+                        th{
+                            text-align:center;
+                            border:1pt solid black;
+                            background-color:#FF99FF;
+                            padding:2pt;
+                            font-size: 10pt;
+                        }
+                    </style>
+                    <h2>
+                        Fiche de frais de <span t-field="o.user_id.name"/>
+                        du <span t-field="o.date_debut"  t-field-options='{"format": "dd/MM/yyyy"}' />
+                        au <span t-field="o.date_fin"    t-field-options='{"format": "dd/MM/yyyy"}' />
+                    </h2>
+                    <br />
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <table style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Client</th>
+                                        <th>Affaire</th>
+                                        <th>Commentaire</th>
+                                        <th>Distance (Km)</th>
+                                        <th>Montant</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-set="total_km" t-value="0"/>
+                                    <t t-set="total_montant" t-value="0"/>
+                                    <tr t-foreach="o.get_frais()" t-as="f">
+                                        <t t-set="total_km"      t-value="total_km + f.km"/>
+                                        <t t-set="total_montant" t-value="total_montant + f.km*0.4"/>
+                                        <td><span t-field="f.date"/></td>
+                                        <td><span t-field="f.affaire_id.client_id.name"/></td>
+                                        <td><span t-field="f.affaire_id.name"/></td>
+                                        <td><span t-field="f.commentaire"/></td>
+                                        <td style="text-align:center"><span t-field="f.km"/></td>
+                                        <td style="text-align:center"><span t-esc="round(f.km*0.4,2)"/></td>
+                                    </tr>
+                                </tbody>
+                                <thead>
+                                    <tr>
+                                        <th style="text-align:right" colspan="4">Total : </th>
+                                        <th style="text-align:center"><span t-esc="total_km"/></th>
+                                        <th style="text-align:center"><span t-esc="round(total_montant,2)"/></th>
+                                    </tr>
+                                    <!-- <tr>
+                                        <th style="text-align:right" colspan="4">Indemnités kilométriques (0.4€/Km) : </th>
+                                        <th style="text-align:center"><span t-esc="total_montant"/></th>
+                                    </tr> -->
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+    </data>
+</odoo>

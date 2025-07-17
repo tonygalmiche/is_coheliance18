@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="is_prospective_tree" model="ir.ui.view">
+            <field name="name">is.prospective.tree</field>
+            <field name="model">is.prospective</field>
+            <field name="arch" type="xml">
+                <list >
+                    <field name="name"/>
+                    <field name="state"/>
+                </list>
+            </field>
+        </record>
+        <record id="is_prospective_form" model="ir.ui.view">
+            <field name="name">is.prospective.form</field>
+            <field name="model">is.prospective</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="action_recalculer"    type="object" string="Recalculer"  invisible="state!='en_cours'"/>
+                        <button name="action_detail_lignes" type="object" string="Détail des lignes" class="oe_highlight" />
+                        <field name="state" widget="statusbar"  clickable="True" />
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" />
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="is_prospective_search" model="ir.ui.view">
+            <field name="name">is.prospective.search</field>
+            <field name="model">is.prospective</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="state"/>
+               </search>
+            </field>
+        </record>
+        <record id="is_prospective_action" model="ir.actions.act_window">
+            <field name="name">Prospective</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">is.prospective</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+        <!-- Lignes -->
+        <record id="is_prospective_line_tree" model="ir.ui.view">
+            <field name="name">is.prospective.line.tree</field>
+            <field name="model">is.prospective.line</field>
+            <field name="arch" type="xml">
+                <list>
+                    <field name="prospective_id" widget="many2one_clickable"/>
+                    <field name="name"           widget="many2one_clickable"/>
+                    <field name="pilote_id"/>
+                    <field name="client_id"      widget="many2one_clickable"/>
+                    <field name="intitule"/>
+                    <field name="article_id"/>
+                    <field name="duree_prestation"/>
+                    <field name="date_creation"/>
+                    <field name="date_validation"/>
+                    <field name="date_solde"/>
+                    <field name="state"/>
+                    <field name="associe01"     sum="Total"/>
+                    <field name="associe02"     sum="Total"/>
+                    <field name="associe03"     sum="Total"/>
+                    <field name="associe04"     sum="Total"/>
+                    <field name="associe05"     sum="Total"/>
+                    <field name="sous_traitant" sum="Total"/>
+                    <field name="total"         sum="Total"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="is_prospective_line_form" model="ir.ui.view">
+            <field name="name">is.prospective.line.form</field>
+            <field name="model">is.prospective.line</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="prospective_id"/>
+                                <field name="name" />
+                                <field name="date_creation"/>
+                                <field name="pilote_id"/>
+                                <field name="client_id"/>
+                                <field name="article_id"/>
+                                <field name="intitule"/>
+                                <field name="duree_prestation"/>
+                                <field name="budget_bas"/>
+                                <field name="budget_haut"/>
+                                <field name="budget_propose"/>
+                                <field name="budget_propose_annee"/>
+                                <field name="date_validation"/>
+                                <field name="date_solde"/>
+                                <field name="state"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="is_prospective_line_action" model="ir.actions.act_window">
+            <field name="name">Lignes de Prospective</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">is.prospective.line</field>
+            <field name="view_mode">list,form</field>
+        </record>
+     </data>
+</odoo>

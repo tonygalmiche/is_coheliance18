@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+<template id="report_affaire">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="o">
+            <t t-set="lang" t-value="o.pilote_id.sudo().partner_id.lang"/>
+            <t t-call="is_coheliance18.report_affaire_document" t-lang="lang"/>
+        </t>
+    </t>
+</template>
+<template id="report_affaire_document">
+    <t t-call="web.external_layout">
+        <style>
+            .page {
+                line-height: 1.3;
+            }
+            .titre{
+                font-size:16pt;
+                font-weight: bold;
+                color:black;
+                border:1pt solid black;
+                text-align:center;
+            }
+            table{
+                border:1pt solid black;
+                border-collapse:collapse;
+            }
+            td{
+                font-size:10pt;
+                border:1pt solid black;
+                padding:1pt;
+                padding-left:5pt;
+                padding-right:5pt;
+
+            }
+            th{
+                font-size:10pt;
+                text-align:center;
+                border:1pt solid black;
+                background-color:#FF99FF;
+                padding:1pt;
+            }
+            .contrat{
+                font-size:8.5pt;
+                text-align: justify;
+            }
+            .contrat h2{
+                margin-top:7pt;
+                margin-bottom:3pt;
+                font-size:10pt;
+                font-weight: bold;
+                text-align: left;
+            }
+            .contrat h3{
+                margin-top:5pt;
+                margin-bottom:2pt;
+                font-size:10pt;
+                font-weight: bold;
+                text-align: left;
+            }
+            .contrat h4{
+                margin-top:3pt;
+                margin-bottom:2pt;
+                font-size:9pt;
+                text-align: left;
+                text-decoration: underline;
+            }
+        </style>
+
+        <div class="page">
+
+            <div class="row titre">
+                <div class="col-12">
+                    CONTRAT DE PRESTATIONS n°<span t-field="o.name"/>
+                </div>
+            </div>
+            <br />
+
+
+
+            <div class="row">
+                <table style="width:100%">
+                    <tr><th>                   </th><th>Le client       </th><th>Le prestataire  </th></tr>
+                    <tr><td>Raison sociale     </td><td><strong><span t-field="o.client_id.name"/></strong></td><td><strong><span t-field="res_company.name"/></strong></td></tr>
+                    <tr><td>SIRET ou RCS       </td><td><span t-field="o.client_id.is_siret"/></td><td><span t-field="res_company.company_registry"/></td></tr>
+                    <tr>
+                        <td>Adresse            </td>
+                        <td><span t-field="o.client_id.street"/> <span t-field="o.client_id.street2"/> <span t-field="o.client_id.is_bp"/></td>
+                        <td>Le Major – 170 avenue Jean Jaurès</td>
+                    </tr>
+                    <tr>
+                        <td>CP - Ville         </td>
+                        <td><span t-field="o.client_id.zip"/> <span t-field="o.client_id.city"/>
+                        </td><td>21000 DIJON</td></tr>
+                    <tr>
+                        <td>Représenté par     </td>
+                        <td><span t-field="o.contact_client_id.title"/> <span t-field="o.contact_client_id.is_prenom"/> <span t-field="o.contact_client_id.name"/></td>
+                        <td><span t-field="o.pilote_id.name"/></td>
+                    </tr>
+                    <tr><td>Téléphone          </td>
+                        <td><span t-field="o.contact_client_id.phone"/></td>
+                        <td><span t-field="o.pilote_id.phone"/></td>
+                    </tr>
+                    <tr><td>Email              </td>
+                        <td><span t-field="o.contact_client_id.email"/></td>
+                        <td><span t-field="o.pilote_id.email"/></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="text-right" style="padding-right:0.5em">Votre interlocutrice administrative :</td>
+                        <td><span t-field="o.interlocutrice_id.name"/></td>
+                    </tr>
+
+
+                </table>
+            </div>
+            <br />
+
+
+            <div class="row">
+                <table style="width:100%">
+                    <tr><th colspan="2">Désignation de la prestation</th></tr>
+                    <tr t-if="o.intitule">             <td>Intitulé               </td><td><span t-field="o.intitule"/></td></tr>
+                    <tr t-if="o.descriptif">           <td>Descriptif             </td><td><span t-field="o.descriptif"/></td></tr>
+                    <tr t-if="o.personnes_concernees"> <td>Personnes concernées   </td><td><span t-field="o.personnes_concernees"/></td></tr>
+                    <tr t-if="o.lieu_intervention">    <td>Lieu d'intervention    </td><td><span t-field="o.lieu_intervention"/></td></tr>
+                    <tr t-if="o.date_debut">           <td>Date de début          </td><td><span t-field="o.date_debut"/></td></tr>
+                    <tr t-if="o.date_fin">             <td>Date de fin            </td><td><span t-field="o.date_fin"/></td></tr>
+                    <tr t-if="o.duree_prestation">     <td>Durée de la prestation </td><td><span t-field="o.duree_prestation"/></td></tr>
+                    <tr t-if="o.intervenant_ids">     
+                        <td>Intervenants </td>
+                        <td>
+                            <t t-set="annee" t-value="o.get_annee()"></t>
+                            <t t-foreach="o.intervenant_ids" t-as="line">
+                                <t t-if="str(line.annee)==annee">
+                                    <div t-if="line.associe_id"><span t-field="line.associe_id.name"/></div>
+                                    <div t-if="line.sous_traitant_id"><span t-field="line.sous_traitant_id.is_prenom"/> <span t-field="line.sous_traitant_id.name"/></div>
+                                </t>
+                            </t>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <br />
+
+
+
+
+            <t t-set="montant_ht"  t-value="o.total_budget_prevu" />
+            <t t-set="tva"         t-value="o.article_id.taxes_id and o.article_id.taxes_id[0].amount or 0" />
+            <t t-set="montant_tva" t-value="montant_ht*tva/100" />
+            <t t-set="montant_ttc" t-value="montant_ht*(1+tva/100)" />
+            <div class="row">
+                <table style="width:100%">
+
+                    <tr><th colspan="3">Coût de la prestation</th></tr>
+                    <tr>
+                        <td width="35%" style="border-right:0">Coût total de la prestation HT :</td>         
+                        <td width="15%" style="border-left:0;text-align:right"><t t-esc='montant_ht'  t-options='{"widget": "monetary", "display_currency": (company_id or res_company).currency_id}'/></td>
+                        <td rowspan="3">
+                            Modalités de paiement :<br />
+                            <span t-field="o.modalite_paiement"/>
+                            <t t-if="o.frais_a_refacturer">
+                                <br /><br />
+                                Frais à refacturer :<br />
+                                <span t-field="o.frais_a_refacturer"/>
+                            </t>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="border-right:0">TVA (20%) :</td>
+                        <td style="border-left:0;text-align:right"><t t-esc='montant_tva'  t-options='{"widget": "monetary", "display_currency": (company_id or res_company).currency_id}'/></td>
+                    </tr>
+                    <tr>
+                        <td style="border-right:0">Coût total de la prestation TTC  :</td>
+                        <td style="border-left:0;text-align:right"><t t-esc='montant_ttc'  t-options='{"widget": "monetary", "display_currency": (company_id or res_company).currency_id}'/></td>
+                    </tr>
+                </table>
+            </div>
+            <br />
+
+
+            <div class="row">
+                <table style="width:100%">
+                    <tr><th colspan="3">Modalités et délai de paiement : par Chèque ou Virement à réception de facture</th></tr>
+                    <tr>
+                        <td>Numéro de compte IBAN : <br /><span t-field="res_company.bank_ids[0].acc_number"/></td>
+                        <td>Code banque :           <br /><span t-field="res_company.bank_ids[0].bank_bic"/></td>
+                        <td>Nom banque :            <br /><span t-field="res_company.bank_ids[0].bank_name"/></td>
+                    </tr>
+                </table>
+            </div>
+            <br />
+
+
+            <div class="row">
+                <table style="width:100%">
+                    <tr><th colspan="3">Signatures pour accord</th></tr>
+                </table>
+            </div>
+
+            <div class="row" style="font-size:10pt;">
+                <div class="col-6 text-center">
+                    Le client:<br />
+                    date, nom et qualité du signataire, signature et cachet
+                </div>
+                <div class="col-6 text-center">
+                    Le prestataire:<br />
+                    date, nom et qualité du signataire, signature et cachet<br />
+                    <span t-field="o.pilote_id.name"/>, <span t-field="o.pilote_id.partner_id.function"/><br />
+
+                    <t t-if="o.pilote_id.login == 'c.jacquier@coheliance.com'">
+                        <img t-att-src="'/is_coheliance18/static/img/signature-clement-jacquier.jpg'" style="max-height: 20mm;"/>
+                    </t>
+
+                    <t t-if="o.pilote_id.login == 'jp.fiasson@coheliance.com'">
+                        <img t-att-src="'/is_coheliance18/static/img/signature-jean-pierre-fiasson.png'" style="max-height: 20mm;"/>
+                    </t>
+
+                    <t t-if="o.pilote_id.login == 'i.boltz@coheliance.com'">
+                        <img t-att-src="'/is_coheliance18/static/img/signature-isabelle-boltz.png'" style="max-height: 20mm;"/>
+                    </t>
+
+                    <t t-if="o.pilote_id.login == 'o.laval@coheliance.com'">
+                        <img t-att-src="'/is_coheliance18/static/img/signature-olivier-laval.png'" style="max-height: 20mm;"/>
+                    </t>
+
+                    <t t-if="o.pilote_id.login == 'f.monjournal@coheliance.com'">
+                        <img t-att-src="'/is_coheliance18/static/img/signature-frederique-monjournal.jpg'" style="max-height: 20mm;"/>
+                    </t>
+
+                    <t t-if="o.pilote_id.login == 'patrice@coheliance.com'">
+                        <img t-att-src="'/is_coheliance18/static/img/signature-patrice-fosset.jpg'" style="max-height: 20mm;"/>
+                    </t>
+
+                    <t t-if="res_company.name == 'COHELIANCE'">
+                        <img t-att-src="'/is_coheliance18/static/img/tampon-coheliance.png'" style="max-height: 20mm;"/>
+                    </t>
+                    <t t-if="res_company.name != 'COHELIANCE'">
+                        <img t-att-src="'/is_coheliance18/static/img/tampon-coheliance-formation.jpg'" style="max-height: 20mm;"/>
+                    </t>
+
+
+                </div>
+            </div>
+
+            <div class="row" style="font-size:10pt;">
+                <div class="col-12 text-center">
+                    Fait à Dijon en double exemplaire,
+                    Le <span t-field="o.date_signature"/>
+                </div>
+            </div>
+            <div style="page-break-before:always"/>
+
+
+            <div class="row">
+            <div class="col-12 contrat">
+<br />
+<h2>Contrat de prestation - Conditions Générales des Ventes</h2>
+
+
+<h3>Validité du contrat</h3>
+Les parties sont engagées sur les conditions particulières et générales du contrat lorsqu’il a été approuvé par le Client et par le Prestataire, par la signature d’une personne habilitée à engager la société en vertu d’un mandat général ou spécial. Lorsqu’il est requis, le visa de l’Intervenant désigné manifeste seulement son accord personnel pour exécuter la mission. Toute modification se fait par voie d’avenant.
+
+<h3>Exécution de la commande</h3>
+Le Prestataire s’engage à exécuter la commande conformément aux règles de l’art. Le Client reste seul responsable des solutions choisies et mises en place par ses soins, ainsi que de l’analyse des études effectuées à sa demande. Le Client s’engage à fournir les éléments et moyens matériels et techniques nécessaires à l’exécution de la mission et notamment à fournir toute la documentation qu’il détient pouvant influer sur l’objet de l’étude. Les délais d’exécution stipulés sont de rigueur ; en cas de dépassement, les parties peuvent simplement avoir recours au paragraphe « résiliation », sauf stipulation expresse contraire.<br />
+Coheliance garantit l’accès aux personnes handicapées dans ses locaux.<br />
+Dans tous les cas, il est vivement recommandé au Client de prévenir en amont (au minimum 15 jours ouvrés avant le 1er jour de l’intervention) s’il est porteur d’un handicap nécessitant un accès spécifique et/ou une adaptation pédagogique de la formation
+
+<h3>Confidentialité et propriété des résultats</h3>
+Le Prestataire considérera comme strictement confidentiels et s’interdit de divulguer, toute information, document, donnée ou concept, dont il pourrait avoir connaissance à l’occasion du présent contrat. De convention expresse, les résultats de la mission seront en la pleine maîtrise du Client, à dater du paiement intégral de la prestation et il pourra en disposer comme il l’entend. Pour sa part, le Prestataire s’interdit de faire état des résultats et de les utiliser de quelque manière, sauf à obtenir préalablement l’autorisation écrite du Client.
+
+<h3>Clause de protection des données personnelles</h3>
+
+Le client autorise le prestataire à enregistrer ses données personnelles nécessaires au suivi de la prestation. 
+Le Règlement Général sur la Protection des Données (RGPD) entré en vigueur le 25 mai 2018, renforce et unifie la 
+protection des données personnelles des résidents européens. Afin de respecter les obligations de ce règlement, 
+le prestataire s’engage à assurer la confidentialité et la sécurité des données du client. Conformément à la loi, 
+le libre accès aux données personnelles est garanti. Le client peut donc à tout moment vérifier l’usage qui en 
+est fait et disposer d’un droit de modification ou de retrait, s’il le juge utile. Tous les droits relatifs à la 
+protection des données personnelles peuvent se faire par mail à l’adresse suivante : contact@coheliance.com.
+
+<h3>Prix, modalités de paiement et de facturation</h3>
+Le prix de la commande est celui indiqué aux conditions particulières. Il peut être stipulé sous forme de forfait ou bien sous forme de modalité de calcul précisant des taux horaires ou journaliers ou encore sous forme de taux de rémunération basés sur des valeurs de référence définies en commun. Le prix est toujours stipulé hors TVA française. La facturation de la TVA s’effectue en application des règles légales en vigueur. Une modification de prix ne peut résulter que d’un avenant au présent contrat.
+A noter : si un ou plusieurs rendez-vous ne sont pas honorés par le client, et cela sans préavis, les séances seront facturées.
+Les factures sont adressées au service désigné par le Client et rappellent l’objet du contrat et le nom de l’Intervenant(e).<br />
+
+
+
+<h4>Cas particulier d’une prestation en collectif payée via une plateforme internet :</h4>
+Si le paiement a été effectué via une plateforme internet, le délai de Rétractation de 14 jours est valable : le stagiaire a le droit de se rétracter mais passé un délai de dix jours avant le 1er jour de la prestation, il ne pourra être remboursé. En effet, le stagiaire participant à un collectif, l’équilibre général serait alors ébranlé et son absence pourrait mettre en danger la réalisation même de la prestation.
+
+<h4>Cas d’une prestation en individuel payée via une plateforme internet  :</h4>
+Si le paiement a été effectué via une plateforme internet, le délai de Rétractation de 14 jours est valable : le stagiaire a le droit de se rétracter mais passé un délai de deux jours avant le 1er jour, il ne pourra être remboursé. En effet, le stagiaire en rdv individuel avec un coach engage une charge qui ne pourra être remplacée en 48h ; son absence pourrait mettre en danger l’équilibre général de la prestation.
+En cas d’inscription au dernier moment (en dessous du délai), il n’est pas possible de faire valoir une demande de remboursement.
+<br />
+Sauf stipulations contraires, le règlement des factures doit être effectué comptant à réception de facture. Lorsque le règlement n’est pas réceptionné dans le délai convenu, le Prestataire est en droit de poursuivre le recouvrement du principal et des intérêts de retard facturés et calculés de la date de facture à la date du paiement effectif, sur la base du taux d’intérêt légal augmenté de 7 points. Lorsque le Prestataire doit établir une facture de ces intérêts, il est en droit de facturer de plus une pénalité de retard égale à 10% du montant impayé afin de couvrir les frais de recouvrement de cette facture.
+
+<h3>Responsabilités</h3>
+Le Prestataire déclare être assuré en responsabilité civile professionnelle. Le Prestataire limite sa responsabilité résultant de l’exécution ou de l’inexécution des obligations décrites au présent contrat, à un montant égal au plafond annuel par sinistre défini par la police en vigueur à la date de la souscription du contrat. Le Client accepte de renoncer à un recours contre le Prestataire au-delà de la limite des sommes assurées et s’engage à y faire renoncer son assureur dans les mêmes conditions.
+
+<h3>Règlement Intérieur</h3>
+Le Règlement Intérieur établi conformément aux articles L6352-3 et L6352-4 et R6352-1 à R6352-15 du Code du Travail est affiché dans ses locaux et consultable/téléchargeable sur son site internet : https://www.coheliance.com
+<br />
+Le Client s’engage à faire parvenir ce lien aux participants avant le début de la formation.
+
+<div style="page-break-before:always"/>
+
+<h3>Suspension du contrat</h3>
+Lorsque l’exécution du contrat est confiée à un Intervenant unique, la maladie ou l’accident entraînant un arrêt de travail d’une durée inférieure à trois (3) mois suspendent l’exécution du contrat et en prorogent d’autant la durée.
+
+<h3>Résiliation du contrat</h3>
+Le contrat pourra-t-être résilié et sans accomplissement d’aucune formalité judiciaire, par l’une ou l’autre des parties : <br />
+A) après mise en demeure et sous respect d’un préavis d’un (1) mois :<br />
+- en cas de défaillance dûment constatée de l’une quelconque des parties. (Les cas de défaillance sont ceux qui entraînent l’incapacité juridique totale ou partielle, définitive ou temporaire, et, notamment, le règlement judiciaire, la liquidation des biens ainsi que la déconfiture, la liquidation amiable, la cessation d’activité ou d’incapacité d’exécuter les prestations.)<br />
+- aux torts de l’une ou l’autre des parties, en cas de manquement à une obligation principale.<br />
+B) de plein droit, en cas de force majeure, de disparition, invalidité, décès du Consultant initialement agréé par le Client.<br />
+C) de plein droit, en cas de rupture du contrat de travail entre le Prestataire et l’Intervenant(e) agréé(e) par le Client pour l’exécution de la mission, pour quelque cause que ce soit ; en ce cas, le contrat prend fin, sur simple notification, à la date à laquelle le salarié cesse d’exercer ses fonctions au sein de l’effectif du Prestataire.<br />
+D) lorsque la mission objet du contrat est d’une durée initiale supérieure à trois (3) mois ou après reconduction, une résiliation peut intervenir à la demande de l’une ou l’autre des parties sous réserve d’un préavis de six (6) semaines à dater de la première présentation de la lettre recommandée avec accusé de réception.<br />
+Dans tous les cas, les sommes perçues et celles facturées par le Prestataire pour les travaux effectués lui demeureront acquises et le délai de règlement est ramené au plus tard à la date d’effet de la résiliation.
+En cas d’interruption unilatérale du contrat par le client sans possibilité de trouver une solution amiable, celui-ci s’engage à verser au prestataire 50% du montant des actions suivantes non encore réalisées.
+
+<h3>Référencement</h3>
+Le Client autorise le Prestataire et ses Intervenants désignés au contrat à inscrire les travaux convenus une fois accomplis au nombre de leurs références (nom du Client, logo du client, titre générique de la mission).
+
+<h3>Droit applicable et attribution de compétences. Interprétation du contrat.</h3>
+La loi du présent contrat est la loi française. Les litiges relatifs à sa formation, son interprétation et son exécution, même en cas d’appel de garantie, de pluralité de défendeurs ou de connexité, sont soumis à la compétence exclusive du tribunal de commerce de Dijon, lieu du siège social du Prestataire.
+La convention de Vienne de 1980 relative aux contrats internationaux de vente de marchandise est exclue. Le présent contrat et ses avenants et annexes contiennent tous les engagements des parties ; les correspondances, offres ou propositions antérieures au contrat sont considérées comme non avenues et ne peuvent être utilisées pour l’interprétation du contrat.
+
+<br />
+<div class="text-right">Paraphe des parties.</div>
+
+
+
+                    </div>
+
+
+
+                </div>
+                </div>
+    </t>
+</template>
+
+
+
+
+</odoo>

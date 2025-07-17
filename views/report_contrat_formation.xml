@@ -1,0 +1,452 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data>
+<template id="report_contrat_formation">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="o">
+            <t t-set="lang" t-value="o.pilote_id.sudo().partner_id.lang"/>
+            <t t-call="is_coheliance18.report_contrat_formation_document" t-lang="lang"/>
+        </t>
+    </t>
+</template>
+<template id="report_contrat_formation_document">
+    <t t-call="web.external_layout">
+        <style>
+            .page{
+                font-size:10pt;
+            }
+            .titre{
+                font-size:12pt;
+                font-weight: bold;
+                color:black;
+                border:1pt solid black;
+                text-align:center;
+            }
+            .sous-titre{
+                font-size:10pt;
+                font-weight: bold;
+                text-align:center;
+            }
+            table{
+                border:1pt solid black;
+                border-collapse:collapse;
+            }
+            td{
+                border:1pt solid black;
+                padding:2pt;
+            }
+            th{
+                text-align:center;
+                border:1pt solid black;
+                background-color:#FF99FF;
+                padding:2pt;
+            }
+            .border-top{
+                border-top:1pt solid black;
+            }
+            .titre1{
+                font-weight: bold;
+                text-decoration :underline;
+                margin-top:2mm;
+                margin-bottom:2mm;
+            }
+            .titre2{
+                text-decoration :underline;
+                margin-left:0mm;
+                margin-top:5mm;
+                margin-bottom:2mm;
+            }
+            .titre3{
+                text-decoration :underline;
+                font-weight: bold;
+                margin-bottom:2mm;
+            }
+            .intitule{
+                text-align: center;
+                font-weight: bold;
+                margin-left:0mm;
+                margin-top:2mm;
+                margin-bottom:2mm;
+            }
+            .texte{
+                margin-top:1mm;
+                margin-bottom:1mm;
+            }
+
+            .cadre{
+                border:1pt solid black;
+                padding-bottom:1mm;
+                padding-left:1mm;
+                padding-right:5mm;
+            }
+            ul{
+                margin-left:5mm;
+            }
+            .cout td{
+                border-top:none;
+                border-right:none;
+                border-left:none;
+            }
+
+            .contrat{
+                font-size:8.5pt;
+                text-align: justify;
+            }
+            .contrat h2{
+                margin-top:7pt;
+                margin-bottom:3pt;
+                font-size:12pt;
+                font-weight: bold;
+                text-align: left;
+            }
+            .contrat h3{
+                margin-top:1mm;
+                margin-bottom:0;
+                font-size:10pt;
+                font-weight: bold;
+                text-align: left;
+            }
+            .contrat h4{
+                margin-top:3pt;
+                margin-bottom:2pt;
+                font-size:10pt;
+                text-align: left;
+                text-decoration: underline;
+            }
+
+        </style>
+
+
+        <div class="page">
+
+
+            <div class="row titre">CONTRAT DE FORMATION PROFESSIONNELLE n°<span t-field="o.name"/></div>
+            <div class="row sous-titre">(art. L6353-3 à L6353-7 du Code du Travail)</div>
+            <div class="row">
+                <table style="width:100%">
+                    <tr><th>                   </th><th>Le Stagiaire       </th><th>Organisme de formation</th></tr>
+                    <tr><td>NOM et Prénom     </td><td><strong><span t-field="o.client_id.title"/> <span t-field="o.client_id.is_prenom"/> <span t-field="o.client_id.name"/></strong></td><td><strong><span t-field="res_company.name"/></strong></td></tr>
+                    <tr><td>SIRET ou RCS       </td><td><span t-field="o.client_id.is_siret"/></td><td><span t-field="res_company.company_registry"/></td></tr>
+                    <tr>
+                        <td>Adresse            </td>
+                        <td><span t-field="o.client_id.street"/> <span t-field="o.client_id.street2"/> <span t-field="o.client_id.is_bp"/></td>
+                        <td>Le Major – 170 avenue Jean Jaurès</td>
+                    </tr>
+                    <tr>
+                        <td>CP - Ville         </td>
+                        <td><span t-field="o.client_id.zip"/> <span t-field="o.client_id.city"/>
+                        </td><td>21000 DIJON</td></tr>
+                    <tr>
+                        <td>Représenté par     </td>
+                        <td></td>
+                        <td><span t-field="o.pilote_id.name"/></td>
+                    </tr>
+                    <tr><td>Téléphone          </td>
+                        <td><span t-field="o.contact_client_id.phone"/></td>
+                        <td><span t-field="o.pilote_id.phone"/></td>
+                    </tr>
+                    <tr><td>Email              </td>
+                        <td><span t-field="o.contact_client_id.email"/></td>
+                        <td><span t-field="o.pilote_id.email"/></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="text-right" style="padding-right:0.5em">Votre interlocutrice administrative :</td>
+                        <td><span t-field="o.interlocutrice_id.name"/></td>
+                    </tr>
+
+                </table>
+            </div>
+            <div class="row sous-titre">est conclu un Contrat de Formation Professionnelle en application des articles L6353-3 à L6353-7 du Code du Travail</div>
+            <div class="row">
+                <table style="width:100%">
+                    <tr><th colspan="2">Désignation de la prestation</th></tr>
+                    <tr>
+                        <td style="padding-left:2mm;padding-right:2mm;text-align: justify;"  width="60%">
+
+<p class="texte">En exécution du présent contrat, l’organisme de formation s’engage à organiser l’action de formation intitulée :</p>
+
+<div class="intitule" t-field="o.intitule" />
+
+<p class="texte">L’action de formation entre dans la catégorie des actions prévue par l’article L6313-1 du Code du Travail :</p>
+<ul>
+<li>Actions de formation, bilans de compétences, actions permettant de faire valider les acquis de l’expérience</li>
+
+
+</ul>
+
+<p class="texte">Elle a pour objectif :  </p>
+<p class="texte"><span t-field="o.objectif" /></p>
+
+<p class="texte">A l’issue de la formation une attestation de suivi de stage sera délivrée au stagiaire</p>
+
+<p class="texte"><b>Le programme de l’action de formation figure en annexe du présent contrat</b></p>
+
+
+                            <!--
+                            <div class="titre1">ARTICLE I - OBJET DE LA CONVENTION</div>
+                            <p class="texte">Le prestataire s’engage à organiser l’action de formation intitulée :</p>
+                            <div class="intitule" t-field="o.intitule" />
+                            <div class="titre2">OBJECTIFS DE LA FORMATION</div>
+                            <p class="texte">Voir programme ci-joint</p>
+                            <br />
+                            <div class="titre1">ARTICLE II - NATURE ET CARACTERISTIQUES DE L’ACTION DE FORMATION </div>
+                            <p class="texte">a) Les actions de formation envisagées entrent dans l’une des catégories prévues aux articles L6313-1 et 
+                                suivants du Code du Travail :</p>
+                            <p class="texte">Action d’acquisition, d’entretien ou de perfectionnement des connaissances </p>
+                            <p class="texte">b) Chaque action de formation est définie dans la présente convention.</p>
+                            -->
+                        </td>
+                        <td  style="padding-left:2mm;padding-right:2mm;">
+                            <!--
+                            <div class="titre2">Personnes concernées :</div>
+                            <p class="texte" t-field="o.personnes_concernees" />
+                            -->
+                            <div class="titre2">Lieu de l’intervention :</div>
+                            <p class="texte" t-field="o.lieu_intervention" />
+                            <div class="titre2">Date de début :</div>
+                            <p class="texte" t-field="o.date_debut" />
+                            <div class="titre2">Date de fin :</div>
+                            <p class="texte" t-field="o.date_fin" />
+                            <div class="titre2">Durée de la prestation :</div>
+                            <p class="texte" t-field="o.duree_prestation" />
+                            <div class="titre2">Intervenant(s) :</div>
+
+                            <t t-set="annee" t-value="o.get_annee()"></t>
+                            <ul>
+                            <t t-foreach="o.intervenant_ids" t-as="l">
+                                <t t-if="str(l.annee)==annee">
+                                    <t t-if="l.associe_id">
+                                        <li style="margin-left:10mm"><span t-field="l.associe_id.name" /></li>
+                                    </t>
+                                    <t t-if="l.sous_traitant_id"> 
+                                        <li style="margin-left:10mm">
+                                            <span t-field="l.sous_traitant_id.is_prenom" />
+                                            <span t-field="l.sous_traitant_id.name" />
+                                        </li>
+                                    </t>
+                                </t>
+                            </t>
+                            </ul>
+                        </td>
+                    </tr>
+
+                </table>
+            </div>
+ 
+
+            <t t-set="montant_ht"   t-value="o.total_budget_prevu" />
+            <t t-set="tva"          t-value="o.article_id.taxes_id and o.article_id.taxes_id[0].amount or 0" />
+            <t t-set="intitule_tva" t-value="o.article_id.taxes_id and o.article_id.taxes_id[0].name or 'TVA'" />
+            <t t-set="montant_tva"  t-value="montant_ht*tva/100" />
+            <t t-set="montant_ttc"  t-value="montant_ht*(1+tva/100)" />
+            <div class="row" style="margin-top:1mm">
+                <table style="width:100%">
+                    <tr><th colspan="3">Coût de la prestation</th></tr>
+                    <tr>
+                        <td width="35%" style="border-right:0" >
+                            <span>Coût total de la prestation HT :</span>
+                        </td>
+                        <td width="15%" style="border-left:0;text-align:right">
+                            <span><t t-esc='montant_ht' t-options='{"widget": "monetary", "display_currency": (company_id or res_company).currency_id}'/></span>
+                        </td>
+                        <td rowspan="3">
+                            Modalités de paiement :<br />
+                            <span t-field="o.modalite_paiement"/><br /><br />
+                            Frais à refacturer :<br />
+                            <span t-field="o.frais_a_refacturer"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="border-right:0">
+                            <span><t t-esc='intitule_tva'/> :</span>
+                        </td>
+                        <td style="border-left:0;text-align:right">
+                            <span><t t-esc='montant_tva' t-options='{"widget": "monetary", "display_currency": (company_id or res_company).currency_id}'/></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="border-right:0">
+                            <span>Coût total de la prestation TTC  :</span>
+                        </td>
+                        <td style="border-left:0;text-align:right">
+                            <span><t t-esc='montant_ttc' t-options='{"widget": "monetary", "display_currency": (company_id or res_company).currency_id}'/></span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+
+
+            <div class="row" style="margin-top:1mm">
+            <div class="col-12 cadre">
+                <div class="titre1">RIB</div>
+
+                <table style="border:1pt solid black;" width="100%">
+                    <thead>
+                        <tr>
+                            <th>IBAN</th>
+                            <th>Banque</th>
+                            <th>Bic</th>
+                        </tr>
+                    </thead>
+                    <tbody class="invoice_tbody">
+
+                        <tr t-foreach="res_company.bank_ids" t-as="l">
+                            <td><span t-field="l.acc_number"/></td>
+                            <td><span t-field="l.bank_name"/></td>
+                            <td><span t-field="l.bank_bic"/></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            </div>
+            <div style="page-break-before:always"/>
+
+
+
+            <div class="row contrat">
+
+                <table style="width:100%">
+                    <tr><th>Contrat de formation - Conditions Générales de Ventes</th></tr>
+                    <tr><td style="text-align: justify;"> 
+
+<h3>Validité du contrat</h3>
+Les parties sont engagées sur les conditions particulières et générales du contrat lorsqu’il a été approuvé par le Stagiaire et par l’organisme de formation. Toute modification se fait par voie d’avenant.
+
+<h3>Délai de rétractation</h3>
+A compter de la date de signature du présent contrat, le stagiaire a un délai de dix jours pour se rétracter. Il en informe l’organisme de formation par lettre recommandée avec demande d’avis de réception.
+
+<h4>Cas particulier d’une prestation en collectif payée via une plateforme internet :</h4>
+Si le paiement a été effectué via une plateforme internet, le délai de Rétractation de 14 jours est valable : le stagiaire a le droit de se rétracter mais passé un délai de dix jours avant le 1er jour de la prestation, il ne pourra être remboursé. En effet, le stagiaire participant à un collectif, l’équilibre général serait alors ébranlé et son absence pourrait mettre en danger la réalisation même de la prestation.
+
+<h4>Cas d’une prestation en individuel payée via une plateforme internet  :</h4>
+Si le paiement a été effectué via une plateforme internet, le délai de Rétractation de 14 jours est valable : le stagiaire a le droit de se rétracter mais passé un délai de deux jours avant le 1er jour, il ne pourra être remboursé. En effet, le stagiaire en rdv individuel avec un coach engage une charge qui ne pourra être remplacée en 48h ; son absence pourrait mettre en danger l’équilibre général financier.<br />
+En cas d’inscription au dernier moment (en dessous du délai), il n’est pas possible de faire valoir une demande de remboursement.
+
+<h3>Exécution de la commande</h3>
+L’organisme de formation s’engage à exécuter la commande. Le Stagiaire reste seul responsable des solutions choisies et mises en place par ses soins, ainsi que de l’analyse des études effectuées à sa demande. Les délais d’exécution stipulés sont de rigueur ; en cas de dépassement, les parties peuvent simplement avoir recours au paragraphe « résiliation », sauf stipulation expresse contraire.<br />
+Coheliance garantit l’accès aux personnes handicapées dans ses locaux.<br />
+Dans tous les cas, il est vivement recommandé au Client de prévenir en amont (au minimum 15 jours ouvrés avant le 1er jour de l’intervention) s’il est porteur d’un handicap nécessitant un accès spécifique et/ou une adaptation pédagogique de la formation.
+
+<h3>Modalites d’évaluation</h3>
+- Le prestataire propose une évaluation initiale facultative avec un Profil Payant (à ce jour : PPI, PXT, HBDI, PCM)<br />
+- Le stagiaire complète une évaluation des compétences acquises en fin de parcours (en cas de parcours comprenant plusieurs journées séparées, à la fin de chaque journée)<br />
+- Le stagiaire complète une évaluation du formateur et de la formation en générale en fin de parcours<br />
+
+<h3>Confidentialité et propriété des résultats</h3>
+L’organisme de formation considérera comme strictement confidentiels et s’interdit de divulguer, toute information, document, donnée ou concept, dont il pourrait avoir connaissance à l’occasion du présent contrat. De convention expresse, les résultats de la mission seront en la pleine maîtrise du Stagiaire, à dater du paiement intégral de la prestation et il pourra en disposer comme il l’entend. Pour sa part, l’Organisme de Formation s’interdit de faire état des résultats et de les utiliser de quelque manière, sauf à obtenir préalablement l’autorisation écrite du Stagiaire.
+
+<h3>Clause de protection des données personnelles</h3>
+
+Le stagiaire autorise l’organisme de formation à enregistrer ses données personnelles nécessaires au suivi de l’action de formation. 
+Le Règlement Général sur la Protection des Données (RGPD) entré en vigueur le 25 mai 2018, renforce et unifie la protection des données 
+personnelles des résidents européens. Afin de respecter les obligations de ce règlement, l’organisme de formation s’engage à assurer 
+la confidentialité et la sécurité des données du stagiaire. Conformément à la loi, le libre accès aux données personnelles est garanti. 
+Le stagiaire peut donc à tout moment vérifier l’usage qui en est fait et disposer d’un droit de modification ou de retrait, s’il le juge utile. 
+Tous les droits relatifs à la protection des données personnelles peuvent se faire par mail à l’adresse suivante : contact@coheliance.com.
+
+<h3>Prix, modalités de paiement et de facturation</h3>
+Le prix de la commande est celui indiqué aux conditions particulières. Une modification de prix ne peut résulter que d’un avenant au présent contrat.
+A noter : si un ou plusieurs rendez-vous ne sont pas honorés par le Stagiaire, et cela sans préavis, les séances seront facturées.
+Les factures sont adressées au Stagiaire et rappellent l’objet du contrat et le nom de l’Intervenant(e).<br />
+Sauf stipulations contraires, le règlement des factures doit être effectué comptant avant le début de la formation. Lorsque le règlement n’est pas réceptionné dans le délai convenu, l’Organisme de Formation est en droit de poursuivre le recouvrement du principal et des intérêts de retard facturés et calculés de la date de facture à la date du paiement effectif, sur la base du taux d’intérêt légal augmenté de 7 points. Lorsque l’Organisme de Formation doit établir une facture de ces intérêts, il est en droit de facturer de plus une pénalité de retard égale à 10% du montant impayé afin de couvrir les frais de recouvrement de cette facture.
+
+<h3>Responsabilités</h3>
+L’organisme de formation déclare être assuré en responsabilité civile professionnelle. Il limite sa responsabilité résultant de l’exécution ou de l’inexécution des obligations décrites au présent contrat, à un montant égal au plafond annuel par sinistre défini par la police en vigueur à la date de la souscription du contrat. Le Stagiaire accepte de renoncer à un recours contre l’organisme de formation au-delà de la limite des sommes assurées et s’engage à y faire renoncer son assureur dans les mêmes conditions.
+
+<h3>Suspension du contrat</h3>
+Lorsque l’exécution du contrat est confiée à un Intervenant unique, la maladie ou l’accident entraînant un arrêt de travail d’une durée inférieure à trois (3) mois suspendent l’exécution du contrat et en prorogent d’autant la durée.
+
+<div style="page-break-before:always"/>
+
+<h3>Résiliation du contrat</h3>
+En cas de cessation anticipée de la formation du fait de l’organisme de formation ou l’abandon du stage par le stagiaire pour un autre motif que la force majeure dûment reconnue, le présent contrat est résilié selon les modalités financières suivantes :<br />
+A) après mise en demeure et sous respect d’un préavis d’un (1) mois :<br />
+- en cas de défaillance dûment constatée de l’une quelconque des parties. (Les cas de défaillance sont ceux qui entraînent l’incapacité juridique totale ou partielle, définitive ou temporaire, et, notamment, le règlement judiciaire, la liquidation des biens ainsi que la déconfiture, la liquidation amiable, la cessation d’activité ou d’incapacité d’exécuter les prestations.)<br />
+- aux torts de l’une ou l’autre des parties, en cas de manquement à une obligation principale.<br />
+B) de plein droit, en cas de force majeure, de disparition, invalidité, décès du Consultant initialement agréé par le Stagiaire.<br />
+C) de plein droit, en cas de rupture du contrat de travail entre l’Organisme de formation et l’Intervenant(e) agréé(e) par le Stagiaire pour l’exécution de la mission, pour quelque cause que ce soit ; en ce cas, le contrat prend fin, sur simple notification, à la date à laquelle le stagiaire cesse d’exercer ses fonctions au sein de l’effectif du Prestataire.<br />
+D) lorsque la mission objet du contrat est d’une durée initiale supérieure à trois (3) mois ou après reconduction, une résiliation peut intervenir à la demande de l’une ou l’autre des parties sous réserve d’un préavis de six (6) semaines à dater de la première présentation de la lettre recommandée avec accusé de réception.
+Dans tous les cas, les sommes perçues et celles facturées par l’organisme de formation pour les travaux effectués lui demeureront acquises et le délai de règlement est ramené au plus tard à la date d’effet de la résiliation.
+En cas d’interruption unilatérale du contrat par le stagiaire sans possibilité de trouver une solution amiable, celui-ci s’engage à verser à l’organisme de formation 50% du montant des actions suivantes non encore réalisées.<br />
+En cas d’interruption unilatérale du contrat par le stagiaire sans possibilité de trouver une solution amiable, celui-ci s’engage à verser à l’organisme de formation 100% du montant des actions suivantes non encore réalisées.
+
+<h3>Règlement Intérieur</h3>
+Le Règlement Intérieur établi conformément aux articles L6352-3 et L6352-4 et R6352-1 à R6352-15 du Code du Travail est affiché dans ses locaux et consultable/téléchargeable sur son site internet : https://www.coheliance.com
+
+<h3>Cas de Différend</h3>
+Si une constatation ou un différend n’ont pu être réglés à l’amiable, le Tribunal de Dijon sera seul compétent pour régler le litige.
+Paraphe des parties.
+
+
+                    </td></tr>
+                </table>
+
+
+            </div>
+
+
+            <div class="row" style="margin-top:1mm">
+                <table style="width:100%">
+                    <tr><th colspan="2">Signatures pour accord</th></tr>
+                    <tr>
+                        <td style="width:50%">
+                            <p class="texte">
+                                <b>Le stagiaire :</b> <br />
+                                date, nom du signataire, signature
+                            </p>
+                        </td>
+                        <td>
+                            <p class="texte">
+                                <b>L’Entreprise :</b> <br />
+                                date, nom et qualité du signataire, signature et cachet <br /><br />
+                                <span t-field="o.pilote_id.name"/>, <span t-field="o.pilote_id.partner_id.function"/><br />
+                                Fait à Dijon en double exemplaire<br />
+                                Le <span t-field="o.date_signature" /><br />
+
+                                <t t-if="o.pilote_id.login == 'c.jacquier@coheliance.com'">
+                                    <img t-att-src="'/is_coheliance18/static/img/signature-clement-jacquier.jpg'" style="max-height: 20mm;"/>
+                                </t>
+
+                                <t t-if="o.pilote_id.login == 'jp.fiasson@coheliance.com'">
+                                    <img t-att-src="'/is_coheliance18/static/img/signature-jean-pierre-fiasson.png'" style="max-height: 20mm;"/>
+                                </t>
+
+                                <t t-if="o.pilote_id.login == 'i.boltz@coheliance.com'">
+                                    <img t-att-src="'/is_coheliance18/static/img/signature-isabelle-boltz.png'" style="max-height: 20mm;"/>
+                                </t>
+
+                                <t t-if="o.pilote_id.login == 'o.laval@coheliance.com'">
+                                    <img t-att-src="'/is_coheliance18/static/img/signature-olivier-laval.png'" style="max-height: 20mm;"/>
+                                </t>
+
+                                <t t-if="o.pilote_id.login == 'f.monjournal@coheliance.com'">
+                                    <img t-att-src="'/is_coheliance18/static/img/signature-frederique-monjournal.jpg'" style="max-height: 20mm;"/>
+                                </t>
+
+                                <t t-if="o.pilote_id.login == 'patrice@coheliance.com'">
+                                    <img t-att-src="'/is_coheliance18/static/img/signature-patrice-fosset.jpg'" style="max-height: 20mm;"/>
+                                </t>
+
+
+                                <t t-if="res_company.name == 'COHELIANCE'">
+                                    <img t-att-src="'/is_coheliance18/static/img/tampon-coheliance.png'" style="max-height: 30mm;"/>
+                                </t>
+                                <t t-if="res_company.name != 'COHELIANCE'">
+                                    <img t-att-src="'/is_coheliance18/static/img/tampon-coheliance-formation.jpg'" style="max-height: 30mm;"/>
+                                </t>
+
+
+
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+        </div>
+    </t>
+</template>
+
+</data>
+</odoo>

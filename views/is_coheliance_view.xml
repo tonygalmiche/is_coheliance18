@@ -1,0 +1,521 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- is.affaire -->
+        <record id="is_affaire_tree" model="ir.ui.view">
+            <field name="name">is.affaire.tree</field>
+            <field name="model">is.affaire</field>
+            <field name="arch" type="xml">
+                <list decoration-danger="state in ('en_attente') and date_relance &lt; current_date and not date_relance"  decoration-muted="state == 'annule'">
+                    <field name="name" />
+                    <field name="affaire_parent_id"  optional="show" widget="many2one_clickable"/>
+                    <field name="version"            optional="show"/>
+                    <field name="client_id"          optional="show"/>
+                    <field name="intitule"           optional="show"/>
+                    <field name="date_debut"         optional="show"/>
+                    <field name="date_fin"           optional="show"/>
+                    <field name="date_relance"       optional="show"/>
+                    <field name="pilote_id"          optional="show"/>
+                    <field name="structure"          optional="show"/>
+                    <field name="article_id"         optional="show"/>
+                    <field name="total_budget_prevu" optional="show" sum="Total" />
+                    <field name="date_validation"    optional="show"/>
+                    <field name="date_solde"         optional="show"/>
+                    <field name="origine_financement_id"      invisible="context.get('formation',True)"/>
+                    <field name="type_stagiaire_organisme_id" invisible="context.get('formation',True)"/>
+                    <field name="typologie_stagiaire_id"      invisible="context.get('formation',True)"/>
+                    <field name="resultat_net"       optional="show" sum="Total"/>
+                    <field name="nb_stagiaire"       optional="hide" sum="Total"/>
+                    <field name="nb_stagiaire_visio" optional="hide" sum="Total"/>
+                    <field name="state" optional="show"/>
+                </list>
+            </field>
+        </record>
+        <record id="is_affaire_form" model="ir.ui.view">
+            <field name="name">is.affaire.form</field>
+            <field name="model">is.affaire</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="action_generer_commande" type="object" string="Générer Commande" class="oe_highlight" />
+                        <field name="state" widget="statusbar" clickable="1"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" readonly="1"/>
+                                <field name="affaire_parent_id"/>
+                                <field name="version" />
+                                <field name="pilote_id"/>
+                                <field name="structure"/>
+                            </group>
+                            <group>
+                                <field name="date_creation"/>
+                                <field name="date_signature"/>
+                                <field name="createur_id"/>
+                                <field name="interlocutrice_id"/>
+                                <field name="date_relance"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Descriptif">
+                                <group>
+                                    <group>
+                                        <field name="client_id" />
+                                        <field name="contact_client_id" />
+                                    </group>
+                                    <group>
+                                        <field name="article_id" domain="[('type','=','service')]" />
+                                    </group>
+                                </group>
+                                <group string="">
+                                    <label for="intitule" style="width:350px"/>
+                                    <div>
+                                        <field name="intitule" class="oe_inline"/>
+                                    </div>
+                                    <field name="objectif" />
+                                    <field name="descriptif" class="oe_inline"/>
+                                    <field name="methode_pedagogique" />
+                                    <field name="personnes_concernees" />
+                                    <field name="lieu_intervention" />
+                                    <field name="date_debut" />
+                                    <field name="date_fin" />
+                                    <field name="duree_prestation" />
+                                    <field name="origine_financement_id" />
+                                    <field name="type_stagiaire_organisme_id"/>
+                                    <field name="typologie_stagiaire_id" />
+                                </group>
+                            </page>
+                            <page string="Intervenants">
+                                <group>
+                                    <field name="intervenant_ids" nolabel="1">
+                                        <list string="Intervenants" editable="bottom">
+                                            <field name="annee"/>
+                                            <field name="associe_id"/>
+                                            <button string="Convention de sous-traitance" name="print_convention_st" type="object" icon="fa-print" />
+                                            <field name="sous_traitant_id"/>
+                                            <field name="duree_mission"/>
+                                            <field name="condition_financiere"/>
+                                            <field name="taux1"/>
+                                            <field name="budget_prevu"/>
+                                            <field name="taux1"/>
+                                            <field name="taux2"/>
+                                            <field name="taux3"/>
+                                        </list>
+                                    </field>
+                                </group>
+                                <group>
+                                    <field name="budget_bas" />
+                                    <field name="budget_haut" />
+                                    <field name="total_budget_prevu" />
+                                </group>
+                            </page>
+                            <page string="Interventions">
+                                <group string="">
+                                    <field name="intervention_ids" nolabel="1">
+                                        <list string="Interventions" editable="bottom">
+                                            <field name="date"                   optional="show"/>
+                                            <field name="associe_id"             optional="show"/>
+                                            <field name="sous_traitant_id"       optional="show"/>
+                                            <field name="temps_passe"            optional="show"/>
+                                            <field name="unite_temps"            optional="show" />
+                                            <field name="temps_passe_heure"      optional="show" sum="Total"/>
+                                            <field name="nb_stagiaire"           optional="show" />
+                                            <field name="temps_formation"        optional="show" sum="Total"/>
+                                            <field name="visio"                  optional="show"/>
+                                            <field name="facturable"             optional="show"/>
+                                            <field name="montant_facture"        optional="show"        sum="Total" readonly="1"/>
+                                            <field name="montant_non_facturable" optional="show" sum="Total" readonly="1"/>
+                                            <field name="commentaire"            optional="show"/>
+                                        </list>
+                                    </field>
+                                </group>
+                                <group>
+                                    <field name="nb_stagiaire"/>
+                                    <field name="nb_stagiaire_visio"/>
+                                </group>
+                            </page>
+                            <page string="Ventes">
+                                <group>
+                                    <field name="vente_ids" nolabel="1">
+                                        <list string="Ventes" editable="bottom">
+                                            <field name="date"/>
+                                            <field name="product_id"/>
+                                            <field name="quantite"/>
+                                            <field name="prix_achat"/>
+                                            <field name="prix_vente"/>
+                                            <field name="total_achat"/>
+                                            <field name="total_vente"/>
+                                            <field name="commentaire"/>
+                                        </list>
+                                    </field>
+                                </group>
+                            </page>
+                            <page string="Frais associés">
+                                <button name="action_detail_frais" type="object" string="Détail des frais"/>
+                                <group>
+                                    <field name="frais_ids" nolabel="1">
+                                        <list string="Frais">
+                                            <button title="Imprimer la fiche de frais" name="print_fiche_frais" type="object" icon="fa-print" />
+                                            <field name="name"/>
+                                            <field name="date_creation"/>
+                                            <field name="intervenant_id"/>
+                                            <field name="sous_traitant_id"/>
+                                            <field name="taux_km"/>
+                                        </list>
+                                        <form>
+                                            <sheet>
+                                                <group>
+                                                    <group>
+                                                        <field name="name" readonly="1" />
+                                                        <field name="intervenant_id" />
+                                                        <field name="sous_traitant_id" />
+                                                    </group>
+                                                    <group>
+                                                        <field name="date_creation" />
+                                                        <field name="taux_km"/>
+                                                    </group>
+                                                </group>
+                                                <group string="">
+                                                    <field name="ligne_ids" nolabel="1">
+                                                        <list string="Lignes" editable="bottom">
+                                                            <field name="date"/>
+                                                            <field name="type_frais_id" domain="[('is_type_frais','=',True)]"/>
+                                                            <field name="refacturable"/>
+                                                            <field name="km"/>
+                                                            <field name="montant_ht"/>
+                                                            <field name="montant_ttc" readonly="1"/>
+                                                            <field name="commentaire"/>
+                                                        </list>
+                                                    </field>
+                                                </group>
+                                            </sheet>
+                                        </form>
+                                    </field>
+                                </group>
+                            </page>                           
+                            <page string="Factures fournisseurs">
+                                <group>
+                                    <field name="facture_ids" nolabel="1">
+                                        <list>
+                                            <button title="Facture fournisseur" name="voir_facture_fournisseur" type="object" icon="fa-search-plus" />
+                                            <field name="is_refacturable"/>
+                                            <field name="partner_id"     string="Fournisseur" widget="many2one_clickable"/>
+                                            <field name="is_nom_fournisseur"/>
+                                            <field name="is_personne_concernee_id"/> 
+                                            <field name="invoice_date"/>
+                                            <field name="state"/>
+                                        </list>
+                                    </field>
+                                </group>
+                                <group>
+                                    <field name="total_refacturable"/>
+                                </group>
+                            </page>
+                            <page string="Facturation">
+                                <group string="">
+                                    <field name="modalite_paiement" />
+                                    <field name="frais_a_refacturer" />
+                                </group>
+                                <group string="">
+                                    <field name="acompte_ids" nolabel="1" context="{'default_affaire_id': id}">
+                                        <list string="Acomptes" editable="bottom">
+                                            <field name="date_acompte"/>
+                                            <field name="montant_acompte" sum="Total"/>
+                                            <field name="account_id"/>
+                                            <field name="commentaire"/>
+                                        </list>
+                                    </field>
+                                </group>
+                            </page>
+                            <page string="Analyse">
+                                <group>
+                                    <field name="total_acompte"/>
+                                    <field name="total_non_facturable"/>
+                                    <field name="total_fournisseur"/>
+                                    <field name="resultat_net"/>
+                                </group>
+                            </page>
+                            <page string="Autres informations">
+                                <group>
+                                    <field name="order_id" />
+                                    <field name="date_validation" readonly="1" />
+                                    <field name="date_solde"      readonly="1" />
+                                </group>
+                            </page>
+                            <page string="Affaires liées" invisible="affaire_child_ids==[]">
+                                <group string="">
+                                    <field name="affaire_child_ids" nolabel="1">
+                                        <list>
+                                            <button string="Voir cette affaire" name="voir_affaire" type="object" icon="gtk-zoom-in" />
+                                            <field name="name"/>
+                                            <field name="pilote_id" widget="many2one_clickable"/>
+                                            <field name="client_id" widget="many2one_clickable"/>
+                                            <field name="total_budget_prevu" sum="Total"/>
+                                        </list>
+                                    </field>
+                                </group>
+                            </page> 
+                        </notebook>
+                    </sheet>
+                    <chatter/>
+                </form>
+            </field>
+        </record>
+        <record id="is_affaire_search" model="ir.ui.view">
+                <field name="name">is.affaire.search</field>
+                <field name="model">is.affaire</field>
+                <field name="arch" type="xml">
+                    <search>
+                        <field name="name"/>
+                        <field name="client_id"/>
+                        <field name="pilote_id"/>
+                        <field name="structure"/>
+                </search>
+                </field>
+            </record>
+        <record id="is_affaire_action" model="ir.actions.act_window">
+            <field name="name">Affaire</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">is.affaire</field>
+            <field name="view_mode">list,form</field>
+            <field name="search_view_id" ref="is_affaire_search"/>
+        </record>
+
+
+        <!-- is.frais -->
+        <record id="is_frais_tree" model="ir.ui.view">
+            <field name="name">is.frais.tree</field>
+            <field name="model">is.frais</field>
+            <field name="arch" type="xml">
+                <list >
+                    <field name="name" />
+                    <field name="date_creation" />
+                    <field name="affaire_id" />
+                    <field name="intervenant_id" />
+                    <field name="sous_traitant_id" />
+                    <field name="taux_km" />
+                </list>
+            </field>
+        </record>
+        <record id="is_frais_form" model="ir.ui.view">
+            <field name="name">is.frais.form</field>
+            <field name="model">is.frais</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" readonly="1" />
+                                <field name="affaire_id" />
+                                <field name="intervenant_id" />
+                                <field name="sous_traitant_id" />
+                            </group>
+                            <group>
+                                <field name="date_creation" />
+                                <field name="taux_km"/>
+                            </group>
+                        </group>
+                        <group string="">
+                            <field name="ligne_ids" nolabel="1">
+                                <list string="Lignes" editable="bottom">
+                                    <field name="date"/>
+                                    <field name="type_frais_id" domain="[('is_type_frais','=',True)]"/>
+                                    <field name="refacturable"/>
+                                    <field name="km"/>
+                                    <field name="montant_ht"/>
+                                    <field name="montant_ttc" readonly="1"/>
+                                    <field name="commentaire"/>
+                                </list>
+                            </field>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="is_frais_search" model="ir.ui.view">
+            <field name="name">is.frais.search</field>
+            <field name="model">is.frais</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="affaire_id"/>
+                    <field name="intervenant_id"/>
+                    <field name="sous_traitant_id"/>
+            </search>
+            </field>
+        </record>
+        <record id="is_frais_action" model="ir.actions.act_window">
+            <field name="name">Fiches de frais</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">is.frais</field>
+            <field name="view_mode">list,form</field>
+            <field name="search_view_id" ref="is_frais_search"/>
+        </record>
+
+
+        <!-- is.frais.ligne -->
+        <record id="is_frais_ligne_tree" model="ir.ui.view">
+            <field name="name">is.frais.ligne.tree</field>
+            <field name="model">is.frais.ligne</field>
+            <field name="arch" type="xml">
+                <list editable="bottom" >
+                    <field name="date"          readonly="1"/>
+                    <field name="type_frais_id" readonly="1"/>
+                    <field name="refacturable"  readonly="1"/>
+                    <field name="montant_ht"    readonly="1" sum="Total"/>
+                    <field name="montant_ttc"   readonly="1" sum="Total"/>
+                    <field name="refacture" />
+                    <field name="frais_id"         widget="many2one_clickable" readonly="1"/>
+                    <field name="affaire_id"       widget="many2one_clickable"/>
+                    <field name="intervenant_id"   widget="many2one_clickable"/>
+                    <field name="sous_traitant_id" widget="many2one_clickable"/>
+                </list>
+            </field>
+        </record>
+        <record id="is_frais_ligne_form" model="ir.ui.view">
+            <field name="name">is.frais.ligne.form</field>
+            <field name="model">is.frais.ligne</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="date" />
+                                <field name="type_frais_id" />
+                                <field name="refacturable" />
+                                <field name="montant_ht" />
+                                <field name="montant_ttc" />
+                                <field name="refacture" />
+                            </group>
+                            <group>
+                                <field name="frais_id" />
+                                <field name="affaire_id" />
+                                <field name="intervenant_id" />
+                                <field name="sous_traitant_id" />
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="is_frais_ligne_search" model="ir.ui.view">
+            <field name="name">is.frais.ligne.search</field>
+            <field name="model">is.frais.ligne</field>
+            <field name="arch" type="xml">
+                <search>
+                    <filter string="A refacturer" domain="[('refacture','!=',True),('refacturable','=','oui')]" name="a_refacturer_filter"/>
+                    <field name="affaire_id" />
+                    <field name="intervenant_id" />
+                    <field name="sous_traitant_id" />
+                    <field name="frais_id" />
+                    <field name="type_frais_id" />
+            </search>
+            </field>
+        </record>
+        <record id="is_frais_ligne_action" model="ir.actions.act_window">
+            <field name="name">Frais à refacturer</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">is.frais.ligne</field>
+            <field name="view_mode">list,form</field>
+            <field name="context">{
+                    'search_default_a_refacturer_filter': 1
+                }
+            </field>
+        </record>
+
+
+        <!-- is.acompte -->
+        <record id="is_acompte_tree" model="ir.ui.view">
+            <field name="name">is.acompte</field>
+            <field name="model">is.acompte</field>
+            <field name="arch" type="xml">
+                <list editable="top" decoration-danger="date_acompte &lt; current_date and account_id == False">
+                    <field name="affaire_id" />
+                    <field name="date_acompte" />
+                    <field name="montant_acompte" />
+                    <field name="account_id" />
+                    <field name="commentaire" />
+                </list>
+            </field>
+        </record>
+        <record id="is_acompte_search" model="ir.ui.view">
+            <field name="name">is.acompte.search</field>
+            <field name="model">is.acompte</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="affaire_id"/>
+                    <field name="account_id"/>
+                    <field name="commentaire"/>
+            </search>
+            </field>
+        </record>
+        <record id="is_acompte_action" model="ir.actions.act_window">
+            <field name="name">Gestion des acomptes</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">is.acompte</field>
+            <field name="view_mode">list</field>
+            <field name="search_view_id" ref="is_acompte_search"/>
+        </record>
+
+
+        <!-- sale.order -->
+        <record id="is_action_orders" model="ir.actions.act_window">
+            <field name="name">Commandes</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sale.order</field>
+            <field name="view_mode">list,form,calendar,graph</field>
+            <field name="search_view_id" ref="sale.view_sales_order_filter"/>
+            <field name="context">{}</field>
+            <field name="domain">[]</field>
+        </record>
+
+
+        <!-- is.fiche.frais -->
+        <record id="is_fiche_frais_form" model="ir.ui.view">
+            <field name="name">is.fiche.frais.form</field>
+            <field name="model">is.fiche.frais</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name" readonly="1"/>
+                            <field name="user_id"/>
+                            <field name="date_debut"/>
+                            <field name="date_fin"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="is_fiche_frais_tree" model="ir.ui.view">
+            <field name="name">is.fiche.frais.tree</field>
+            <field name="model">is.fiche.frais</field>
+            <field name="arch" type="xml">
+                <list >
+                    <field name="name"/>
+                    <field name="user_id"/>
+                    <field name="date_debut"/>
+                    <field name="date_fin"/>
+                </list>
+            </field>
+        </record>
+        <record id="is_fiche_frais_search" model="ir.ui.view">
+            <field name="name">is.fiche.frais.search</field>
+            <field name="model">is.fiche.frais</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="user_id"/>
+            </search>
+            </field>
+        </record>
+        <record id="is_fiche_frais_action" model="ir.actions.act_window">
+            <field name="name">Déclaration Frais</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">is.fiche.frais</field>
+            <field name="view_mode">list,form</field>
+            <field name="search_view_id" ref="is_fiche_frais_search"/>
+        </record>
+    </data>
+</odoo>

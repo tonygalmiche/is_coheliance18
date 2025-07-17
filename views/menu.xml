@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <menuitem id="is_crm_top_menu" sequence="0" name="CRM"/>
+        <menuitem id="is_crm_menu" name="CRM" parent="is_crm_top_menu" sequence="10"/>
+        <menuitem id="is_crm_client_menu"              name="Clients"              parent="is_crm_menu" sequence="10" action="is_view_partner_crm_action"/>
+        <menuitem id="is_affaire_menu"                 name="Affaires"             parent="is_crm_menu" sequence="20" action="is_affaire_action"/>
+        <menuitem id="is_acompte_menu"                 name="Gestion des acomptes" parent="is_crm_menu" sequence="30" action="is_acompte_action"/>
+        <menuitem id="is_sale_order_menu"              name="Commandes"            parent="is_crm_menu" sequence="40" action="is_action_orders" groups="sales_team.group_sale_manager"/> 
+        <menuitem id="is_menu_product_template_action" name="Articles"             parent="is_crm_menu" sequence="50" action="is_product_template_action"/>
+        <menuitem id="is_crm_frais_menu" name="Frais" parent="is_crm_top_menu" sequence="20"/>
+        <menuitem id="is_frais_menu"        parent="is_crm_frais_menu" sequence="10" action="is_frais_action"/>
+        <menuitem id="is_frais_ligne_menu" parent="is_crm_frais_menu" sequence="20" action="is_frais_ligne_action" />
+        <menuitem id="is_fiche_frais_menu" parent="is_crm_frais_menu" sequence="30" action="is_fiche_frais_action" />
+         
+
+        <menuitem name="Analyses associés" id="is_crm_analyses_associes_menu" parent="is_crm_top_menu" sequence="40" />
+        <menuitem 
+            name="Suivi des interventions"
+            id="is_suivi_intervention_menu" 
+            parent="is_crm_analyses_associes_menu" 
+            sequence="10"
+            action="is_suivi_intervention_action"
+        />
+
+        <menuitem 
+            name="Suivi associé" 
+            id="is_suivi_refacturation_associe_menu" 
+            parent="is_crm_analyses_associes_menu" 
+            sequence="20"  
+            action="is_suivi_refacturation_associe_action"   
+        />
+
+        <menuitem name="Analyses administratif" id="is_crm_analyses_administratif_menu" parent="is_crm_top_menu" sequence="50" />
+        <menuitem 
+            name="Refacturation total des frais" 
+            id="is_suivi_refacturation_total_frais_menu" 
+            parent="is_crm_analyses_administratif_menu" 
+            sequence="10"  
+            action="is_suivi_refacturation_total_frais_action"
+        />
+        <menuitem name="Cockpit" id="is_cockpit_menu" parent="is_crm_top_menu" sequence="60" />
+        <menuitem 
+            name="Prospective" 
+            id="is_prospective_menu" 
+            parent="is_cockpit_menu" 
+            sequence="10"  
+            action="is_prospective_action"
+        />
+        <menuitem name="Compte de résultat" id="is_compte_resultat_main_menu" parent="is_crm_top_menu" sequence="70" />
+        <menuitem 
+            name="Compte de résultat" 
+            id="is_compte_resultat_annee_menu" 
+            parent="is_compte_resultat_main_menu" 
+            sequence="10"  
+            action="is_compte_resultat_annee_action"
+        />
+        <menuitem 
+            name="Paramètrage CR" 
+            id="is_compte_resultat_menu" 
+            parent="is_compte_resultat_main_menu" 
+            sequence="20"  
+            action="is_compte_resultat_action"
+        />
+        <menuitem name="Bilan pédagogique" id="is_bilan_pedagogique_main_menu" parent="is_crm_top_menu" sequence="80" />
+        <menuitem 
+            name="Bilan pédagogique" 
+            id="is_bilan_pedagogique_menu" 
+            parent="is_bilan_pedagogique_main_menu" 
+            sequence="10"  
+            action="is_bilan_pedagogique_action"
+        />
+        <menuitem 
+            action="is_origine_financement_action" 
+            id="is_origine_financement_menu" 
+            parent="is_bilan_pedagogique_main_menu"
+            sequence="20"
+        />
+        <menuitem 
+            action="is_type_stagiaire_organisme_action" 
+            id="is_type_stagiaire_organisme_menu" 
+            parent="is_bilan_pedagogique_main_menu"  
+            sequence="30"
+        />
+        <menuitem 
+            action="is_typologie_stagiaire_action" 
+            id="is_typologie_stagiaire_menu" 
+            parent="is_bilan_pedagogique_main_menu"  
+            sequence="40"
+        />
+        <menuitem name="Tables"                          id="is_ventes_tables_menu"       parent="is_crm_top_menu" sequence="90"/>
+        <menuitem action="is_region_action"              id="is_region_menu"              parent="is_ventes_tables_menu"  sequence="10"/>
+        <menuitem action="is_res_partner_title_action"   id="is_res_partner_title_menu"   parent="is_ventes_tables_menu"  sequence="15"/>
+        <menuitem action="is_secteur_activite_action"    id="is_secteur_activite_menu"    parent="is_ventes_tables_menu"  sequence="20"/>
+        <menuitem action="is_typologie_action"           id="is_typologie_menu"           parent="is_ventes_tables_menu"  sequence="25"/>
+        <menuitem action="is_classification_action"      id="is_classification_menu"      parent="is_ventes_tables_menu"  sequence="30"/>
+        <menuitem name="Suivi banque et caisse" id="is_suivi_banque_caisse_menu" parent="account.menu_finance" sequence="2" />
+        <menuitem name="Suivi banque"                    id="is_suivi_banque_menu"       parent="is_suivi_banque_caisse_menu" sequence="20" action="is_suivi_banque_action"/>
+        <menuitem name="Suivi caisse"                    id="is_suivi_caisse_menu"       parent="is_suivi_banque_caisse_menu" sequence="30" action="is_suivi_caisse_action"/>
+        
+        <menuitem name="Analyses" id="is_analyses_menu" parent="account.menu_finance" sequence="3" />
+        
+        <menuitem name="Suivi des factures"              id="is_analyses_menu_10"        parent="is_analyses_menu" sequence="10" action="is_suivi_facture_action"   />
+        <menuitem name="Suivi des règlements"            id="is_analyses_menu_20"        parent="is_analyses_menu" sequence="20" action="is_suivi_reglement_action"   />
+       
+        <menuitem name="Suivi de trésorerie"             id="is_suivi_tresorerie2_menu"  parent="is_analyses_menu" sequence="30" action="is_suivi_tresorerie2_action"/>
+        <menuitem name="Lignes de factures" id="is_account_invoice_line_menu" parent="account.menu_finance_receivables" sequence="800"  action="is_account_invoice_line_action"   />
+        <menuitem   action="is_export_vente_compta_action"  id="is_export_vente_compta_menu"  parent="account.menu_finance_receivables" sequence="900"/>
+        <menuitem   action="is_export_achat_compta_action"  id="is_export_achat_compta_menu"  parent="account.menu_finance_payables"    sequence="900"/>
+    </data>
+</odoo>

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+    <!-- is.suivi.banque -->
+    <record id="is_suivi_banque_tree" model="ir.ui.view">
+        <field name="name">is.suivi.banque.tree</field>
+        <field name="model">is.suivi.banque</field>
+        <field name="arch" type="xml">
+            <list editable="top" create="true">
+                <field name="import_banque_id" widget="many2one_clickable"/>
+                <field name="ligne" />
+                <field name="date" />
+                <field name="libelle"/>
+                <field name="ref_cb"/>
+                <field name="invoice_id" widget="many2one_clickable"/>
+                <field name="debit"  sum="Total"/>
+                <field name="credit" sum="Total"/>
+                <field name="solde" />
+                <field name="commentaire" />
+            </list>
+        </field>
+    </record>
+    <record id="is_suivi_banque_form" model="ir.ui.view">
+        <field name="name">is.suivi.banque.form</field>
+        <field name="model">is.suivi.banque</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="import_banque_id" />
+                            <field name="ligne" />
+                            <field name="date" />
+                            <field name="libelle" />
+                            <field name="ref_cb"/>
+                            <field name="invoice_id"/>
+                            <field name="debit" />
+                            <field name="credit" />
+                            <field name="solde" />
+                            <field name="commentaire" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="is_suivi_banque_search" model="ir.ui.view">
+        <field name="name">is.suivi.banque.search</field>
+        <field name="model">is.suivi.banque</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="import_banque_id"/>
+                <field name="date"/>
+                <field name="libelle"/>
+                <field name="ref_cb"/>
+                <field name="invoice_id"/>
+                <group expand="0" string="Regroupé par...">
+                    <filter name="group_ref_cb" string="Réf CB" context="{'group_by':'ref_cb'}"/>
+                </group>
+           </search>
+        </field>
+    </record>
+    <record id="is_suivi_banque_action" model="ir.actions.act_window">
+        <field name="name">Suivi banque</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">is.suivi.banque</field>
+        <field name="view_mode">list,form</field>
+        <field name="limit">1000</field>
+    </record>
+
+
+    <!-- is.import.banque -->
+    <record id="is_import_banque_tree" model="ir.ui.view">
+        <field name="name">is.import.banque.tree</field>
+        <field name="model">is.import.banque</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="banque"/>
+                <field name="file_operation_ids"/>
+                <field name="file_cb_ids"/>
+            </list>
+        </field>
+    </record>
+    <record id="is_import_banque_form" model="ir.ui.view">
+        <field name="name">is.import.banque.form</field>
+        <field name="model">is.import.banque</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button
+                        name="action_importer_fichier"
+                        type="object"
+                        string="Importer fichier banque"
+                        confirm="Cela va écraser vos modifications !"
+                    />
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" />
+                            <field name="banque"/>
+                            <field name="file_operation_ids" widget="many2many_binary"/>
+                            <field name="file_cb_ids"        widget="many2many_binary" invisible="banque not in ['BP']"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="is_import_banque_search" model="ir.ui.view">
+        <field name="name">is.import.banque.search</field>
+        <field name="model">is.import.banque</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="banque"/>
+           </search>
+        </field>
+    </record>
+    <record id="is_import_banque_action" model="ir.actions.act_window">
+        <field name="name">import banque</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">is.import.banque</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="is_import_banque_search"/>
+    </record>
+
+    </data>
+</odoo>
