@@ -92,7 +92,7 @@
                                         <list string="Intervenants" editable="bottom">
                                             <field name="annee"/>
                                             <field name="associe_id"/>
-                                            <button string="Convention de sous-traitance" name="print_convention_st" type="object" icon="fa-print" />
+                                            <button title="Convention de sous-traitance" name="print_convention_st" type="object" icon="fa-print" />
                                             <field name="sous_traitant_id"/>
                                             <field name="duree_mission"/>
                                             <field name="condition_financiere"/>

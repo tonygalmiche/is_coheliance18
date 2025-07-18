@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <template id="is_external_layout_standard" name="is_external_layout_standard" inherit_id="web.external_layout_standard">
-        <div  t-att-style="report_header_style" position="replace">
-            <div t-attf-class="header o_company_#{company.id}_layout" t-att-style="report_header_style">
+        <xpath expr="//div[@t-attf-class='header o_company_#{company.id}_layout']" position="replace">
+            <div t-attf-class="header o_company_#{company.id}_layout">
                 <div class="row">
                     <div class="col-5">
                         <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" alt="Logo" style="max-height: 100px;"/>
                     </div>
-                </div>
+                </div>           
             </div>
-        </div>
-        <div  t-attf-class="footer o_standard_footer o_company_#{company.id}_layout" position="replace">
-            <div t-attf-class="footer o_standard_footer o_company_#{company.id}_layout">
-                <div class="row" style="color:#AF1376; text-align:center" >
+        </xpath>
+        <xpath expr="//t[@t-call='web.address_layout']" position="replace">
+            <!-- rien ici, donc le bloc est supprimé -->
+        </xpath>
+        <xpath expr="//div[contains(@t-attf-class, 'footer o_company_')]" position="replace">
+            <div t-attf-class="footer o_company_#{company.id}_layout {{report_type != 'pdf' and 'mt-auto'}}">
+               <div class="row" style="color:#AF1376; text-align:center" >
                     <div class="col-12">
                         <div>SAS Coheliance - 170 avenue Jean Jaurès - 21 000 DIJON</div>
                         <div>au capital de 14 940 €  - RCS de Dijon 433 903 010 000 34 – APE 7022Z</div>
@@ -21,20 +24,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-
-
-        <div t-attf-class="article o_report_layout_standard o_company_#{company.id}_layout" position="replace">
-            <div t-attf-class="article o_report_layout_standard o_company_#{company.id}_layout"  t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
-                <!-- <div class="pt-5">
-                    <t t-call="web.address_layout"/>
-                </div> -->
-                <t t-raw="0"/>
-            </div>
-        </div>
-
-
-
-
+        </xpath>
     </template>
 </odoo>

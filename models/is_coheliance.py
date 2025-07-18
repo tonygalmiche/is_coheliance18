@@ -269,7 +269,7 @@ class is_affaire_intervenant(models.Model):
 
     def print_convention_st(self):
         for obj in self:
-            report=self.env.ref('is_coheliance14.report_conventions_st')
+            report=self.env.ref('is_coheliance18.report_conventions_st')
             return report.report_action([obj.id])
 
 
