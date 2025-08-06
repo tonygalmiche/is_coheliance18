@@ -43,7 +43,8 @@ class ResPartner(models.Model):
 class res_company(models.Model):
     _inherit = 'res.company'
 
-    taux_km = fields.Float("Taux indemnité kilométrique ", required=False)
+    taux_km             = fields.Float("Taux indemnité kilométrique ", required=False)
+    is_company_registry = fields.Char("Registre de la société")
 
 
 class is_region(models.Model):

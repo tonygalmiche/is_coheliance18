@@ -10,6 +10,9 @@
                 <field name="website" position="after">
                     <field name="taux_km" />
                 </field>
+                <field name="company_registry" position="after">
+                    <field name="is_company_registry"/>
+                </field>
             </field>
         </record>   
 

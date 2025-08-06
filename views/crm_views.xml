@@ -79,4 +79,34 @@
             </field>
         </field>
     </record>
+
+
+
+
+    <!-- mail.activity -->
+    <record id="is_mail_activiy_list" model="ir.ui.view">
+        <field name="name">is_mail_activiy_list</field>
+        <field name="model">mail.activity</field>
+        <field name="arch" type="xml">
+            <list default_order="date_deadline desc">
+                <field name="date_deadline"                    class="full-date"/>
+                <field name="activity_type_id" optional="show"/>
+                <field name="user_id"          optional="show" widget="many2one_avatar_user"/>
+                <field name="is_partner_id"    optional="show" widget="many2one_clickable"/>
+                <field name="summary"          optional="show" class="min-width-500"/>
+                <field name="note"             optional="hide"/>
+                <field name="date_done"        optional="show" class="full-date"/>
+                <field name="active"           optional="hide" />
+            </list>
+        </field>
+    </record>
+    <record id="is_mail_activiy_action" model="ir.actions.act_window">
+        <field name="name">Activités</field>
+        <field name="res_model">mail.activity</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_id" ref="is_mail_activiy_list"/>
+        <field name="domain">[('active','in',[True,False])]</field>
+    </record>
+
+
 </odoo>

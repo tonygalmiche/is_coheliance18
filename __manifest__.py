@@ -41,7 +41,7 @@ InfoSaône - Module Odoo 18 pour Coheliance
     "data" : [
         "security/ir.model.access.csv",
         # "views/assets.xml",
-        "views/crm_lead_views.xml", 
+        "views/crm_views.xml", 
         "views/product_view.xml", 
         "views/res_partner_view.xml", 
         "views/sale_view.xml",

@@ -10,24 +10,24 @@
                     <field name="name" />
                     <field name="affaire_parent_id"  optional="show" widget="many2one_clickable"/>
                     <field name="version"            optional="show"/>
-                    <field name="client_id"          optional="show"/>
+                    <field name="client_id"          optional="show" widget="many2one_clickable"/>
                     <field name="intitule"           optional="show"/>
                     <field name="date_debut"         optional="show"/>
                     <field name="date_fin"           optional="show"/>
                     <field name="date_relance"       optional="show"/>
-                    <field name="pilote_id"          optional="show"/>
+                    <field name="pilote_id"          optional="show" widget="many2one_avatar_user"/>
                     <field name="structure"          optional="show"/>
                     <field name="article_id"         optional="show"/>
                     <field name="total_budget_prevu" optional="show" sum="Total" />
                     <field name="date_validation"    optional="show"/>
                     <field name="date_solde"         optional="show"/>
-                    <field name="origine_financement_id"      invisible="context.get('formation',True)"/>
-                    <field name="type_stagiaire_organisme_id" invisible="context.get('formation',True)"/>
-                    <field name="typologie_stagiaire_id"      invisible="context.get('formation',True)"/>
+                    <field name="origine_financement_id"      optional="hide"/>
+                    <field name="type_stagiaire_organisme_id" optional="hide"/>
+                    <field name="typologie_stagiaire_id"      optional="hide"/>
                     <field name="resultat_net"       optional="show" sum="Total"/>
                     <field name="nb_stagiaire"       optional="hide" sum="Total"/>
                     <field name="nb_stagiaire_visio" optional="hide" sum="Total"/>
-                    <field name="state" optional="show"/>
+                    <field name="state" optional="show" widget="badge"  decoration-info="state == 'en_attente'" decoration-success="state == 'valide'"/>
                 </list>
             </field>
         </record>

@@ -37,3 +37,28 @@
     --fieldWidget-margin-bottom: 1px;
 }
 
+
+/* Pour changer la couleur de la barre de menus en haut */
+.o_main_navbar {    
+    background-color:#CF007F;
+}
+.o_main_navbar .o_menu_sections .dropdown-toggle {
+    background-color:#CF007F;
+}
+
+
+//Permet d'afficher sur plususrs lignes dans une vue liste un champ de typ char
+.min-width-500 {
+    white-space: normal !important;
+    word-break: break-word;
+    min-width: 500px !important; /* Ajuste la valeur selon tes besoins */
+    max-width: 800px; /* Ajuste selon tes besoins */
+}
+
+
+//Permet d'afficher la date en entier dans la vue list
+.o_list_table .full-date {
+    white-space: nowrap !important;
+    overflow: visible !important;
+    text-overflow: unset !important;
+}
