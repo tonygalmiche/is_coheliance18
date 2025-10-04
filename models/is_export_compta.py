@@ -79,7 +79,7 @@ class is_export_compta(models.Model):
                     sql="""
                         SELECT  
                             am.invoice_date,
-                            aa.code, 
+                            aa.code_store->>'1', 
                             am.name, 
                             rp.name, 
                             aml.name,
@@ -96,8 +96,8 @@ class is_export_compta(models.Model):
                                                    inner join account_account aa             on aml.account_id=aa.id
                                                    inner join res_partner rp                 on am.partner_id=rp.id
                         WHERE am.id="""+str(invoice.id)+"""
-                        GROUP BY am.invoice_date, am.name, rp.name, aml.name, aa.code, am.move_type, am.invoice_date_due, rp.is_code_fournisseur,am.is_nom_fournisseur,aml.account_id,am.is_affaire_id,am.id
-                        ORDER BY am.invoice_date, am.name, rp.name, aml.name, aa.code, am.move_type, am.invoice_date_due, rp.is_code_fournisseur,am.is_nom_fournisseur,aml.account_id,am.is_affaire_id,am.id
+                        GROUP BY am.invoice_date, am.name, rp.name, aml.name, aa.code_store, am.move_type, am.invoice_date_due, rp.is_code_fournisseur,am.is_nom_fournisseur,aml.account_id,am.is_affaire_id,am.id
+                        ORDER BY am.invoice_date, am.name, rp.name, aml.name, aa.code_store, am.move_type, am.invoice_date_due, rp.is_code_fournisseur,am.is_nom_fournisseur,aml.account_id,am.is_affaire_id,am.id
                     """
                     cr.execute(sql)
                     for row in cr.fetchall():

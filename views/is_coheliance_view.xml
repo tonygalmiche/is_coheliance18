@@ -38,7 +38,7 @@
                 <form>
                     <header>
                         <button name="action_generer_commande" type="object" string="Générer Commande" class="oe_highlight" />
-                        <field name="state" widget="statusbar" clickable="1"/>
+                        <field name="state" widget="statusbar" options="{'clickable': 1}"/>
                     </header>
                     <sheet>
                         <group>

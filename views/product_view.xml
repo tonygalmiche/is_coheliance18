@@ -22,6 +22,8 @@
                     <field name="is_type_frais"/>
                     <field name="sale_ok"/>
                     <field name="purchase_ok"/>
+                    <field name="property_account_income_id"  optional="hide"/>
+                    <field name="property_account_expense_id" optional="hide"/>
                 </list>
             </field>
         </record>

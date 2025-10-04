@@ -207,13 +207,24 @@ class IsAffaire(models.Model):
                 'partner_id': obj.client_id.id,
                 'origin': obj.name,
                 'order_line': lines,
-                'picking_policy': 'direct',
+                # 'picking_policy': 'direct',
                 'affaire_id': obj.id,
-                'warehouse_id':1,
+                #'warehouse_id':1,
                 'invoice_status': 'to invoice',
             }
+            
             new_id = self.env['sale.order'].create(vals)
             obj.order_id=new_id.id
+
+            res= {
+                'name': 'Commande',
+                'view_mode': 'form',
+                'view_type': 'form',
+                'res_model': 'sale.order',
+                'res_id': new_id.id,
+                'type': 'ir.actions.act_window',
+            }
+            return res
 
 
 

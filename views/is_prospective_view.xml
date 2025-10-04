@@ -20,7 +20,7 @@
                     <header>
                         <button name="action_recalculer"    type="object" string="Recalculer"  invisible="state!='en_cours'"/>
                         <button name="action_detail_lignes" type="object" string="Détail des lignes" class="oe_highlight" />
-                        <field name="state" widget="statusbar"  clickable="True" />
+                        <field name="state" widget="statusbar" options="{'clickable': 1}"/>
                     </header>
                     <sheet>
                         <group>

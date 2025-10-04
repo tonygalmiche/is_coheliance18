@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <menuitem id="is_crm_top_menu" sequence="0" name="CRM"/>
+        <menuitem id="is_crm_top_menu" sequence="0" name="Coheliance"/>
         <menuitem id="is_crm_menu" name="CRM" parent="is_crm_top_menu" sequence="10"/>
         <menuitem id="is_crm_client_menu"              name="Clients"              parent="is_crm_menu" sequence="10" action="is_view_partner_crm_action"/>
         <menuitem id="is_affaire_menu"                 name="Affaires"             parent="is_crm_menu" sequence="20" action="is_affaire_action"/>
@@ -110,5 +110,17 @@
         <menuitem name="Lignes de factures" id="is_account_invoice_line_menu" parent="account.menu_finance_receivables" sequence="800"  action="is_account_invoice_line_action"   />
         <menuitem   action="is_export_vente_compta_action"  id="is_export_vente_compta_menu"  parent="account.menu_finance_receivables" sequence="900"/>
         <menuitem   action="is_export_achat_compta_action"  id="is_export_achat_compta_menu"  parent="account.menu_finance_payables"    sequence="900"/>
+
+
+
+
+        <!-- Masquer les menus de base inutilisés -->
+        <menuitem id="spreadsheet_dashboard.spreadsheet_dashboard_menu_root" parent="base.menu_custom"/>
+        <menuitem id="mail.menu_root_discuss" parent="base.menu_custom"/>
+        <menuitem id="utm.menu_link_tracker_root" parent="base.menu_custom"/>
+        <menuitem id="calendar.mail_menu_calendar" parent="base.menu_custom"/>
+        <menuitem id="contacts.menu_contacts" parent="base.menu_custom"/>
+
+
     </data>
 </odoo>

@@ -14,6 +14,57 @@ class AccountMove(models.Model):
     _inherit = 'account.move'
 
 
+    def _get_custom_sequence_number(self):
+        """
+        Génère le numéro de séquence personnalisé : AA-MM-NNNN
+        où AA = année sur 2 chiffres, MM = mois sur 2 chiffres, NNNN = numéro chronologique continu
+        """
+        self.ensure_one()
+
+
+
+        invoice_date = self.invoice_date or fields.Date.context_today(self)
+        year = invoice_date.strftime('%y')  # Année sur 2 chiffres
+        month = invoice_date.strftime('%m')  # Mois sur 2 chiffres
+        domain=[
+            ('move_type', '=' , self.move_type),
+            ('id', '!=' , self.id),
+            ('state', '=' , 'posted'),
+        ]
+        invoices = self.env['account.move'].search(domain, order="id desc", limit=1)
+        print('TEST 1',invoices)
+        next_number = 1
+        for invoice in invoices:
+            print('TEST 2',invoice)
+
+
+            next_number = invoice.sequence_number + 1
+
+        print('TEST 3',next_number)
+
+        if self.move_type=='out_invoice':
+            custom_number = f"{year}-{month}-{str(next_number).zfill(4)}"
+        else:
+            custom_number = str(next_number).zfill(5)
+        return custom_number
+
+
+    def _set_next_sequence(self):
+        """
+        Surcharge de la méthode qui attribue le prochain numéro de séquence.
+        Cette méthode est appelée lors de la validation de la facture (passage à l'état 'posted').
+        """
+        self.ensure_one()
+        # Appliquer la numérotation personnalisée uniquement pour les factures clients
+        if self.move_type in ('out_invoice','in_invoice'):
+            sequence = self._get_custom_sequence_number()
+            self.with_context(clear_sequence_mixin_cache=False)[self._sequence_field] = sequence
+            self._compute_split_sequence()
+        else:
+            # Pour les autres types de documents, utiliser la séquence standard
+            super(AccountMove, self)._set_next_sequence()
+
+
     @api.depends('invoice_date','amount_total','partner_id')
     def _compute_is_msg_err(self):
         for obj in self:

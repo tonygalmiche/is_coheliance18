@@ -84,6 +84,18 @@
 
 
     <!-- mail.activity -->
+    <record id="is_mail_activity_view_form_popup" model="ir.ui.view" >
+        <field name="name">is_mail_activity_view_form_popup</field>
+        <field name="model">mail.activity</field>
+        <field name="inherit_id" ref="mail.mail_activity_view_form_popup"/>
+        <field name="arch" type="xml">
+            <field name="user_id" position="after">
+                <field name="res_model_id" string="Modèle"/>
+                <field name="res_id" string="Document"/>
+            </field>
+        </field>
+    </record>
+
     <record id="is_mail_activiy_list" model="ir.ui.view">
         <field name="name">is_mail_activiy_list</field>
         <field name="model">mail.activity</field>
@@ -96,6 +108,8 @@
                 <field name="summary"          optional="show" class="min-width-500"/>
                 <field name="note"             optional="hide"/>
                 <field name="date_done"        optional="show" class="full-date"/>
+                <field name="res_model_id"     optional="show" string="Modèle" />
+                <field name="res_id"           optional="show" string="Document"/>
                 <field name="active"           optional="hide" />
             </list>
         </field>
