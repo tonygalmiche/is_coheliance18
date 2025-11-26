@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     "name" : "InfoSaône - Module Odoo 18 pour Coheliance",
-    "version" : "0.1",
+    "version" : "18.0.1.0.0",
     "author" : "InfoSaône / Tony Galmiche",
     "category" : "InfoSaône",
     "description": """

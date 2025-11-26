@@ -15,8 +15,7 @@ class CrmLead(models.Model):
 class mail_activity(models.Model):
     _inherit = 'mail.activity'
 
-    is_partner_id          = fields.Many2one('res.partner', 'Partenaire', compute='_compute_is_partner_id', readonly=True, store=True)
-  
+    is_partner_id = fields.Many2one('res.partner', 'Partenaire', compute='_compute_is_partner_id', readonly=True, store=True)
 
     @api.depends('res_model','res_id')
     def _compute_is_partner_id(self):

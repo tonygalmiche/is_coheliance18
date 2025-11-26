@@ -89,9 +89,13 @@
         <field name="model">mail.activity</field>
         <field name="inherit_id" ref="mail.mail_activity_view_form_popup"/>
         <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="attributes">
+                <attribute name="invisible">0</attribute>
+            </xpath>
             <field name="user_id" position="after">
                 <field name="res_model_id" string="Modèle"/>
                 <field name="res_id" string="Document"/>
+                <field name="active"/>
             </field>
         </field>
     </record>
@@ -105,8 +109,8 @@
                 <field name="activity_type_id" optional="show"/>
                 <field name="user_id"          optional="show" widget="many2one_avatar_user"/>
                 <field name="is_partner_id"    optional="show" widget="many2one_clickable"/>
-                <field name="summary"          optional="show" class="min-width-500"/>
-                <field name="note"             optional="hide"/>
+                <field name="summary"          optional="show"/>
+                <field name="note"             optional="show"/>
                 <field name="date_done"        optional="show" class="full-date"/>
                 <field name="res_model_id"     optional="show" string="Modèle" />
                 <field name="res_id"           optional="show" string="Document"/>
@@ -114,6 +118,22 @@
             </list>
         </field>
     </record>
+
+    <record id="is_mail_activity_view_search" model="ir.ui.view" >
+        <field name="name">is_mail_activity_view_search</field>
+        <field name="model">mail.activity</field>
+        <field name="inherit_id" ref="mail.mail_activity_view_search"/>
+        <field name="arch" type="xml">
+            <field name="summary" position="after">
+                <field name="note"/>
+                <field name="is_partner_id"/>
+            </field>
+        </field>
+    </record>
+
+
+
+
     <record id="is_mail_activiy_action" model="ir.actions.act_window">
         <field name="name">Activités</field>
         <field name="res_model">mail.activity</field>

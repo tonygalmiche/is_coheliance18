@@ -24,25 +24,28 @@ class AccountMove(models.Model):
 
 
         invoice_date = self.invoice_date or fields.Date.context_today(self)
-        year = invoice_date.strftime('%y')  # Année sur 2 chiffres
+        year = invoice_date.strftime('%y')   # Année sur 2 chiffres
         month = invoice_date.strftime('%m')  # Mois sur 2 chiffres
+        
+        # Pour les factures et avoirs clients, utiliser une séquence commune
+        # Pour les factures et avoirs fournisseurs, utiliser une séquence commune
+        if self.move_type in ('out_invoice', 'out_refund'):
+            move_types = ['out_invoice', 'out_refund']
+        elif self.move_type in ('in_invoice', 'in_refund'):
+            move_types = ['in_invoice', 'in_refund']
+        else:
+            move_types = [self.move_type]
+        
         domain=[
-            ('move_type', '=' , self.move_type),
+            ('move_type', 'in', move_types),
             ('id', '!=' , self.id),
             ('state', '=' , 'posted'),
         ]
         invoices = self.env['account.move'].search(domain, order="id desc", limit=1)
-        print('TEST 1',invoices)
         next_number = 1
         for invoice in invoices:
-            print('TEST 2',invoice)
-
-
             next_number = invoice.sequence_number + 1
-
-        print('TEST 3',next_number)
-
-        if self.move_type=='out_invoice':
+        if self.move_type in ['out_invoice','out_refund']:
             custom_number = f"{year}-{month}-{str(next_number).zfill(4)}"
         else:
             custom_number = str(next_number).zfill(5)
@@ -55,8 +58,8 @@ class AccountMove(models.Model):
         Cette méthode est appelée lors de la validation de la facture (passage à l'état 'posted').
         """
         self.ensure_one()
-        # Appliquer la numérotation personnalisée uniquement pour les factures clients
-        if self.move_type in ('out_invoice','in_invoice'):
+        # Appliquer la numérotation personnalisée uniquement pour les factures et avoirs clients/fournisseurs
+        if self.move_type in ('out_invoice', 'in_invoice', 'out_refund', 'in_refund'):
             sequence = self._get_custom_sequence_number()
             self.with_context(clear_sequence_mixin_cache=False)[self._sequence_field] = sequence
             self._compute_split_sequence()
@@ -115,6 +118,21 @@ class AccountMove(models.Model):
                 'type': 'ir.actions.act_window',
             }
             return res
+
+
+    def action_voir_lignes(self):
+        self.ensure_one()
+        tree_view_id = self.env.ref('is_coheliance18.is_account_move_line_tree').id
+        return {
+            'name': 'Lignes',
+            'type': 'ir.actions.act_window',
+            'res_model': 'account.move.line',
+            'view_mode': 'list,form',
+            'views': [(tree_view_id, 'list'), (False, 'form')],
+            'domain': [('move_id', '=', self.id), ('display_type', '=', 'product')],
+            'context': {'move_id': self.id},
+            'limit': 1000,
+        }
 
 
 class AccountMoveLine(models.Model):
