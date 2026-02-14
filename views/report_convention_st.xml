@@ -120,7 +120,7 @@
                     </tr>
                     <tr>
                         <td>SIRET ou RCS       </td>
-                        <td><span t-field="res_company.company_registry"/></td>
+                        <td><span t-field="res_company.is_company_registry"/></td>
                         <td><span t-field="o.sous_traitant_id.parent_id.is_siret"/></td>
                     </tr>
                     <tr>

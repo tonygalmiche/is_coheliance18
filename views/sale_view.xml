@@ -9,6 +9,11 @@
                 <xpath expr="//field[@name='validity_date']" position="before">
                     <field name="affaire_id"/>
                 </xpath>
+                <!-- Utilise section_and_note_one2many pour séparer les colonnes articles et description -->
+                <!-- tout en gardant le bon affichage des sections et notes -->                
+                 <xpath expr="//field[@name='order_line']" position="attributes">
+                    <attribute name="widget">section_and_note_one2many</attribute>
+                </xpath>
              </field>
         </record>
     </data>

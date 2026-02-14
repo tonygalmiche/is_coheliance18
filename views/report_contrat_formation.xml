@@ -126,7 +126,7 @@
                 <table style="width:100%">
                     <tr><th>                   </th><th>Le Stagiaire       </th><th>Organisme de formation</th></tr>
                     <tr><td>NOM et Prénom     </td><td><strong><span t-field="o.client_id.title"/> <span t-field="o.client_id.is_prenom"/> <span t-field="o.client_id.name"/></strong></td><td><strong><span t-field="res_company.name"/></strong></td></tr>
-                    <tr><td>SIRET ou RCS       </td><td><span t-field="o.client_id.is_siret"/></td><td><span t-field="res_company.company_registry"/></td></tr>
+                    <tr><td>SIRET ou RCS       </td><td><span t-field="o.client_id.is_siret"/></td><td><span t-field="res_company.is_company_registry"/></td></tr>
                     <tr>
                         <td>Adresse            </td>
                         <td><span t-field="o.client_id.street"/> <span t-field="o.client_id.street2"/> <span t-field="o.client_id.is_bp"/></td>

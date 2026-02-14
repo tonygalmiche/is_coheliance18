@@ -91,6 +91,9 @@
                 <xpath expr="//field[@name='invoice_date']" position="after">
                     <field name="order_id" />
                 </xpath>
+
+
+
                 <xpath expr="//group[@id='header_left_group']" position="inside">
                     <field name="is_affaire_id" />
                     <field name="is_msg_err" readonly="1"  invisible="is_msg_err==False" style="background:orange" />
@@ -100,6 +103,23 @@
                     <field name="invoice_origin"           invisible="move_type in ['out_invoice','out_refund']"/>
                     <field name="supplier_invoice_number"  invisible="move_type in ['out_invoice','out_refund']"/>
                 </xpath>
+
+                <!-- Pour séparer les artciles des descriptions -->
+                <!-- <xpath expr="//field[@name='invoice_line_ids']" position="attributes">
+                    <attribute name="widget"></attribute>
+                </xpath> -->
+
+
+                <!-- Utilise section_and_note_one2many pour séparer les colonnes articles et description -->
+                <!-- tout en gardant le bon affichage des sections et notes -->                
+                 <xpath expr="//field[@name='invoice_line_ids']" position="attributes">
+                    <attribute name="widget">section_and_note_one2many</attribute>
+                </xpath>
+
+
+
+
+
                 <!-- <xpath expr="/form/sheet/notebook/page[@id='invoice_tab']/field[@name='invoice_line_ids']/tree/field[@name='quantity']" position="before">
                     <field name="is_affaire_id"/>
                 </xpath> -->
