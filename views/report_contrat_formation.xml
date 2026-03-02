@@ -120,8 +120,8 @@
         <div class="page">
 
 
-            <div class="row titre">CONTRAT DE FORMATION PROFESSIONNELLE n°<span t-field="o.name"/></div>
-            <div class="row sous-titre">(art. L6353-3 à L6353-7 du Code du Travail)</div>
+            <div class="titre">CONTRAT DE FORMATION PROFESSIONNELLE n°<span t-field="o.name"/></div>
+            <div class="sous-titre">(art. L6353-3 à L6353-7 du Code du Travail)</div>
             <div class="row">
                 <table style="width:100%">
                     <tr><th>                   </th><th>Le Stagiaire       </th><th>Organisme de formation</th></tr>

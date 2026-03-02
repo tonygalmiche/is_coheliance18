@@ -16,16 +16,16 @@
             </field>
         </field>
     </record>
-    <!-- <record id="is_crm_case_kanban_view_leads" model="ir.ui.view" >
+    <record id="is_crm_case_kanban_view_leads" model="ir.ui.view" >
         <field name="name">is_crm_case_kanban_view_leads</field>
         <field name="model">crm.lead</field>
         <field name="inherit_id" ref="crm.crm_case_kanban_view_leads"/>
         <field name="arch" type="xml">
-            <xpath expr="//div[@class='o_kanban_record_subtitle']" position="after">
+            <field name="partner_id" position="after">
                 <field name="affaire_id"/>
-            </xpath>
+            </field>
         </field>
-    </record> -->
+    </record>
     <record id="is_crm_lead_view_form" model="ir.ui.view" >
         <field name="name">is_crm_lead_view_form</field>
         <field name="model">crm.lead</field>
@@ -38,17 +38,20 @@
                     }
                 </style>
             </xpath>
-            <field name="team_id" position="after">
+            <!-- <field name="team_id" position="after">
                 <field name="affaire_id"/>
-            </field>
-            <!-- <group name="opportunity_info" position="before">
+            </field> -->
+            <group name="lead_priority" position="after">
                 <group>
                     <field name="amene_par_id"/>
-                    <field name="realisee_id"/>
                     <field name="produit_cree_par_id"/>
+                    <field name="affaire_id"/>
+                </group>
+                <group>
+                    <field name="realisee_id"/>
                     <field name="encadrement_par_id"/>
                 </group>
-            </group> -->
+            </group>
         </field>
     </record>
     <record id="is_crm_case_tree_view_oppor" model="ir.ui.view" >

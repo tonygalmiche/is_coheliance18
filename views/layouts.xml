@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <template id="is_external_layout_standard" name="is_external_layout_standard" inherit_id="web.external_layout_standard">
-        <xpath expr="//div[@t-attf-class='header o_company_#{company.id}_layout']" position="replace">
+        <!-- <xpath expr="//div[@t-attf-class='header o_company_#{company.id}_layout']" position="replace">
             <div t-attf-class="header o_company_#{company.id}_layout">
                 <div class="row">
                     <div class="col-5">
@@ -9,7 +9,44 @@
                     </div>
                 </div>           
             </div>
+        </xpath> -->
+
+
+
+        <xpath expr="//div[@t-attf-class='header o_company_#{company.id}_layout']" position="replace">
+            <div t-attf-class="header o_company_#{company.id}_layout">
+                <div class="row">
+                    <div class="col-8">
+                        <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" alt="Logo" style="max-height:25mm;"/>
+                    </div>
+                    <div class="col-4 text-right">
+                        <t t-set="test" t-value="à"/>
+                        <t t-if="o and 'structure' in o._fields">    
+                            <t t-if="o.structure=='campus_at'">
+                                <t t-set="test" t-value="1"/>
+                            </t>
+                        </t>
+                        <t t-if="o and 'affaire_id' in o._fields">    
+                            <t t-if="o.affaire_id.structure=='campus_at'">
+                                <t t-set="test" t-value="1"/>
+                            </t>
+                        </t>
+                        <t t-if="o and 'is_affaire_id' in o._fields">    
+                            <t t-if="o.is_affaire_id.structure=='campus_at'">
+                                <t t-set="test" t-value="1"/>
+                            </t>
+                        </t>
+                        <t t-if="test">    
+                            <img t-att-src="'/is_coheliance18/static/img/logo-campus-at.png'" style="max-height:25mm;"/>
+                        </t>
+                    </div>
+                </div>
+            </div>
         </xpath>
+
+
+
+
         <xpath expr="//t[@t-call='web.address_layout']" position="replace">
             <!-- rien ici, donc le bloc est supprimé -->
         </xpath>

@@ -198,14 +198,14 @@
                         <td style="padding:5mm"  width="50%">
                             <div class="titre1">CONTEXTE</div>
                             <p class="texte">
-                                La société <span t-field="res_company.name"/> a été retenue comme Prestataire dans le cadre d’une mission
-                                qui sera menée pour la Société <span t-field="o.affaire_id.client_id.name"/> à <span t-field="o.affaire_id.client_id.city"/> sur le thème :
+                                La société <span t-field="res_company.name"/>&#160;a été retenue comme Prestataire dans le cadre d'une mission
+                                qui sera menée pour la Société <span t-field="o.affaire_id.client_id.name"/>&#160;à <span t-field="o.affaire_id.client_id.city"/>&#160;sur le thème :
                             </p>
                             <div class="intitule" t-field="o.affaire_id.intitule" />
                             <p class="texte">
                                 Le présent document est établi pour fixer les modalités d’intervention et fonctionnement 
-                                entre <span t-field="res_company.name"/>, « le prestataire » et 
-                                <span t-field="o.sous_traitant_id.parent_id.name"/>, « le sous-traitant ».
+                                entre <span t-field="res_company.name"/>,&#160;« le prestataire » et 
+                                <span t-field="o.sous_traitant_id.parent_id.name"/>,&#160;« le sous-traitant ».
                             </p>
                         </td>
                         <td  style="padding:5mm">
@@ -239,8 +239,8 @@
                                     L’intervenant(e) est <span t-field="o.sous_traitant_id.title"/> <span t-field="o.sous_traitant_id.is_prenom"/> <span t-field="o.sous_traitant_id.name"/>. 
                                     Il (ou Elle)  animera :   <p class="texte" t-field="o.duree_mission" /></li>
                                     <li>dans le respect des règles déontologiques et professionnelles des formateurs/consultants/coachs</li>
-                                    <li>dans le respect des conditions générales de prestations spécifiques à la société <span t-field="res_company.name"/> 
-                                    et acceptées par le Client (et notamment les dates, heures et lieux d’intervention qui sont déterminées par le Client).</li>
+                                    <li>dans le respect des conditions générales de prestations spécifiques à la société <t t-esc="' '"/><span t-field="res_company.name"/><t t-esc="' '"/> et acceptées par le Client (et notamment les dates, heures et lieux d'intervention qui sont déterminées par le Client).</li>
+                                    <li>dans le respect de la charte qualité dans le cadre d'une action de formation jointe au présent contrat</li>
                                 </ul>
                                 Statut de l’exécutant : Le ou les Intervenant(e)s affecté(e)s à l’exécution de la mission sont des intervenants 
                                 agissant pour le compte de <span t-field="res_company.name"/>.
@@ -282,11 +282,10 @@
                                 Par ailleurs, le sous-traitant s’engage :
                                 <ul>
                                     <li>à ne pas entrer en contact ultérieurement avec le client sans une autorisation préalable et expresse du donneur d’ordre et 
-                                    ce pendant un minimum de 24 mois à compter de la fin de la mission.</li>
+                                    ce pendant un minimum de 36 mois à compter de la fin de la mission.</li>
                                     <li>à ne pas diffuser à l’extérieur ou à un membre de son réseau les coordonnées d’un des membres du comité exécutif, sans l’autorisation 
                                     préalable et expresse du donneur d’ordre</li>
-                                    <li>à intégrer dans ses échanges avec le client <span t-field="o.affaire_id.client_id.name"/> (mise en copie des mails, etc…), le représentant (pilote) de <span t-field="res_company.name"/> 
-                                    en charge du dossier.</li>
+                                    <li>à intégrer dans ses échanges avec le client <span t-field="o.affaire_id.client_id.name"/> (mise en copie des mails, etc…), le représentant (pilote) de <span t-field="res_company.name"/>&#160;en charge du dossier.</li>
 
                                 </ul>
                                 <div class="titre1">CLAUSE DE PROTECTION DES DONNÉES PERSONNELLES</div>
@@ -303,7 +302,8 @@
                     </tr>
                 </table>
             </div>
-            <div style="page-break-before:always"/>
+            <!-- <div style="page-break-before:always"/> -->
+            <br />
             <div class="row">
                 <table style="width:100%">
                     <tr><th>Durée de la mission</th></tr>
@@ -336,7 +336,7 @@
                             <div class="contrat">
 
                                 <b>L’intervention du sous-traitant sera rémunérée sur la base de :</b><br />
-                                <span t-field="o.condition_financiere"/> 
+                                <span t-field="o.condition_financiere"/>&#160;
                                 <br />
                                 Les honoraires de l’intervention seront versés à réception du règlement par <span t-field="o.affaire_id.client_id.name"/> selon le plan de financement prévu avec le client final.
 
@@ -361,8 +361,7 @@
                                 A l’égard du Client,  la société <span t-field="res_company.name"/>  demeure seule responsable.
                                 <br />
                                 En revanche, pour répondre des conséquences de tout manquement, de toute erreur ou faute commise dans le cadre des ses interventions, 
-                                <span t-field="o.sous_traitant_id.parent_id.name"/> s’engage à justifier à l’égard de <span t-field="res_company.name"/> 
-                                de la souscription d’un contrat d’assurance garantissant sa responsabilité civile.
+                                <span t-field="o.sous_traitant_id.parent_id.name"/>&#160;s'engage à justifier à l'égard de <span t-field="res_company.name"/>&#160;de la souscription d'un contrat d'assurance garantissant sa responsabilité civile.
                             </div>
                         </td>
                     </tr>
@@ -397,11 +396,11 @@
                             <div class="contrat">
 
                                 En cas de litige entre les parties, l’article « Droit applicable et attribution de compétence – Interprétation du contrat » 
-                                des conditions générales de prestations de la société <span t-field="res_company.name"/> sera applicable.
+                                des conditions générales de prestations de la société <span t-field="res_company.name"/>&#160;sera applicable.
                                 <br />
                                 La loi du présent contrat est la loi française. Les litiges relatifs à la formation, l’interprétation et l’exécution des commandes, même 
                                 en cas d’appel en garantie, de pluralité de défendeurs ou de connexité, sont  soumis à la compétence exclusive du Tribunal de Commerce de Dijon, 
-                                lieu du siège social de <span t-field="res_company.name"/>. Le présent contrat contient tous les engagements des parties ; 
+                                lieu du siège social de <span t-field="res_company.name"/>.&#160;Le présent contrat contient tous les engagements des parties ;
                                 les correspondances, offres ou propositions antérieures à la présente commande sont considérées comme non avenues et ne peuvent être utilisées 
                                 pour l’interprétation du contrat.
 
@@ -489,49 +488,17 @@
                 </div>
             </div>
 
-            <div style="page-break-before:always"/>
             <div class="row">
                 <table style="width:100%">
-                    <tr><th>SUIVI ADMINISTRATIF A RESPECTER</th></tr>
-                    <tr>
+                    <!-- <tr>
                         <td style="padding:5mm">
-                            <div class="contrat">
-                                <div style="text-align:center"><b>(dans le cadre UNIQUEMENT d'une action de FORMATION)</b></div>
-
-                                <div class="titre1">Avant le démarrage de l’action de formation, le sous-traitant devra effectuer 
-                                les démarches suivantes auprès de <span t-field="res_company.name"/> :</div>
-
-                                <ul>
-                                    <li>Fournir la copie de sa déclaration d’activité de formateur (le document ne sera demandé qu’une seule fois, le numéro sera ensuite clairement indiqué dans la convention de sous-traitance) ainsi qu'un CM mis à jour (détaillant le parcours de formation individuel)</li>
-                                    <li>Retourner un exemplaire de la convention de sous-traitance dûment signé ainsi que la charte qualité signée</li>
-                                    <li>Prévenir, minimum 15 jours avant le démarrage de l’action, de ses besoins en matériel pédagogique (vidéoprojecteur, caméra…) et en documentation ou support pédagogique (pour reprographie)</li>
-                                    <li>Faire parvenir son déroulé pédagogique (dans lequel figurent les pré-requis de la formation, les objectifs généraux et, pour chaque étape de la formation, l’objectif pédagogique recherché) et le questionnaire d'évaluation des acquis</li>
-                                </ul>
-
-
-                                <div class="titre1">Pendant la formation</div>
-
-                                Dans le cadre de la démarche qualité, nous rappelons que le sous-traitant doit prévoir de rassembler les attentes de chaque participant en début de formation et de vérifier qu’elles soient bien compatibles avec les objectifs pédagogiques. 
-                                <br />
-                                Il doit également en se présentant, indiquer le nom et les coordonnées de son superviseur.
-
-
-                                <div class="titre1">A la fin de la formation, le sous-traitant devra :</div>
-                                <ul>
-                                <li>Signer et faire signer les feuilles de présence aux participants </li>
-                                <li>Faire remplir le questionnaire d'évaluation des acquis et le signer</li>
-                                <li>Faire remplir la fiche d'évaluation de la formation et du formateur</li>
-                                <li>Remettre aux participants les attestations de fin de formation en leur indiquant qu’une copie de l’évaluation des acquis leur sera remise dans un second temps par mail (mail personnel)</li>
-                                </ul>
-
-                                <div class="titre1">Récupérer les documents 1-2-3 afin de les envoyer à <span t-field="res_company.name"/>.</div>
-
-                            </div>
                         </td>
-                    </tr>
+                    </tr> -->
                 </table>
                 <br />
                 <br />
+
+                <!-- TODO: Ce texte n'apparait pas et si je le supprime la taille de texte de tous les document devient beacoup plus gros ??? -->
                 <p class="texte" style="text-align:center">
                     Date et Signature
                     <br />
@@ -539,7 +506,9 @@
                     <span t-field="o.sous_traitant_id.title"/> <span t-field="o.sous_traitant_id.is_prenom"/> <span t-field="o.sous_traitant_id.name"/> le <span t-field="o.affaire_id.date_signature" />
                 </p>
             </div>
+            
         </div>
+        
     </t>
 </template>
 </data>
