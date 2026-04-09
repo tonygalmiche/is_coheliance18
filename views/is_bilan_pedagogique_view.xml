@@ -26,14 +26,20 @@
                         <group>
                             <field name="name"/>
                         </group>
-                        <group>
-                            <field name="financier_ids">
+                        <div>
+                            <h4 style="margin-bottom:4px;">C - Bilan financier par origine du financement</h4>
+                            <div class="alert" role="alert" style="background-color:#e9ecef;border:none;color:#495057;margin-bottom:6px;">
+                                <i class="fa fa-info-circle"/> Montants calculés à partir des interventions de l'année,
+                                filtrées par origine de financement de l'affaire.
+                            </div>
+                            <field name="financier_ids" nolabel="1">
                                 <list editable="top">
                                     <field name="origine_financement_id" />
                                     <field name="bilan_financier" sum="Total"/>
+                                    <button name="action_voir_interventions" type="object" icon="fa-list" title="Voir les interventions"/>
                                 </list>
                             </field>
-                        </group>
+                        </div>
                         <group>
                             <label for="vente_outil" style="width:450px"/>
                             <div>
@@ -43,16 +49,25 @@
                             <field name="heure_formation"/>
                             <field name="heure_formation_st"/>
                         </group>
-                        <group>
-                            <field name="type_stagiaire_ids">
+                        <div>
+                            <h4 style="margin-bottom:4px;">F1a - Type de stagiaires de l'organisme</h4>
+                            <div class="alert" role="alert" style="background-color:#e9ecef;border:none;color:#495057;margin-bottom:6px;">
+                                <i class="fa fa-info-circle"/> 
+                                Interventions de l'année sur des affaires FORMATION/STAGE (Articles contenant FORMATION, STAGE ou CAMPUS),
+                                hors financement commençant par "11". <br />
+                                Le nombre de stagiaires et de stagiaires en visio. <br />
+                                Le nombre d'heures est la somme des <em>temps_formation</em> des interventions. <br />
+                            </div>
+                            <field name="type_stagiaire_ids" nolabel="1">
                                 <list editable="top">
                                     <field name="type_stagiaire_organisme_id" />
                                     <field name="nb_stagiaire"       sum="Total"/>
                                     <field name="nb_stagiaire_visio" sum="Total"/>
                                     <field name="nb_heure"           sum="Total"/>
+                                    <button name="action_voir_interventions" type="object" icon="fa-list" title="Voir les interventions"/>
                                 </list>
                             </field>
-                        </group>
+                        </div>
                         <group>
                             <label for="f2a_nb_stagiaire" style="width:750px"/>
                             <div>
@@ -99,6 +114,25 @@
             <field name="view_mode">list,form</field>
         </record>
 
+
+        <!-- is.affaire.intervention -->
+        <record id="is_affaire_intervention_bilan_list" model="ir.ui.view">
+            <field name="name">is.affaire.intervention.bilan.list</field>
+            <field name="model">is.affaire.intervention</field>
+            <field name="arch" type="xml">
+                <list>
+                    <field name="date"/>
+                    <field name="affaire_id" widget="many2one_clickable"/>
+                    <field name="associe_id"        optional="show"/>
+                    <field name="sous_traitant_id"  optional="show"/>
+                    <field name="temps_passe"       optional="show"/>
+                    <field name="unite_temps"       optional="show"/>
+                    <field name="nb_stagiaire"      optional="show"/>
+                    <field name="temps_formation"   optional="show" sum="Total"/>
+                    <field name="montant_facture"   optional="show" sum="Total"/>
+                </list>
+            </field>
+        </record>
 
         <!-- Origine financement -->
         <record model="ir.ui.view" id="is_origine_financement_tree_view">
