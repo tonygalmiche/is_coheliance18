@@ -83,6 +83,7 @@
         <record model="ir.ui.view" id="is_view_move_form">
             <field name="name">is_view_move_form</field>
             <field name="model">account.move</field>
+            <field name="priority" eval="20"/>
             <field name="inherit_id" ref="account.view_move_form"/>
             <field name="arch" type="xml">
                 <button name="button_draft" position="after">
@@ -106,8 +107,13 @@
                  <xpath expr="//field[@name='invoice_line_ids']" position="attributes">
                     <attribute name="widget">section_and_note_one2many</attribute>
                 </xpath>
+
+                <!-- Le champ "Ligne d'annuaire" doit rester modifiable quel que soit l'état de la facture -->
+                <xpath expr="//field[@name='fr_directory_line_id'][1]" position="attributes">
+                    <attribute name="readonly">0</attribute>
+                </xpath>
              </field>
-        </record>   
+        </record>
 
         <record id="is_view_out_invoice_tree" model="ir.ui.view">
             <field name="name">is_view_out_invoice_tree</field>

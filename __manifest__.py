@@ -22,6 +22,7 @@ InfoSaône - Module Odoo 18 pour Coheliance
         "sale",
         "sale_management",
         "purchase",
+        "l10n_fr_einvoicing",
         #"project",        #TODO : N'est pas utilisé
         #"hr",             #TODO : N'est pas utilisé
         #"board",          #TODO : N'est pas utilisé
