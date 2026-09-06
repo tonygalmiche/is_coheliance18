@@ -161,10 +161,14 @@
              personnalisée AA-MM-NNNN (is.account.move.client / is.account.move.supplier,
              cf models/account_move.py) et l'écrase n'importe comment si elle est utilisée.
              On retire son binding pour qu'elle n'apparaisse plus dans le menu Actions de la
-             liste des factures. -->
-        <record id="account.action_account_resequence" model="ir.actions.act_window">
-            <field name="binding_model_id" eval="False"/>
-        </record>
+             liste des factures. Un <record> ne suffit pas : cette action a été créée par le
+             module account avec noupdate="1", donc toute réécriture via <record> - même depuis
+             un autre module - est ignorée par le chargeur de données. Un <function> s'exécute
+             lui à chaque mise à jour, quel que soit ce flag. -->
+        <function model="ir.actions.act_window" name="write">
+            <value eval="[ref('account.action_account_resequence')]"/>
+            <value eval="{'binding_model_id': False}"/>
+        </function>
 
         <record id="is_view_account_invoice_filter" model="ir.ui.view">
             <field name="name">is_view_account_invoice_filter</field>
