@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime, timedelta
 import time
-from odoo import api, fields, models
+from odoo import api, fields, models, _
+from odoo.exceptions import UserError
 
 
 class AccountAccount(models.Model):
@@ -18,38 +19,28 @@ class AccountMove(models.Model):
         """
         Génère le numéro de séquence personnalisé : AA-MM-NNNN
         où AA = année sur 2 chiffres, MM = mois sur 2 chiffres, NNNN = numéro chronologique continu
+
+        Le compteur NNNN est attribué par une ir.sequence en mode "no_gap" (is.account.move.client /
+        is.account.move.supplier) : l'incrémentation est atomique (verrou de ligne dans la transaction
+        en cours), ce qui évite les doublons obtenus précédemment avec une recherche "dernière facture
+        postée, order by id desc" (l'id ne reflète pas l'ordre de validation, cf brouillons validés
+        dans le désordre). Le numéro n'étant consommé qu'à la validation (jamais à la création du
+        brouillon), la suppression d'un brouillon ne crée pas de trou ; un rollback (échec de
+        validation) n'en crée pas non plus car le mode "no_gap" est transactionnel.
         """
         self.ensure_one()
-
-
 
         invoice_date = self.invoice_date or fields.Date.context_today(self)
         year = invoice_date.strftime('%y')   # Année sur 2 chiffres
         month = invoice_date.strftime('%m')  # Mois sur 2 chiffres
-        
-        # Pour les factures et avoirs clients, utiliser une séquence commune
-        # Pour les factures et avoirs fournisseurs, utiliser une séquence commune
+
         if self.move_type in ('out_invoice', 'out_refund'):
-            move_types = ['out_invoice', 'out_refund']
+            # Séquence commune factures + avoirs clients
+            return f"{year}-{month}-{self.env['ir.sequence'].next_by_code('is.account.move.client')}"
         elif self.move_type in ('in_invoice', 'in_refund'):
-            move_types = ['in_invoice', 'in_refund']
-        else:
-            move_types = [self.move_type]
-        
-        domain=[
-            ('move_type', 'in', move_types),
-            ('id', '!=' , self.id),
-            ('state', '=' , 'posted'),
-        ]
-        invoices = self.env['account.move'].search(domain, order="id desc", limit=1)
-        next_number = 1
-        for invoice in invoices:
-            next_number = invoice.sequence_number + 1
-        if self.move_type in ['out_invoice','out_refund']:
-            custom_number = f"{year}-{month}-{str(next_number).zfill(4)}"
-        else:
-            custom_number = str(next_number).zfill(5)
-        return custom_number
+            # Séquence commune factures + avoirs fournisseurs
+            return self.env['ir.sequence'].next_by_code('is.account.move.supplier')
+        return False
 
 
     def _set_next_sequence(self):
@@ -66,6 +57,62 @@ class AccountMove(models.Model):
         else:
             # Pour les autres types de documents, utiliser la séquence standard
             super(AccountMove, self)._set_next_sequence()
+
+
+    def _post(self, soft=True):
+        """
+        Le numéro (name) d'une facture/avoir en brouillon reste modifiable manuellement
+        (utile pour corriger une anomalie de numérotation). On bloque en contrepartie la
+        validation si le numéro saisi entre en conflit avec une facture déjà comptabilisée :
+        - le numéro complet existe déjà (tous types confondus) ;
+        - pour les factures/avoirs clients, la partie "-NNNN" en fin de numéro (le compteur
+          continu is.account.move.client) est déjà utilisée par une autre facture/avoir client,
+          même sous un préfixe AA-MM différent (la numérotation est continue, indépendante du
+          mois : deux factures ne doivent jamais partager le même compteur).
+        Un numéro auto-généré par _get_custom_sequence_number est toujours garanti unique et
+        ne déclenche donc jamais ce blocage.
+        """
+        self._check_custom_sequence_number_conflicts()
+        return super(AccountMove, self)._post(soft=soft)
+
+
+    def _check_custom_sequence_number_conflicts(self):
+        for move in self:
+            if move.move_type not in ('out_invoice', 'in_invoice', 'out_refund', 'in_refund'):
+                continue
+            if not move.name or move.name == '/':
+                continue
+
+            move_types = ('out_invoice', 'out_refund') if move.move_type in ('out_invoice', 'out_refund') \
+                else ('in_invoice', 'in_refund')
+
+            duplicate = self.env['account.move'].search([
+                ('id', '!=', move.id),
+                ('move_type', 'in', move_types),
+                ('state', '=', 'posted'),
+                ('name', '=', move.name),
+            ], limit=1)
+            if duplicate:
+                raise UserError(_(
+                    "Impossible de valider %(name)s : ce numéro est déjà utilisé par %(other)s.",
+                    name=move.name, other=duplicate.display_name,
+                ))
+
+            if move.move_type in ('out_invoice', 'out_refund') and '-' in move.name:
+                suffix = move.name.rsplit('-', 1)[-1]
+                conflict = self.env['account.move'].search([
+                    ('id', '!=', move.id),
+                    ('move_type', 'in', move_types),
+                    ('state', '=', 'posted'),
+                    ('name', '=like', '%-' + suffix),
+                ], limit=1)
+                if conflict:
+                    raise UserError(_(
+                        "Impossible de valider %(name)s : le numéro de séquence %(suffix)s est "
+                        "déjà utilisé par %(other)s (la numérotation est continue et indépendante "
+                        "du mois, deux factures ne peuvent pas partager le même numéro final).",
+                        name=move.name, suffix=suffix, other=conflict.display_name,
+                    ))
 
 
     @api.depends('invoice_date','amount_total','partner_id')

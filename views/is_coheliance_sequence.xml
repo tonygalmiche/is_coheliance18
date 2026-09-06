@@ -22,6 +22,26 @@
             <field name="padding">4</field>
             <field name="company_id" eval="False"/>
         </record>
+        <!-- number_next n'est volontairement pas fixé ici : ce champ est amené à être modifié
+             à la main (Réglages > Technique > Séquences) pour corriger la numérotation, et
+             sans noupdate="1", toute mise à jour du module réapplique les valeurs du XML et
+             écraserait ce réglage manuel à chaque fois. -->
+        <record id="is_account_move_client_seq" model="ir.sequence">
+            <field name="name">Facture / Avoir client (numérotation)</field>
+            <field name="code">is.account.move.client</field>
+            <field name="implementation">no_gap</field>
+            <field name="prefix"></field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="is_account_move_supplier_seq" model="ir.sequence">
+            <field name="name">Facture / Avoir fournisseur (numérotation)</field>
+            <field name="code">is.account.move.supplier</field>
+            <field name="implementation">no_gap</field>
+            <field name="prefix"></field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
      </data>
 </odoo>     
         

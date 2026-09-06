@@ -121,9 +121,15 @@
             <field name="inherit_id" ref="account.view_out_invoice_tree" />
             <field name="arch" type="xml">
                 <field name="invoice_partner_display_name" position="after">
-                    <field name="is_nom_fournisseur" optional="show"/> 
+                    <field name="is_nom_fournisseur" optional="show"/>
                     <field name="is_affaire_id"      optional="show" widget="many2one_clickable"/>
-                    <field name="is_refacturable"    optional="show"/> 
+                    <field name="is_refacturable"    optional="show"/>
+                </field>
+                <field name="fr_einvoicing_flow_state" position="after">
+                    <field name="create_date" optional="hide"/>
+                    <field name="create_uid"  optional="hide"/>
+                    <field name="write_date"  optional="hide"/>
+                    <field name="write_uid"   optional="hide"/>
                 </field>
             </field>
         </record>
@@ -133,16 +139,33 @@
             <field name="inherit_id" ref="account.view_in_invoice_tree" />
             <field name="arch" type="xml">
                 <field name="invoice_partner_display_name" position="after">
-                    <field name="is_nom_fournisseur" optional="show"/> 
+                    <field name="is_nom_fournisseur" optional="show"/>
                     <field name="is_affaire_id"      optional="show" widget="many2one_clickable"/>
-                    <field name="is_refacturable"    optional="show"/> 
+                    <field name="is_refacturable"    optional="show"/>
                 </field>
                 <field name="name" position="after">
-                    <field name="supplier_invoice_number"/> 
-                    <field name="is_personne_concernee_id"/> 
+                    <field name="supplier_invoice_number"/>
+                    <field name="is_personne_concernee_id"/>
+                </field>
+                <field name="fr_einvoicing_flow_state" position="after">
+                    <field name="create_date" optional="hide"/>
+                    <field name="create_uid"  optional="hide"/>
+                    <field name="write_date"  optional="hide"/>
+                    <field name="write_uid"   optional="hide"/>
                 </field>
             </field>
         </record>
+
+        <!-- La renumérotation standard d'Odoo (assistant "Resequence") travaille sur la
+             séquence du journal comptable : elle est incompatible avec la numérotation
+             personnalisée AA-MM-NNNN (is.account.move.client / is.account.move.supplier,
+             cf models/account_move.py) et l'écrase n'importe comment si elle est utilisée.
+             On retire son binding pour qu'elle n'apparaisse plus dans le menu Actions de la
+             liste des factures. -->
+        <record id="account.action_account_resequence" model="ir.actions.act_window">
+            <field name="binding_model_id" eval="False"/>
+        </record>
+
         <record id="is_view_account_invoice_filter" model="ir.ui.view">
             <field name="name">is_view_account_invoice_filter</field>
             <field name="model">account.move</field>
@@ -155,8 +178,7 @@
                     <field name="is_refacturable"/> 
                 </field>
             </field>
-        </record> 
-
+        </record>
 
         <!-- CB à refacturer -->
         <record id="is_cb_a_refacturer_graph" model="ir.ui.view">
