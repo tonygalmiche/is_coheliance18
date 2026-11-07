@@ -227,8 +227,9 @@
                 </table>
             </div>
             <br />
-            <div class="row">
-                <table style="width:100%">
+            <!-- Encadré jamais coupé : passe en entier sur la page suivante s'il ne tient pas -->
+            <div class="row" style="page-break-inside: avoid;">
+                <table style="width:100%; page-break-inside: avoid;">
                     <tr><th>Modalités de réalisation de la mission</th></tr>
                     <tr>
                         <td style="padding:5mm">
@@ -240,11 +241,16 @@
                                     Il (ou Elle)  animera :   <p class="texte" t-field="o.duree_mission" /></li>
                                     <li>dans le respect des règles déontologiques et professionnelles des formateurs/consultants/coachs</li>
                                     <li>dans le respect des conditions générales de prestations spécifiques à la société <t t-esc="' '"/><span t-field="res_company.name"/><t t-esc="' '"/> et acceptées par le Client (et notamment les dates, heures et lieux d'intervention qui sont déterminées par le Client).</li>
-                                    <li>dans le respect de la charte qualité dans le cadre d'une action de formation jointe au présent contrat</li>
                                 </ul>
                                 Statut de l’exécutant : Le ou les Intervenant(e)s affecté(e)s à l’exécution de la mission sont des intervenants 
                                 agissant pour le compte de <span t-field="res_company.name"/>.
                                 Ils restent, à tout moment de leurs interventions, subordonnés à la seule autorité de <span t-field="res_company.name"/>.
+                            </p>
+                            <p class="texte" style="margin-top: 3mm;">
+                                Dans le cadre spécifique d’une action de formation :<br />
+                                Le sous-traitant n’a pas l’obligation d’être titulaire de la certification Qualiopi, dont la responsabilité finale et exclusive incombe à l’organisme de formation.
+                                Toutefois, le sous-traitant s’engage formellement à appliquer les procédures de qualité et à respecter scrupuleusement l’ensemble des dispositions mises en place dans le cadre de sa certification Qualiopi.<br />
+                                Il devra à cet effet signer une charte qualité jointe au présent contrat.
                             </p>
                         </td>
                     </tr>
